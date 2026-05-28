@@ -2,6 +2,23 @@
 
 App for tracking money made per month, per year and per client
 
+## Revival branch
+
+This branch is migrating the client incrementally to TanStack Start while
+keeping the existing Express/Mongoose API as the behavior contract.
+
+- Legacy client: `client/`
+- Legacy API: `server/`
+- New TanStack Start client: `start-client/`
+
+Useful commands:
+
+- `npm run start-client` - run the new TanStack Start client
+- `npm run start-client:test` - run new client tests
+- `npm run start-client:build` - build the new client
+
+See `docs/revival-roadmap.md` for current migration status and next slices.
+
 CURRENT:
 
 - Search field on Projects page
