@@ -4,6 +4,9 @@
   "scripts": {
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "client": "npm start --prefix client",
+    "start-client": "npm run dev --prefix start-client",
+    "start-client:build": "npm run build --prefix start-client",
+    "start-client:test": "npm test --prefix start-client",
     "client:install": "npm install --prefix client",
     "client:test": "npm test --prefix client -- --coverage",
     "server": "node --watch server/app.js",

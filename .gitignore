@@ -1,4 +1,7 @@
 node_modules
+start-client/node_modules
+start-client/dist
+start-client/.tanstack
 server/logs
 client/node_modules
 process.env
