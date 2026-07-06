@@ -14,7 +14,7 @@ const corsOptions = require("./config/corsOptions");
 const { clientRouter, projectRouter, userRouter } = require("./resources");
 
 if (process.env.NODE_ENV !== "production") {
-  dotenv.config({ path: ".env.server" });
+  dotenv.config({ path: path.join(__dirname, "../.env.server") });
 }
 
 // Connect to mongo DB

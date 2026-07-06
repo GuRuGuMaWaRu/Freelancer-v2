@@ -2,7 +2,7 @@ const path = require("path");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 
-require("dotenv").config({ path: path.join(__dirname, "../.env.server") });
+require("dotenv").config({ path: path.join(__dirname, "../../.env.server") });
 
 const Project = require("../resources/project/project.model");
 const Client = require("../resources/client/client.model");

@@ -140,7 +140,7 @@ flowchart TD
 
 | Phase | Goal | Status |
 |-------|------|--------|
-| **0** | Make it run, fix critical bugs, quick wins | Not started |
+| **0** | Make it run, fix critical bugs, quick wins | In progress |
 | **1** | CRA → Vite, server TS, shared types, CI | Not started |
 | **2** | Complete core product features from README | Not started |
 | **3** | Optional: Next.js / TanStack Start / NestJS | Deferred |
@@ -155,9 +155,9 @@ flowchart TD
 
 ### 0.1 Environment & local run
 
-- [ ] Add `server/.env.example` (DB URI, `ACCESS_TOKEN_SECRET`, `JWT_EXPIRES_IN`, `PORT`)
-- [ ] Add `client/.env.example` if needed (proxy / API base URL)
-- [ ] Document local setup in README (MongoDB, `npm run dev`, test DB)
+- [x] Add `server/.env.example` (DB URI, `ACCESS_TOKEN_SECRET`, `JWT_EXPIRES_IN`, `PORT`)
+- [x] Add `client/.env.example` if needed (proxy / API base URL)
+- [x] Document local setup in README (MongoDB, `npm run dev`, test DB)
 - [ ] Verify `npm run dev` starts client + server without errors
 
 ### 0.2 Critical bug fixes
@@ -192,12 +192,14 @@ flowchart TD
 - [ ] README "CURRENT" section updated to reflect fixed items
 - [ ] Phase 0 PR merged / tagged
 
-**Phase 0 status:** `Not started` | `In progress` | `Complete`
+**Phase 0 status:** `In progress`
 
 **Notes:**
 
 ```
-(add progress notes, blockers, decisions here)
+Phase 0.1 (branch revival/phase-0-1-local-dev-setup): env templates, dotenv path fix,
+CRA proxy aligned to server PORT 6000, README local setup section.
+Server startup on PORT=6000 verified locally; full `npm run dev` smoke test still pending.
 ```
 
 ---
@@ -416,6 +418,7 @@ Features not in scope for Phases 0–2 but worth tracking:
 
 | Date | Phase | What was done |
 |------|-------|---------------|
+| 2026-07-06 | 0.1 | Env templates, local setup docs, proxy/port alignment |
 | 2026-07-06 | — | Revival plan document created |
 
 ---

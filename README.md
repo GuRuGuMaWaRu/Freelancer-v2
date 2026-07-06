@@ -2,6 +2,58 @@
 
 App for tracking money made per month, per year and per client
 
+## Local development
+
+### Prerequisites
+
+- **Node.js** 18+ (see `engines` in root and `client/package.json`)
+- **MongoDB** running locally (default URI: `mongodb://127.0.0.1:27017`)
+
+### Setup
+
+1. Install dependencies (root tooling, client, and server):
+
+   ```bash
+   npm install
+   npm install --prefix client
+   npm install --prefix server
+   ```
+
+2. Create server environment file from the template:
+
+   ```bash
+   cp server/.env.example .env.server
+   ```
+
+   Edit `.env.server` if your MongoDB host or credentials differ. The default `PORT` is **6000**, which matches the CRA dev proxy in `client/package.json`.
+
+   If you have an existing `.env.server` with `PORT=5000`, update it to `6000` (or change the client proxy to match).
+
+3. Start client and server together:
+
+   ```bash
+   npm run dev
+   ```
+
+   - Frontend: [http://localhost:3000](http://localhost:3000)
+   - API: [http://localhost:6000/api/v1](http://localhost:6000/api/v1)
+
+### Tests
+
+```bash
+# Server integration tests (requires MongoDB; uses DB_TEST from .env.server)
+npm run server:test
+
+# Client unit tests
+npm run client:test
+```
+
+### Optional client env
+
+See `client/.env.example`. For most setups the tracked `client/.env.development` is enough. Copy to `.env.development.local` only if you need overrides.
+
+---
+
 CURRENT:
 
 - Search field on Projects page
