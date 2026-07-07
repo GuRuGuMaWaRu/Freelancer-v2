@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 
 const AppError = require("../../utils/appError");
 const catchAsync = require("../../utils/catchAsync");
+const parseClientName = require("../../utils/parseClientName");
 const { protect } = require("../../middleware/auth");
 const projectControllers = require("./project.controllers");
 const Project = require("./project.model");
@@ -147,15 +148,20 @@ router
         !req.body.payment ||
         !req.body.currency ||
         !req.body.projectNr ||
-        !req.body.client ||
         !req.body.date
       ) {
         return next(new AppError(400, "All fields are required"));
       }
 
+      const clientName = parseClientName(req.body.client);
+
+      if (!clientName) {
+        return next(new AppError(400, "Client must be a non-empty string"));
+      }
+
       //** Get a client Id or create a new client if necessary */
       let client = await Client.findOne({
-        name: req.body.client,
+        name: clientName,
         user: req.userId,
       })
         .lean()
@@ -163,7 +169,7 @@ router
 
       if (!client) {
         client = await Client.create({
-          name: req.body.client,
+          name: clientName,
           user: req.userId,
         });
       }
@@ -244,9 +250,15 @@ router
         return next(new AppError(400, "User ID is required"));
       }
 
+      const clientName = parseClientName(req.body.client);
+
+      if (!clientName) {
+        return next(new AppError(400, "Client must be a non-empty string"));
+      }
+
       //** Find an existing client or create a new client if necessary */
       let client = await Client.findOne({
-        name: req.body.client,
+        name: clientName,
         user: req.userId,
       })
         .lean()
@@ -254,7 +266,7 @@ router
 
       if (!client) {
         client = await Client.create({
-          name: req.body.client,
+          name: clientName,
           user: req.userId,
         });
       }

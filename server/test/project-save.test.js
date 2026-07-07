@@ -71,4 +71,19 @@ describe("Project controller", () => {
       );
     });
   });
+
+  it("should reject a non-string client on POST request to /api/v1/projects", (done) => {
+    request(app)
+      .post("/api/v1/projects")
+      .set("Authorization", `Bearer ${getAuthToken()}`)
+      .send({
+        client: { $gt: "" },
+        projectNr: "ABC123",
+        payment: 1000,
+        currency: "USD",
+        date: "2019-10-07T09:34:00.309Z",
+      })
+      .expect(400)
+      .end(done);
+  });
 });

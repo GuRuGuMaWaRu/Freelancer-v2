@@ -40,4 +40,32 @@ describe("Project Controller", () => {
       });
     });
   });
+
+  it("should reject a non-string client on PATCH request to /api/v1/projects/:id", (done) => {
+    const userId = getTestUserId();
+    const client1 = new Client({ name: "Client 1", user: userId });
+
+    client1.save().then(() => {
+      const project1 = new Project({
+        client: client1._id,
+        user: userId,
+        projectNr: "ABC123",
+        currency: "EUR",
+        payment: 100,
+        date: new Date(),
+      });
+
+      project1.save().then(() => {
+        request(app)
+          .patch(`/api/v1/projects/${project1._id}`)
+          .set("Authorization", `Bearer ${getAuthToken()}`)
+          .send({
+            payment: 111,
+            client: { $gt: "" },
+          })
+          .expect(400)
+          .end(done);
+      });
+    });
+  });
 });
