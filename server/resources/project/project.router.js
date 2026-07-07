@@ -156,6 +156,7 @@ router
       //** Get a client Id or create a new client if necessary */
       let client = await Client.findOne({
         name: req.body.client,
+        user: req.userId,
       })
         .lean()
         .exec();
@@ -246,6 +247,7 @@ router
       //** Find an existing client or create a new client if necessary */
       let client = await Client.findOne({
         name: req.body.client,
+        user: req.userId,
       })
         .lean()
         .exec();
@@ -253,19 +255,16 @@ router
       if (!client) {
         client = await Client.create({
           name: req.body.client,
-          user: req.body.user,
+          user: req.userId,
         });
       }
 
-      //** Update a project */
       const doc = await Project.findOneAndUpdate(
-        { _id: req.params.id },
+        { _id: req.params.id, user: req.userId },
         { ...req.body, client: client._id },
         {
           new: true,
           runValidators: true,
-          upsert: true,
-          setDefaultsOnInsert: true,
         },
       )
         .lean()
