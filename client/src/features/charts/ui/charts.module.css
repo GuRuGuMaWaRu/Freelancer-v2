@@ -12,3 +12,17 @@
 .tooltipContents {
   margin: 13px 19px;
 }
+
+.emptyChart {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 500px;
+
+  > p {
+    margin: 0;
+    font-size: 1.4rem;
+    color: var(--color-white);
+    opacity: 0.7;
+  }
+}

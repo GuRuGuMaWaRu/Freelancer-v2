@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { MemoClientsChart } from "features/charts";
 import { getMaxLabelLength } from "features/charts/lib";
 
@@ -21,5 +21,11 @@ describe("Clients chart", () => {
 
   it("should render", async () => {
     render(<MemoClientsChart data={fakeData} />);
+  });
+
+  it("should render empty state without chart when there is no data", () => {
+    render(<MemoClientsChart data={[]} />);
+
+    expect(screen.getByText("No client earnings in this range")).toBeTruthy();
   });
 });
