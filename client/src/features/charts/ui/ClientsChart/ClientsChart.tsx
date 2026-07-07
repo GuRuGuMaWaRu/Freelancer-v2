@@ -20,14 +20,24 @@ interface IProps {
   data: IEarningsByClient[];
 }
 
+const ROW_HEIGHT = 40;
+
 function ClientsChart({ data }: IProps) {
   const longestClientName = React.useMemo(
     () => getMaxLabelLength(data),
     [data]
   );
 
+  if (data.length === 0) {
+    return (
+      <div className={styles.emptyChart}>
+        <p>No client earnings in this range</p>
+      </div>
+    );
+  }
+
   return (
-    <ResponsiveContainer width="100%" height={40 * data.length}>
+    <ResponsiveContainer width="100%" height={data.length * ROW_HEIGHT}>
       <BarChart
         data={data}
         layout="vertical"
