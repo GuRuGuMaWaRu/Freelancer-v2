@@ -1,4 +1,5 @@
 const express = require("express");
+const mongoose = require("mongoose");
 
 const catchAsync = require("../../utils/catchAsync");
 const { protect } = require("../../middleware/auth");
@@ -39,9 +40,9 @@ router
       const last365Days = new Date(currentDate - 365 * 24 * 60 * 60 * 1000);
 
       const pipeline = [
-        //* Match projects that are not deleted
         {
           $match: {
+            user: mongoose.Types.ObjectId(req.userId),
             deleted: false,
           },
         },
