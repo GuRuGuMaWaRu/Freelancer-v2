@@ -70,8 +70,6 @@ const updateOne = (Model) =>
     const doc = await Model.findOneAndUpdate(filter, req.body, {
       new: true,
       runValidators: true,
-      upsert: true,
-      setDefaultsOnInsert: true,
     })
       .lean()
       .exec();
