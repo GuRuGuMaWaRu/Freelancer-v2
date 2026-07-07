@@ -4,10 +4,12 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { AuthProvider } from "./auth.provider";
 import { NotificationProvider } from "./notification.provider";
 
+const FIVE_MINUTES_MS = 5 * 60 * 1000;
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: Infinity,
+      staleTime: FIVE_MINUTES_MS,
     },
   },
 });
