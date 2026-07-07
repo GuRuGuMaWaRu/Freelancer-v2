@@ -1,9 +1,11 @@
 const assert = require("assert");
+const mongoose = require("mongoose");
 const request = require("supertest");
 
 const app = require("../app");
 const Project = require("../resources/project/project.model");
 const Client = require("../resources/client/client.model");
+const User = require("../resources/user/user.model");
 const { getAuthToken, getTestUserId } = require("./test-helpers");
 
 describe("Project Controller", () => {
@@ -67,5 +69,69 @@ describe("Project Controller", () => {
           .end(done);
       });
     });
+  });
+
+  it("should not create a client when PATCH targets a missing project", async () => {
+    const missingProjectId = new mongoose.Types.ObjectId();
+
+    await request(app)
+      .patch(`/api/v1/projects/${missingProjectId}`)
+      .set("Authorization", `Bearer ${getAuthToken()}`)
+      .send({
+        payment: 111,
+        projectNr: "ZYZ987",
+        client: "Brand New Client",
+      })
+      .expect(404);
+
+    const clientCount = await Client.countDocuments({
+      user: getTestUserId(),
+      name: "Brand New Client",
+    });
+
+    assert.strictEqual(clientCount, 0);
+  });
+
+  it("should not create a client when PATCH targets another user's project", async () => {
+    const userId = getTestUserId();
+
+    const otherUser = await User.create({
+      name: "Other User",
+      email: `other-${Date.now()}@example.com`,
+      password: "password123",
+    });
+
+    const otherUserClient = new Client({
+      name: "Other User Client",
+      user: otherUser._id,
+    });
+    await otherUserClient.save();
+
+    const otherUserProject = new Project({
+      client: otherUserClient._id,
+      user: otherUser._id,
+      projectNr: "OTH-001",
+      currency: "USD",
+      payment: 500,
+      date: new Date(),
+    });
+    await otherUserProject.save();
+
+    await request(app)
+      .patch(`/api/v1/projects/${otherUserProject._id}`)
+      .set("Authorization", `Bearer ${getAuthToken()}`)
+      .send({
+        payment: 111,
+        projectNr: "ZYZ987",
+        client: "Brand New Client",
+      })
+      .expect(404);
+
+    const clientCount = await Client.countDocuments({
+      user: userId,
+      name: "Brand New Client",
+    });
+
+    assert.strictEqual(clientCount, 0);
   });
 });

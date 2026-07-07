@@ -256,7 +256,17 @@ router
         return next(new AppError(400, "Client must be a non-empty string"));
       }
 
-      //** Find an existing client or create a new client if necessary */
+      const existingProject = await Project.findOne({
+        _id: req.params.id,
+        user: req.userId,
+      })
+        .lean()
+        .exec();
+
+      if (!existingProject) {
+        return next(new AppError(404, "No such project found"));
+      }
+
       let client = await Client.findOne({
         name: clientName,
         user: req.userId,
