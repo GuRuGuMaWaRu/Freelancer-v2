@@ -35,12 +35,12 @@ This app tracks freelance earnings per month, per year, and per client. Revival 
 
 ### Known issues to address (see Phase 0)
 
-- [ ] "Earnings by Clients" chart on dashboard (listed broken in README)
-- [ ] `getUser` may sign JWT with excluded `_id`
-- [ ] `/clients/withProjectData` missing `userId` filter (data leak risk)
-- [ ] Project PATCH may create client with `req.body.user` instead of `req.userId`
-- [ ] API path casing: frontend `withprojectdata` vs server `withProjectData`
-- [ ] `upsert: true` on PATCH updates (can create docs unintentionally)
+- [x] "Earnings by Clients" chart on dashboard (listed broken in README)
+- [x] `getUser` may sign JWT with excluded `_id`
+- [x] `/clients/withProjectData` missing `userId` filter (data leak risk)
+- [x] Project PATCH may create client with `req.body.user` instead of `req.userId`
+- [x] API path casing: frontend `withprojectdata` vs server `withProjectData`
+- [x] `upsert: true` on PATCH updates (can create docs unintentionally)
 - [ ] Root `npm run check-types` has no root `tsconfig.json`
 - [ ] React Query `staleTime: Infinity` hides stale data
 
@@ -162,13 +162,13 @@ flowchart TD
 
 ### 0.2 Critical bug fixes
 
-- [ ] **Auth `getUser`:** stop excluding `_id` from select, or use `req.userId` for JWT payload
-- [ ] **`/clients/withProjectData`:** add `user: req.userId` to `$match` stage
-- [ ] **Project PATCH:** use `req.userId` when creating a new client (not `req.body.user`)
-- [ ] **API path casing:** align frontend `clients/withprojectdata` ↔ server `/withProjectData`
-- [ ] **Remove `upsert: true`** from project PATCH and generic CRUD `updateOne` (or scope explicitly)
-- [ ] **Clients chart:** debug and fix dashboard "Earnings by Clients" (min chart height when empty, populated `client.name`)
-- [ ] Add unit test for `getEarningsByClients` in `dashboard.helpers.ts`
+- [x] **Auth `getUser`:** stop excluding `_id` from select, or use `req.userId` for JWT payload
+- [x] **`/clients/withProjectData`:** add `user: req.userId` to `$match` stage
+- [x] **Project PATCH:** use `req.userId` when creating a new client (not `req.body.user`)
+- [x] **API path casing:** align frontend `clients/withprojectdata` ↔ server `/withProjectData`
+- [x] **Remove `upsert: true`** from project PATCH and generic CRUD `updateOne` (or scope explicitly)
+- [x] **Clients chart:** debug and fix dashboard "Earnings by Clients" (min chart height when empty, populated `client.name`)
+- [x] Add unit test for `getEarningsByClients` in `dashboard.helpers.ts`
 
 ### 0.3 Dependency & tooling cleanup
 
@@ -180,8 +180,8 @@ flowchart TD
 
 ### 0.4 Test & CI quick wins
 
-- [ ] Add server test: `GET /api/v1/users/getUser` returns valid refreshed token
-- [ ] Add server test: `GET /api/v1/clients/withProjectData` returns only current user's data
+- [x] Add server test: `GET /api/v1/users/getUser` returns valid refreshed token
+- [x] Add server test: `GET /api/v1/clients/withProjectData` returns only current user's data
 - [ ] Add server test: `GET /api/v1/projects/forChart` with `months` filter
 - [ ] Add GitHub Actions workflow: `lint` + `check-types` + `server:test` + `client:test`
 - [ ] All existing tests pass locally after bug fixes
@@ -200,6 +200,11 @@ flowchart TD
 Phase 0.1 (branch revival/phase-0-1-local-dev-setup): env templates, dotenv path fix,
 CRA proxy aligned to server PORT 6000, README local setup section.
 Server startup on PORT=6000 verified locally; full `npm run dev` smoke test still pending.
+
+Phase 0.2 (branch revival/phase-0-2-critical-bug-fixes): auth getUser JWT fix,
+withProjectData user scoping, project PATCH user/upsert fixes, API path casing,
+clients chart empty-state height, getEarningsByClients unit test, server tests for
+getUser and withProjectData.
 ```
 
 ---
@@ -418,6 +423,7 @@ Features not in scope for Phases 0–2 but worth tracking:
 
 | Date | Phase | What was done |
 |------|-------|---------------|
+| 2026-07-07 | 0.2 | Critical bug fixes: auth, data scoping, upsert removal, clients chart, tests |
 | 2026-07-06 | 0.1 | Env templates, local setup docs, proxy/port alignment |
 | 2026-07-06 | — | Revival plan document created |
 
