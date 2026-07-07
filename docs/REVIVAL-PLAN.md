@@ -1,7 +1,7 @@
 # PET Freelancer — Revival Plan
 
 > Living document for reviving this project. Check off items as they are completed.
-> Last updated: 2026-07-06
+> Last updated: 2026-07-07
 
 ---
 
@@ -41,8 +41,8 @@ This app tracks freelance earnings per month, per year, and per client. Revival 
 - [x] Project PATCH may create client with `req.body.user` instead of `req.userId`
 - [x] API path casing: frontend `withprojectdata` vs server `withProjectData`
 - [x] `upsert: true` on PATCH updates (can create docs unintentionally)
-- [ ] Root `npm run check-types` has no root `tsconfig.json`
-- [ ] React Query `staleTime: Infinity` hides stale data
+- [x] Root `npm run check-types` has no root `tsconfig.json`
+- [x] React Query `staleTime: Infinity` hides stale data
 
 ---
 
@@ -172,11 +172,11 @@ flowchart TD
 
 ### 0.3 Dependency & tooling cleanup
 
-- [ ] Remove unused `chart.js` and `react-chartjs-2` from `client/package.json`
-- [ ] Audit `react-spring` usage — remove if only used in one place with a simpler alternative
-- [ ] Add root `tsconfig.json` (project references to `client/`) so `npm run check-types` works
-- [ ] Fix ESLint TS `parserOptions.project` to point at correct tsconfig
-- [ ] Change React Query default `staleTime` from `Infinity` to a reasonable value (e.g. 5 min); keep explicit invalidation on mutations
+- [x] Remove unused `chart.js` and `react-chartjs-2` from `client/package.json`
+- [x] Audit `react-spring` usage — keep (used in Modal, Notification, Dropdown)
+- [x] Add root `tsconfig.json` (extends `client/`) so `npm run check-types` works
+- [x] Fix ESLint TS `parserOptions.project` to point at correct tsconfig
+- [x] Change React Query default `staleTime` from `Infinity` to a reasonable value (e.g. 5 min); keep explicit invalidation on mutations
 
 ### 0.4 Test & CI quick wins
 
@@ -205,6 +205,10 @@ Phase 0.2 (branch revival/phase-0-2-critical-bug-fixes): auth getUser JWT fix,
 withProjectData user scoping, project PATCH user/upsert fixes, API path casing,
 clients chart empty-state height, getEarningsByClients unit test, server tests for
 getUser and withProjectData.
+
+Phase 0.3 (branch revival/phase-0-3-tooling-cleanup): removed unused chart.js deps,
+root tsconfig for check-types, ESLint parserOptions fix, React Query staleTime 5 min,
+react-spring kept (Modal, Notification, Dropdown).
 ```
 
 ---
@@ -423,6 +427,7 @@ Features not in scope for Phases 0–2 but worth tracking:
 
 | Date | Phase | What was done |
 |------|-------|---------------|
+| 2026-07-07 | 0.3 | Tooling cleanup: root tsconfig, ESLint fix, remove chart.js, staleTime 5 min |
 | 2026-07-07 | 0.2 | Critical bug fixes: auth, data scoping, upsert removal, clients chart, tests |
 | 2026-07-06 | 0.1 | Env templates, local setup docs, proxy/port alignment |
 | 2026-07-06 | — | Revival plan document created |
