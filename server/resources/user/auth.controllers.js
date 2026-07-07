@@ -62,9 +62,8 @@ const getUser = catchAsync(async (req, res, next) => {
     );
   }
 
-  //** Get new token */
   const payload = {
-    id: user._id,
+    id: req.userId,
   };
 
   jwt.sign(
