@@ -101,7 +101,15 @@ const getEarningsByClients = (projects: IProject[]): IEarningsByClient[] => {
   const earnings: Record<string, IEarningsByClient> = {};
 
   for (const project of projects) {
-    const clientName = project.client.name;
+    const clientName =
+      typeof project.client === "string"
+        ? project.client
+        : project.client?.name;
+
+    if (!clientName) {
+      continue;
+    }
+
     if (!earnings[clientName]) {
       earnings[clientName] = {
         client: clientName,
