@@ -8,7 +8,7 @@ const getAllClients = async () => {
 
 const getAllClientsWithProjectData = async () => {
   return await apiClient.get<IClientWithProjectData[]>(
-    "clients/withprojectdata"
+    "clients/withProjectData"
   );
 };
 
