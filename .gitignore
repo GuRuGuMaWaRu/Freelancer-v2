@@ -4,6 +4,7 @@ client/node_modules
 process.env
 bash.exe.stackdump
 coverage
+*.tsbuildinfo
 .env.server
 .env
 .DS_Store
