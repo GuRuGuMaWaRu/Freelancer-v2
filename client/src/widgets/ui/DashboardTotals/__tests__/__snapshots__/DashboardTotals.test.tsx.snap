@@ -9,7 +9,7 @@ exports[`DashboardTotals should render 1`] = `
       <div
         class="date"
       >
-        БЕР. 2026 Р.
+        БЕР. 2020 Р.
       </div>
       <div
         class="sumContainer"
@@ -23,7 +23,7 @@ exports[`DashboardTotals should render 1`] = `
         <span
           class="sum"
         >
-          100
+          0
         </span>
       </div>
     </div>

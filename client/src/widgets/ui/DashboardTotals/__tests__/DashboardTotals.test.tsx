@@ -2,26 +2,32 @@ import { render } from "@testing-library/react";
 import { MemoDashboardTotals } from "../DashboardTotals";
 
 describe("DashboardTotals", () => {
-  it("should render", () => {
-    const year = new Date().getFullYear();
-    const month = new Date().getMonth() + 1;
+  beforeEach(() => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date("2020-03-15T12:00:00.000Z"));
+  });
 
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
+  it("should render", () => {
     const earnings = [
       {
-        id: `${year}-${month}`,
-        date: new Date(),
+        id: "2020-03",
+        date: new Date("2020-03-15T12:00:00.000Z"),
         payment: 100000,
         projects: 10,
       },
       {
         id: "2020-02",
-        date: new Date(),
+        date: new Date("2020-02-15T12:00:00.000Z"),
         payment: 200000,
         projects: 20,
       },
       {
-        id: "2020-03",
-        date: new Date(),
+        id: "2020-01",
+        date: new Date("2020-01-15T12:00:00.000Z"),
         payment: 300000,
         projects: 30,
       },
