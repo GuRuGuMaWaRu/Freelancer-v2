@@ -55,6 +55,11 @@ beforeEach(async () => {
   ]);
 });
 
+after(async function () {
+  this.timeout(10000);
+  await mongoose.disconnect();
+});
+
 module.exports = {
   getAuthToken,
   getTestUserId,
