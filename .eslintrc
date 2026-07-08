@@ -16,7 +16,8 @@
   ],
   // plugins: ["prettier", "jest"],
   "rules": {
-    "strict": ["error", "never"]
+    "strict": ["error", "never"],
+    "no-unused-vars": ["error", { "argsIgnorePattern": "req|res|next|val" }],
     // "promise/catch-or-return": "error",
     // "prettier/prettier": [
     //   "error",
@@ -36,7 +37,6 @@
     // "no-underscore-dangle": "off",
     // "class-methods-use-this": "off",
     // "prefer-destructuring": ["error", { object: true, array: false }],
-    // "no-unused-vars": ["error", { argsIgnorePattern: "req|res|next|val" }]
   },
   "env": {
     "browser": true,
@@ -45,6 +45,12 @@
     "es6": true
   },
   "overrides": [
+    {
+      "files": "server/test/**/*.js",
+      "env": {
+        "mocha": true
+      }
+    },
     {
       "files": "**/*.+(ts|tsx)",
       "parser": "@typescript-eslint/parser",
