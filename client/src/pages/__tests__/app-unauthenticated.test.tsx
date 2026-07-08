@@ -6,7 +6,6 @@ import {
   render,
   screen,
   within,
-  waitFor,
 } from "test/test-helpers";
 import AppUnauthenticated from "../app-unauthenticated/app-unauthenticated";
 
@@ -25,6 +24,10 @@ let mockError = jest.spyOn(console, "error");
 
 beforeAll(() => {
   mockError.mockImplementation(() => {});
+});
+
+beforeEach(() => {
+  mockError.mockClear();
 });
 
 afterAll(() => {
@@ -117,20 +120,16 @@ test("shows error notification when logging in as a nonexistent user", async () 
 
   await user.click(inModal.getByRole("button", { name: /^login$/i }));
 
-  await waitFor(() => {
-    expect(console.error).toHaveBeenCalled();
-  });
+  expect(await screen.findByLabelText(/notification/i)).toBeInTheDocument();
+  expect(
+    (await screen.findByLabelText(/notification/i)).textContent
+  ).toMatchInlineSnapshot(`"Invalid credentials"`);
 
   expect(console.error).toHaveBeenCalledWith({
     status: "fail",
     message: "Invalid credentials",
   });
   expect(console.error).toHaveBeenCalledTimes(1);
-
-  expect(await screen.findByLabelText(/notification/i)).toBeInTheDocument();
-  expect(
-    (await screen.findByLabelText(/notification/i)).textContent
-  ).toMatchInlineSnapshot(`"Invalid credentials"`);
 });
 
 test("shows error notification when registering an already registered user", async () => {
@@ -154,18 +153,14 @@ test("shows error notification when registering an already registered user", asy
 
   await user.click(inModal.getByRole("button", { name: /^register$/i }));
 
-  await waitFor(() => {
-    expect(console.error).toHaveBeenCalled();
-  });
+  expect(await screen.findByLabelText(/notification/i)).toBeInTheDocument();
+  expect(
+    (await screen.findByLabelText(/notification/i)).textContent
+  ).toMatchInlineSnapshot(`"User already exists"`);
 
   expect(console.error).toHaveBeenCalledWith({
     status: "fail",
     message: "User already exists",
   });
   expect(console.error).toHaveBeenCalledTimes(1);
-
-  expect(await screen.findByLabelText(/notification/i)).toBeInTheDocument();
-  expect(
-    (await screen.findByLabelText(/notification/i)).textContent
-  ).toMatchInlineSnapshot(`"User already exists"`);
 });
