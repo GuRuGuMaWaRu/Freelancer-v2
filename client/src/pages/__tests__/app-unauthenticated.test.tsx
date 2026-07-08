@@ -120,10 +120,12 @@ test("shows error notification when logging in as a nonexistent user", async () 
 
   await user.click(inModal.getByRole("button", { name: /^login$/i }));
 
-  expect(await screen.findByLabelText(/notification/i)).toBeInTheDocument();
-  expect(
-    (await screen.findByLabelText(/notification/i)).textContent
-  ).toMatchInlineSnapshot(`"Invalid credentials"`);
+  const notification = await screen.findByLabelText(/notification/i);
+
+  expect(notification).toBeInTheDocument();
+  expect(notification.textContent).toMatchInlineSnapshot(
+    `"Invalid credentials"`
+  );
 
   expect(console.error).toHaveBeenCalledWith({
     status: "fail",
@@ -153,10 +155,12 @@ test("shows error notification when registering an already registered user", asy
 
   await user.click(inModal.getByRole("button", { name: /^register$/i }));
 
-  expect(await screen.findByLabelText(/notification/i)).toBeInTheDocument();
-  expect(
-    (await screen.findByLabelText(/notification/i)).textContent
-  ).toMatchInlineSnapshot(`"User already exists"`);
+  const notification = await screen.findByLabelText(/notification/i);
+
+  expect(notification).toBeInTheDocument();
+  expect(notification.textContent).toMatchInlineSnapshot(
+    `"User already exists"`
+  );
 
   expect(console.error).toHaveBeenCalledWith({
     status: "fail",
