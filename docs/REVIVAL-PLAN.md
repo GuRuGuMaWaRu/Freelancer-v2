@@ -147,7 +147,7 @@ flowchart TD
 
 | Phase | Goal | Status |
 |-------|------|--------|
-| **0** | Make it run, fix critical bugs, quick wins | Sign-off in progress |
+| **0** | Make it run, fix critical bugs, quick wins | Ready for merge |
 | **1** | Pino logging, CRA → Vite, server TS, shared types, CI | Not started |
 | **2** | Complete core product features from README | Not started |
 | **3** | Path decision; default: stay on stabilize — optional Next.js / TanStack Start / NestJS migration | Deferred |
@@ -195,11 +195,11 @@ flowchart TD
 
 ### 0.5 Phase 0 sign-off
 
-- [ ] Manual smoke test: login → dashboard (both charts) → add project → projects list → clients page
+- [x] Manual smoke test: login → dashboard (both charts) → add project → projects list → clients page
 - [x] README refactored to production quality; historical TODOs moved to `docs/BACKLOG.md`
 - [ ] Phase 0 PR merged / tagged
 
-**Phase 0 status:** `Sign-off in progress`
+**Phase 0 status:** `Ready for merge`
 
 **Notes:**
 
@@ -224,9 +224,10 @@ check-types, server:test, client:test), ESLint mocha env for server tests,
 DashboardTotals snapshot stabilized with fake timers.
 
 Phase 0.5 (branch revival/phase-0-5-sign-off): README refactored to production
-quality; historical TODOs moved to docs/BACKLOG.md. Automated checks: 15/15 server
-tests, dev servers boot (client :3000, server :6000). Manual browser walkthrough
-still required before merge.
+quality; historical TODOs moved to docs/BACKLOG.md. Browser smoke test verified
+2026-07-08: register → dashboard (earnings + clients charts) → add project
+(Acme Corp / SMOKE-001) → projects page → clients page. Flaky auth UI tests
+fixed (69/69 client tests, 15/15 server tests).
 ```
 
 ---
