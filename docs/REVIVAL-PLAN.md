@@ -147,7 +147,7 @@ flowchart TD
 
 | Phase | Goal | Status |
 |-------|------|--------|
-| **0** | Make it run, fix critical bugs, quick wins | In progress |
+| **0** | Make it run, fix critical bugs, quick wins | Sign-off in progress |
 | **1** | Pino logging, CRA → Vite, server TS, shared types, CI | Not started |
 | **2** | Complete core product features from README | Not started |
 | **3** | Path decision; default: stay on stabilize — optional Next.js / TanStack Start / NestJS migration | Deferred |
@@ -196,10 +196,10 @@ flowchart TD
 ### 0.5 Phase 0 sign-off
 
 - [ ] Manual smoke test: login → dashboard (both charts) → add project → projects list → clients page
-- [ ] README "CURRENT" section updated to reflect fixed items
+- [x] README refactored to production quality; historical TODOs moved to `docs/BACKLOG.md`
 - [ ] Phase 0 PR merged / tagged
 
-**Phase 0 status:** `In progress`
+**Phase 0 status:** `Sign-off in progress`
 
 **Notes:**
 
@@ -222,6 +222,11 @@ Phase 0.4 (branch revival/phase-0-4-test-ci): forChart server integration tests
 (months filter, user scoping, all-time), GitHub Actions CI workflow (lint,
 check-types, server:test, client:test), ESLint mocha env for server tests,
 DashboardTotals snapshot stabilized with fake timers.
+
+Phase 0.5 (branch revival/phase-0-5-sign-off): README refactored to production
+quality; historical TODOs moved to docs/BACKLOG.md. Automated checks: 15/15 server
+tests, dev servers boot (client :3000, server :6000). Manual browser walkthrough
+still required before merge.
 ```
 
 ---
@@ -461,6 +466,7 @@ Features not in scope for Phases 0–2 but worth tracking:
 | Date | Phase | What was done |
 |------|-------|---------------|
 | 2026-07-08 | 1.0 | Plan: add Pino structured logging as Phase 1.0 (before migration path decision) |
+| 2026-07-08 | 0.5 | README refactor, BACKLOG.md, automated smoke (server tests + dev boot) |
 | 2026-07-08 | 0.1 | Verified `npm run dev` — server :6000, client :3000, CRA proxy OK |
 | 2026-07-08 | 0.4 | forChart server tests, GitHub Actions CI, test/ESLint fixes |
 | 2026-07-07 | 0.3 | Tooling cleanup: root tsconfig, ESLint fix, remove chart.js, staleTime 5 min |
