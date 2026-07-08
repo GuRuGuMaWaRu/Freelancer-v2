@@ -128,15 +128,21 @@ flowchart TD
     P0["Phase 0: Quick wins"]
     P1L["Phase 1.0: Pino logging"]
     P1["Phase 1: Vite + toolchain"]
+    Gate["Path decision gate"]
     P2["Phase 2: Feature completion"]
+    Decide{"Record path choice"}
+    A2["Continue stabilize path — default"]
     P3["Phase 3: Optional migration"]
+    B[Next.js]
+    C[TanStack Start]
+    D[NestJS]
 
-    P0 --> P1L --> P1 --> P2 --> P3
-
-    P3 --> B[Next.js]
-    P3 --> C[TanStack Start]
-    P3 --> D[NestJS]
-    P3 --> A2[Continue stabilize path]
+    P0 --> P1L --> P1 --> Gate --> P2 --> Decide
+    Decide -->|Default| A2
+    Decide -->|If migrating| P3
+    P3 --> B
+    P3 --> C
+    P3 --> D
 ```
 
 | Phase | Goal | Status |
@@ -144,7 +150,7 @@ flowchart TD
 | **0** | Make it run, fix critical bugs, quick wins | In progress |
 | **1** | Pino logging, CRA → Vite, server TS, shared types, CI | Not started |
 | **2** | Complete core product features from README | Not started |
-| **3** | Optional: Next.js / TanStack Start / NestJS | Deferred |
+| **3** | Path decision; default: stay on stabilize — optional Next.js / TanStack Start / NestJS migration | Deferred |
 
 ---
 
@@ -371,15 +377,19 @@ DashboardTotals snapshot stabilized with fake timers.
 
 ---
 
-## Phase 3 — Optional full-stack migration
+## Phase 3 — Path decision & optional migration
+
+**Default path:** **Stay on stabilize (3D)** — continue Express + Vite after Phase 2; no full-stack rewrite.
+
+**Optional migration paths:** Next.js (3A), TanStack Start (3B), NestJS (3C) — only if the recorded choice is not stabilize.
 
 **Prerequisite (migration work):** Phase 2 complete, unless a hard requirement (e.g. Vercel-only deploy) forces an earlier start.
 
-**Path decision gate:** Do not record a Phase 3 choice until **Phase 1.0 (Pino)** and **Phase 1.1 (Vite)** are complete — Express has structured logs and the client runs on Vite. Same gate applies to Next.js vs TanStack Start vs stay-on-stabilize vs NestJS.
+**Path decision gate:** Do not record a Phase 3 choice until **Phase 1.0 (Pino)** and **Phase 1.1 (Vite)** are complete — Express has structured logs and the client runs on Vite. Record the choice after Phase 2; default to stabilize unless a migration path is explicitly chosen.
 
 Choose **one** path and record the decision at the top of this section.
 
-**Chosen path:** `None yet` | `Next.js` | `TanStack Start` | `NestJS only` | `Stay on stabilize path`
+**Chosen path:** `None yet` | `Stay on stabilize path (default)` | `Next.js` | `TanStack Start` | `NestJS only`
 
 **Decision date / rationale:**
 
@@ -387,7 +397,15 @@ Choose **one** path and record the decision at the top of this section.
 (fill in when decided)
 ```
 
-### 3A. If Next.js
+### 3D. Stay on stabilize path *(default)*
+
+- [ ] Production deploy documented and automated
+- [ ] Optional: Turborepo or npm workspaces for `client` + `server` + `packages/shared`
+- [ ] Optional: Storybook for shared UI components
+- [ ] Optional: offline Google fonts
+- [ ] Product backlog: export CSV, invoicing, multi-currency, password reset
+
+### 3A. If Next.js *(optional migration)*
 
 - [ ] Create Next.js app with App Router
 - [ ] Map FSD layers (`application/` instead of `app/` for FSD)
@@ -398,7 +416,7 @@ Choose **one** path and record the decision at the top of this section.
 - [ ] E2E parity with Phase 2 tests
 - [ ] Decommission standalone Express server
 
-### 3B. If TanStack Start
+### 3B. If TanStack Start *(optional migration)*
 
 - [ ] Scaffold TanStack Start project
 - [ ] Port FSD structure and routes
@@ -407,7 +425,7 @@ Choose **one** path and record the decision at the top of this section.
 - [ ] E2E parity
 - [ ] Decommission CRA/Vite client + optional Express
 
-### 3C. If NestJS (backend only)
+### 3C. If NestJS *(backend only, optional migration)*
 
 - [ ] NestJS project scaffold with modules: `Auth`, `Users`, `Clients`, `Projects`
 - [ ] Port Mongoose schemas to NestJS providers
@@ -416,14 +434,6 @@ Choose **one** path and record the decision at the top of this section.
 - [ ] OpenAPI / Swagger document
 - [ ] Frontend unchanged; swap API base URL
 - [ ] Decommission Express server
-
-### 3D. If staying on stabilize path
-
-- [ ] Production deploy documented and automated
-- [ ] Optional: Turborepo or npm workspaces for `client` + `server` + `packages/shared`
-- [ ] Optional: Storybook for shared UI components
-- [ ] Optional: offline Google fonts
-- [ ] Product backlog: export CSV, invoicing, multi-currency, password reset
 
 **Phase 3 status:** `Deferred` | `In progress` | `Complete`
 
