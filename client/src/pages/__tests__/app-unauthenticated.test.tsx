@@ -6,7 +6,7 @@ import {
   render,
   screen,
   within,
-  waitForLoadingToFinish,
+  waitFor,
 } from "test/test-helpers";
 import AppUnauthenticated from "../app-unauthenticated/app-unauthenticated";
 
@@ -116,10 +116,11 @@ test("shows error notification when logging in as a nonexistent user", async () 
   await user.type(inModal.getByLabelText(/^password$/i), fakeUser.password);
 
   await user.click(inModal.getByRole("button", { name: /^login$/i }));
-  await screen.findByLabelText(/loading/i);
-  // await waitForLoadingToFinish();
 
-  expect(console.error).toHaveBeenCalled();
+  await waitFor(() => {
+    expect(console.error).toHaveBeenCalled();
+  });
+
   expect(console.error).toHaveBeenCalledWith({
     status: "fail",
     message: "Invalid credentials",
@@ -134,7 +135,7 @@ test("shows error notification when logging in as a nonexistent user", async () 
 
 test("shows error notification when registering an already registered user", async () => {
   const { user, inModal } = await renderAuthModal("register");
-  const fakeUser = buildUser();
+  const fakeUser = buildUser({ password: "Password1" });
   addUser(fakeUser);
 
   await user.type(
@@ -152,10 +153,11 @@ test("shows error notification when registering an already registered user", asy
   );
 
   await user.click(inModal.getByRole("button", { name: /^register$/i }));
-  await screen.findByLabelText(/loading/i);
-  await waitForLoadingToFinish();
 
-  expect(console.error).toHaveBeenCalled();
+  await waitFor(() => {
+    expect(console.error).toHaveBeenCalled();
+  });
+
   expect(console.error).toHaveBeenCalledWith({
     status: "fail",
     message: "User already exists",
