@@ -25,4 +25,6 @@ Follow phases in [docs/REVIVAL-PLAN.md](docs/REVIVAL-PLAN.md). Prefer one logica
 
 ## Local development
 
-See [README.md](README.md#local-development). Server env: copy `server/.env.example` to `.env.server` at the repo root.
+See [README.md](README.md#quick-start). Server env: copy `server/.env.example` to `.env.server` at the repo root.
+
+Deferred features and historical TODOs: [docs/BACKLOG.md](docs/BACKLOG.md).

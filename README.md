@@ -1,101 +1,213 @@
-# PET-Project Freelancer
+# PET Freelancer
 
-App for tracking money made per month, per year and per client
+Track freelance earnings by month, year, and client. A full-stack monolith with a React dashboard, Express API, and MongoDB persistence.
 
-## Local development
-
-### Prerequisites
-
-- **Node.js** 18+ (see `engines` in root and `client/package.json`)
-- **MongoDB** running locally (default URI: `mongodb://127.0.0.1:27017`)
-
-### Setup
-
-1. Install dependencies (root tooling, client, and server):
-
-   ```bash
-   npm install
-   npm install --prefix client
-   npm install --prefix server
-   ```
-
-2. Create server environment file from the template:
-
-   ```bash
-   cp server/.env.example .env.server
-   ```
-
-   Edit `.env.server` if your MongoDB host or credentials differ. The default `PORT` is **6000**, which matches the CRA dev proxy in `client/package.json`.
-
-   If you have an existing `.env.server` with `PORT=5000`, update it to `6000` (or change the client proxy to match).
-
-3. Start client and server together:
-
-   ```bash
-   npm run dev
-   ```
-
-   - Frontend: [http://localhost:3000](http://localhost:3000)
-   - API: [http://localhost:6000/api/v1](http://localhost:6000/api/v1)
-
-### Tests
-
-```bash
-# Server integration tests (requires MongoDB; uses DB_TEST from .env.server)
-npm run server:test
-
-# Client unit tests
-npm run client:test
-```
-
-### Optional client env
-
-See `client/.env.example`. For most setups the tracked `client/.env.development` is enough. Copy to `.env.development.local` only if you need overrides.
+**Live demo:** [tranquil-woodland-50991.herokuapp.com](https://tranquil-woodland-50991.herokuapp.com/)
 
 ---
 
-CURRENT:
+## Features
 
-- Search field on Projects page
-- If there are no projects at all, or no projects found -> display a "There are no projects to display" screen, that takes the center of the page and moves Arrow buttons down
-- Earning by Clients on Main page not working
-- Add tests
+| Area | Capabilities |
+|------|--------------|
+| **Auth** | Sign up, log in, log out; JWT stored client-side; token refresh via `getUser` |
+| **Dashboard** | Monthly earnings chart, earnings-by-client chart, period totals, add project modal |
+| **Projects** | Search, sort, pagination, add / edit / delete via modals |
+| **Clients** | Aggregated stats per client, sort, expand / collapse rows |
 
-NEW TODOs
+---
 
-1. [x] FRONT: make the whole root layout work with grids and media queries
-2. [x] FRONT: change Logout button to be less prominent
-3. [x] FRONT: show proper errors
-4. [ ] FRONT: animate BG change on route change. Every route/page has its BG color (main, tomato, brown, green, etc)
-       4.1 [ ] green for PROJECTS page and light-red for CLIENTS page?
-5. [ ] FRONT: offline Google fonts
-6. [x] FRONT: add a working Add Project functionality to the Dashboard page
-7. [ ] BACK: add messages to payloads that are sent from the backend on all successful operations with Users, Projects, and Clients.
-       7.1 [ ] FRONT: show these messages as notifications on the frontend
-8. [ ] FRONT: make Dashboard page more mobile friendly: adjust fonts, work on menu, etc
-9. [ ] FRONT: is there a reason to send SUBMIT button into a modal form component? It would make sense if that form was universal, but it is not
-10. [ ] FRONT: use FEATURES directory? For Auth, Clients, Projects
-11. [ ] FRONT: put "edit", "add", and "delete" routes inside "projects" and "clients" main routes? In this case the main routes will have no element of their own, but will serve as an outer shell
-12. [ ] FRONT: Dashboard page looks too cumbersome, need to think if there is a way to unload it somehow. One of the ways is to move some calculation functions into Utilities and a modal Add Project into a separate page (but in that case it won't be modal anymore)
-13. [ ] FRONT: some items inside lib.tsx file are to specific, I should move them to the location where they are used
-14. [ ] BACK: check whether I check form inputs properly
-15. [ ] BACK: move some functionality from Utils into Middleware folder
-16. [ ] FRONT: try font-clamping - especially need this for Dashboard page
-17. [ ] FRONT: start working on Projects page - a sortable and searchable table of all projects
-18. [ ] BACK: when getting projects for the last year I think I can use the generics getAll from CRUD, the only thing I need is to add filtering by date. How do I do that?
-19. [ ] FRONT: on PROJECTS page show truncated notes text and display full text on hover in a tooltip (https://sebhastian.com/html-hover-text/)
-20. [ ] BACK: do I sanitize user-sent data before saving it to DB?
-21. ?[ ] FRONT: add a "Keep me logged in" checkbox - if checked, save token to localStorage
-22. ?[ ] FRONT: how do I get a token from state and use it inside loaders??? Right now I'm getting token from localStorage, but that is not the way
-23. [ ] BACK: check if I use "lean" where it can be used
-24. [ ] BACK: add granular Mongo-related error messages (as per Jonas's course)
-25. [ ] FRONT: rewrite react-router logic and use a previous version (the current one has too little resources and is very cumbersome for me)
-26. [ ] FRONT: Storybook - should I try it? Just for kicks?
-27. [ ] FRONT: projects - current and finished; start and deadline date; payment settled or not
-28. [ ] FRONT: projects - may need a Spinner, right now there is a pause while the projects are loading
-29. [ ] FRONT: API - really look into creating an API layer, so that in my components or hooks I can reference API calls like `api.createProject(...)`. Then my `api` module will use a 'client' module (fetch or something) to make the call?
-30. [ ] FRONT: error handling as per (https://www.builder.io/blog/safe-data-fetching?ck_subscriber_id=478685813)
-31. [ ] FRONT: change all PX sizes to REMs, and set the root font-size to 62.5%, so that the user can zoom in and our, and we can work with 10px root font-size
-32. [ ] FRONT: move Pagination into a separate components, that accepts the required number of pages and a method to call for pagination
-33. [ ] FRONT: projects - maybe add a Rozetka-style "Load more" button to change PAGE_LIMIT
-34. [ ] FRONT: think on how I can organize my styles as per Schmedtmann CSS-tutorial
+## Tech stack
+
+| Layer | Stack |
+|-------|-------|
+| **Frontend** | React 18, TypeScript (strict), Create React App, React Router 6, TanStack Query, Recharts, React Hook Form + Zod |
+| **Backend** | Express 4, Mongoose 6, JWT auth, express-validator |
+| **Data** | MongoDB — Users, Clients, Projects (soft delete) |
+| **Quality** | ESLint, Prettier, Husky, GitHub Actions CI, CodeQL |
+
+Frontend layout follows a Feature-Sliced Design–inspired structure (`app`, `pages`, `widgets`, `features`, `entities`, `shared`).
+
+---
+
+## Prerequisites
+
+- **Node.js** 18+ (CI uses 22; see `engines` in `client/package.json` and `server/package.json`)
+- **npm** 8.16+
+- **MongoDB** running locally (default: `mongodb://127.0.0.1:27017`)
+
+---
+
+## Quick start
+
+### 1. Install dependencies
+
+```bash
+npm install
+npm install --prefix client
+npm install --prefix server
+```
+
+### 2. Configure environment
+
+```bash
+cp server/.env.example .env.server
+```
+
+Edit `.env.server` if your MongoDB host or credentials differ. Default API port is **6000**, which matches the CRA dev proxy in `client/package.json`.
+
+If you have an existing `.env.server` with `PORT=5000`, update it to `6000` (or change the client proxy to match).
+
+### 3. Start development servers
+
+```bash
+npm run dev
+```
+
+| Service | URL |
+|---------|-----|
+| Frontend | [http://localhost:3000](http://localhost:3000) |
+| API | [http://localhost:6000/api/v1](http://localhost:6000/api/v1) |
+
+### Optional client env
+
+See `client/.env.example`. For most setups the tracked `client/.env.development` is sufficient. Copy to `.env.development.local` only if you need overrides.
+
+---
+
+## Environment variables
+
+Server configuration lives in `.env.server` at the repo root (see `server/.env.example`).
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `DB_MAIN` | Yes | Production / default MongoDB URI |
+| `DB_DEVELOPMENT` | Dev | Development database URI |
+| `DB_TEST` | Tests | Test database URI (used by Mocha) |
+| `ACCESS_TOKEN_SECRET` | Yes | JWT signing secret — use a long random string |
+| `JWT_EXPIRES_IN` | No | Token lifetime (default `7d`) |
+| `PORT` | No | Express listen port (default `6000`) |
+
+---
+
+## Scripts
+
+Run from the repository root:
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start client (CRA) and server with watch mode |
+| `npm run prod` | Start client and server (production `NODE_ENV`) |
+| `npm run client` | Start frontend only |
+| `npm run server:dev` | Start backend only (development) |
+| `npm run server:test` | Server integration tests (requires MongoDB) |
+| `npm run client:test` | Client unit tests with coverage |
+| `npm run validate` | Typecheck, format check, and lint in parallel |
+| `npm run lint` | ESLint across `.js`, `.ts`, `.tsx` |
+| `npm run check-types` | TypeScript check (client + root tsconfig) |
+| `npm run format` | Prettier write |
+
+Build the client for production:
+
+```bash
+npm run build --prefix client
+```
+
+In production, Express serves the CRA build from `client/build`.
+
+---
+
+## Testing
+
+**Server** — integration tests against MongoDB (uses `DB_TEST` from `.env.server` or CI env):
+
+```bash
+npm run server:test
+```
+
+**Client** — Jest + React Testing Library (+ MSW for API mocking):
+
+```bash
+npm run client:test
+```
+
+**Full quality gate** (no tests):
+
+```bash
+npm run validate
+```
+
+CI runs lint, typecheck, server tests (with a MongoDB service container), and client tests on pushes and PRs to `main` and `development`. See [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
+
+---
+
+## Project structure
+
+```
+├── client/                 # React SPA (TypeScript)
+│   └── src/
+│       ├── app/            # App shell, providers, routing entry
+│       ├── pages/          # Route-level pages and loaders
+│       ├── widgets/        # Composite UI (NavBar, ChartSection, …)
+│       ├── features/       # Feature modules (e.g. charts)
+│       ├── entities/       # Domain entities (auth, clients, projects)
+│       └── shared/         # API client, UI kit, hooks, types
+├── server/                 # Express API (JavaScript)
+│   ├── resources/          # Routers, controllers, models per domain
+│   ├── middleware/         # Auth, logging, error handling
+│   ├── utils/              # Shared helpers
+│   └── test/               # Mocha integration tests
+├── docs/
+│   ├── REVIVAL-PLAN.md     # Phased modernization roadmap
+│   └── BACKLOG.md          # Deferred features and ideas
+└── .env.server             # Local server config (not committed)
+```
+
+---
+
+## API overview
+
+Base path: `/api/v1`
+
+| Resource | Endpoints (summary) |
+|----------|---------------------|
+| **Users** | `POST /users/signup`, `POST /users/login`, `GET /users/getUser` |
+| **Projects** | CRUD + `GET /projects/forChart` (dashboard aggregation) |
+| **Clients** | CRUD + `GET /clients/withProjectData` (stats aggregation) |
+
+Protected routes require a `Bearer` token in the `Authorization` header.
+
+---
+
+## Deployment
+
+The app is designed as a **Heroku-style monolith**: Express serves the built React app in production.
+
+1. Set `NODE_ENV=production`
+2. Provide MongoDB URI, `ACCESS_TOKEN_SECRET`, and `PORT`
+3. Build the client: `npm run build --prefix client`
+4. Start the server: `node server/app.js`
+
+The production static path is `client/build` (see `server/app.js`).
+
+---
+
+## Roadmap
+
+Active revival work is tracked in [docs/REVIVAL-PLAN.md](docs/REVIVAL-PLAN.md). Phase 0 (quick wins) is complete; next up is **Phase 1** — Pino logging and CRA → Vite migration.
+
+Deferred features and historical TODOs live in [docs/BACKLOG.md](docs/BACKLOG.md).
+
+---
+
+## Contributing
+
+- Follow commit/PR title format: `type(area): short imperative summary` (see [AGENTS.md](AGENTS.md))
+- Run `npm run validate` and relevant tests before opening a PR
+- Prefer one logical revival phase step per branch when practical
+
+---
+
+## License
+
+GPL-3.0-only — see [client/package.json](client/package.json).
