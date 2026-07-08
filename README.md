@@ -98,7 +98,7 @@ Run from the repository root:
 |---------|-------------|
 | `npm run dev` | Start CRA dev server and Express with watch mode (`NODE_ENV=development`) |
 | `npm run prod` | Dev convenience: CRA dev server + Express with watch (no `NODE_ENV` set — **not** production) |
-| `npm start` | Run Express in production mode (serves `client/build`; build the client first) |
+| `npm start` | Run Express (requires `NODE_ENV=production`; serves `client/build`; build the client first) |
 | `npm run client` | Start frontend only (CRA dev server) |
 | `npm run server:dev` | Start backend only (development, with watch) |
 | `npm run server:prod` | Start backend only with watch (no `NODE_ENV` set) |
@@ -188,7 +188,7 @@ The app is designed as a **Heroku-style monolith**: Express serves the built Rea
 1. Set `NODE_ENV=production`
 2. Provide MongoDB URI, `ACCESS_TOKEN_SECRET`, and `PORT`
 3. Build the client: `npm run build --prefix client`
-4. Start the server: `npm start` (or `cross-env NODE_ENV=production node server/app.js`)
+4. Start the server: `npm start` (or `NODE_ENV=production node server/app.js`)
 
 The production static path is `client/build` (see `server/app.js`). Do **not** use `npm run prod` for deployment or production smoke tests — it starts the CRA dev server and does not set `NODE_ENV=production`.
 
