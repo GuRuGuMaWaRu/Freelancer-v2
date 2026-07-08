@@ -57,12 +57,10 @@ app.use(cors(corsOptions));
 
 // Set up routes
 app.use("/", express.static(path.join(__dirname, "public")));
-app.use("/", require("./resources/root"));
 app.use("/api/v1/projects", projectRouter);
 app.use("/api/v1/clients", clientRouter);
 app.use("/api/v1/users", userRouter);
 
-// Heroku deployment --- serve static assets in production
 const clientBuildPath = path.join(__dirname, "..", "client", "build");
 
 if (process.env.NODE_ENV === "production") {
@@ -71,6 +69,8 @@ if (process.env.NODE_ENV === "production") {
   app.get("*", (req, res) =>
     res.sendFile(path.join(clientBuildPath, "index.html")),
   );
+} else {
+  app.use("/", require("./resources/root"));
 }
 
 // Handle 404 (Not Found) errors
