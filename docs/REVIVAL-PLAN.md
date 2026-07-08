@@ -1,7 +1,7 @@
 # PET Freelancer — Revival Plan
 
 > Living document for reviving this project. Check off items as they are completed.
-> Last updated: 2026-07-07
+> Last updated: 2026-07-08
 
 ---
 
@@ -9,7 +9,7 @@
 
 This app tracks freelance earnings per month, per year, and per client. Revival means making it trustworthy to run locally, safe to extend, and pleasant to use — without committing to a full rewrite upfront.
 
-**Recommended sequence:** Quick wins → Vite modernization → feature completion → optional full-stack migration (only if needed).
+**Recommended sequence:** Quick wins → server logging (Pino) → Vite modernization → feature completion → optional full-stack migration (only if needed).
 
 ---
 
@@ -20,8 +20,8 @@ This app tracks freelance earnings per month, per year, and per client. Revival 
 | Frontend | React 18 + CRA (`react-scripts`), strict TypeScript, FSD-ish layout |
 | Backend | Express 4, Mongoose 6, JWT auth, ~15 API routes (plain JavaScript) |
 | Data | MongoDB — Users, Clients, Projects (soft delete) |
-| Tests | ~20 client tests, 7 server integration tests |
-| CI | CodeQL only — no test/lint pipeline |
+| Tests | ~20 client tests, 15 server integration tests |
+| CI | GitHub Actions (lint, typecheck, tests) + CodeQL |
 | Deploy | Heroku-style monolith (Express serves CRA build in production) |
 
 ### What already works
@@ -60,7 +60,7 @@ Keep Express + React, modernize incrementally.
 | Fastest path to a working, trustworthy app | CRA must be replaced (Phase 1) |
 | Shared types can bridge FE/BE without full rewrite | Two deploy units unless monolith kept |
 
-**Phases:** 0 Quick wins → 1 Vite + server TS → 2 Feature completion
+**Phases:** 0 Quick wins → 1 Pino + Vite + server TS → 2 Feature completion
 
 ---
 
@@ -74,7 +74,7 @@ Single deploy; API routes or Server Actions replace Express.
 | Vercel deploy is straightforward | FSD `app/` layer naming conflict (rename to `application/`) |
 | Built-in routing, SSR available | MongoDB connection model changes for serverless |
 
-**When to choose:** After Phase 1, if you want SSR, Vercel hosting, or a single codebase boundary.
+**When to choose:** After Phase 1 (including Pino logging and Vite), if you want SSR, Vercel hosting, or a single codebase boundary.
 
 - [ ] Decision recorded (date / rationale)
 - [ ] Spike: map current routes → Next.js App Router
@@ -93,7 +93,7 @@ File-based routing + SSR; natural fit with existing TanStack Query usage.
 | Type-safe loaders close to current mental model | Near-full routing rewrite |
 | Modern stack without Next opinions | Express remains separate unless folded in |
 
-**When to choose:** After Phase 1, if you prefer the TanStack ecosystem over Next.js.
+**When to choose:** After Phase 1 (including Pino logging and Vite), if you prefer the TanStack ecosystem over Next.js.
 
 - [ ] Decision recorded (date / rationale)
 - [ ] Spike: TanStack Start + current FSD folder layout
@@ -126,11 +126,12 @@ TypeScript-native backend with modules, guards, validation pipes.
 ```mermaid
 flowchart TD
     P0["Phase 0: Quick wins"]
+    P1L["Phase 1.0: Pino logging"]
     P1["Phase 1: Vite + toolchain"]
     P2["Phase 2: Feature completion"]
     P3["Phase 3: Optional migration"]
 
-    P0 --> P1 --> P2 --> P3
+    P0 --> P1L --> P1 --> P2 --> P3
 
     P3 --> B[Next.js]
     P3 --> C[TanStack Start]
@@ -141,7 +142,7 @@ flowchart TD
 | Phase | Goal | Status |
 |-------|------|--------|
 | **0** | Make it run, fix critical bugs, quick wins | In progress |
-| **1** | CRA → Vite, server TS, shared types, CI | Not started |
+| **1** | Pino logging, CRA → Vite, server TS, shared types, CI | Not started |
 | **2** | Complete core product features from README | Not started |
 | **3** | Optional: Next.js / TanStack Start / NestJS | Deferred |
 
@@ -158,7 +159,7 @@ flowchart TD
 - [x] Add `server/.env.example` (DB URI, `ACCESS_TOKEN_SECRET`, `JWT_EXPIRES_IN`, `PORT`)
 - [x] Add `client/.env.example` if needed (proxy / API base URL)
 - [x] Document local setup in README (MongoDB, `npm run dev`, test DB)
-- [ ] Verify `npm run dev` starts client + server without errors
+- [x] Verify `npm run dev` starts client + server without errors
 
 ### 0.2 Critical bug fixes
 
@@ -182,9 +183,9 @@ flowchart TD
 
 - [x] Add server test: `GET /api/v1/users/getUser` returns valid refreshed token
 - [x] Add server test: `GET /api/v1/clients/withProjectData` returns only current user's data
-- [ ] Add server test: `GET /api/v1/projects/forChart` with `months` filter
-- [ ] Add GitHub Actions workflow: `lint` + `check-types` + `server:test` + `client:test`
-- [ ] All existing tests pass locally after bug fixes
+- [x] Add server test: `GET /api/v1/projects/forChart` with `months` filter
+- [x] Add GitHub Actions workflow: `lint` + `check-types` + `server:test` + `client:test`
+- [x] All existing tests pass locally after bug fixes
 
 ### 0.5 Phase 0 sign-off
 
@@ -199,7 +200,8 @@ flowchart TD
 ```
 Phase 0.1 (branch revival/phase-0-1-local-dev-setup): env templates, dotenv path fix,
 CRA proxy aligned to server PORT 6000, README local setup section.
-Server startup on PORT=6000 verified locally; full `npm run dev` smoke test still pending.
+Full `npm run dev` verified 2026-07-08: MongoDB connected, server on :6000, CRA on :3000,
+proxy to API returns expected 401 without auth; client compiles with warnings only.
 
 Phase 0.2 (branch revival/phase-0-2-critical-bug-fixes): auth getUser JWT fix,
 withProjectData user scoping, project PATCH user/upsert fixes, API path casing,
@@ -209,17 +211,35 @@ getUser and withProjectData.
 Phase 0.3 (branch revival/phase-0-3-tooling-cleanup): removed unused chart.js deps,
 root tsconfig for check-types, ESLint parserOptions fix, React Query staleTime 5 min,
 react-spring kept (Modal, Notification, Dropdown).
+
+Phase 0.4 (branch revival/phase-0-4-test-ci): forChart server integration tests
+(months filter, user scoping, all-time), GitHub Actions CI workflow (lint,
+check-types, server:test, client:test), ESLint mocha env for server tests,
+DashboardTotals snapshot stabilized with fake timers.
 ```
 
 ---
 
-## Phase 1 — Vite & toolchain modernization
+## Phase 1 — Pino logging, Vite & toolchain modernization
 
-**Goal:** Replace CRA with Vite; begin server TypeScript migration; establish shared API contracts; reliable CI.
+**Goal:** Structured server logging with Pino; replace CRA with Vite; begin server TypeScript migration; establish shared API contracts; reliable CI.
 
 **Prerequisite:** Phase 0 complete.
 
-**Exit criteria:** `npm run dev` uses Vite; production build works; server compiles with TS (or hybrid); shared types in use; CI green.
+**Exit criteria:** Pino replaces ad-hoc `console.log` / file logging on the server; `npm run dev` uses Vite; production build works; server compiles with TS (or hybrid); shared types in use; CI green.
+
+**Note:** Phase 1.0 (Pino) is backend-only and **must complete before choosing** a Phase 3 path (Next.js, TanStack Start, NestJS, or stay on stabilize). Observability on the current Express app makes migration spikes and production debugging easier regardless of which frontend route wins.
+
+### 1.0 Structured logging (Pino) *(do first in Phase 1)*
+
+- [ ] Add `pino`, `pino-http`, and `pino-pretty` (dev) to `server/package.json`
+- [ ] Create `server/utils/logger.js` (or `logger.ts` if TS conversion starts here): JSON in production, pretty-print in development
+- [ ] Replace `console.log(err.stack)` in `errorHandler` — log 5xx as `error`, 4xx as `warn` or skip; no stack dumps for expected validation errors in tests
+- [ ] Replace or supplement `morgan` with `pino-http` for request logging (method, url, status, response time)
+- [ ] Migrate or retire custom `logEvents` / `server/logs/*.log` file writes — route through Pino (file transport optional)
+- [ ] Quiet logging when `NODE_ENV=test` (keep Mocha output readable; still log unexpected 5xx)
+- [ ] Add `LOG_LEVEL` to `server/.env.example` (e.g. `info` in prod, `debug` locally)
+- [ ] Verify server tests still pass with no noisy expected-error stacks
 
 ### 1.1 CRA → Vite migration
 
@@ -265,6 +285,7 @@ react-spring kept (Modal, Notification, Dropdown).
 
 ### 1.6 Phase 1 sign-off
 
+- [ ] Pino logging verified in dev (`npm run server:dev`) and test (`npm run server:test`)
 - [ ] Deploy preview or local prod build smoke test (Express serves Vite `dist`)
 - [ ] Heroku / hosting config updated for Vite output path if applicable
 - [ ] Phase 1 PR merged / tagged
@@ -354,6 +375,8 @@ react-spring kept (Modal, Notification, Dropdown).
 
 **Only start after Phase 2** unless a hard requirement (e.g. Vercel-only deploy) forces earlier decision.
 
+**Prerequisite for path decision:** Phase 1 complete, including **Pino logging (1.0)** and **Vite (1.1)**. Do not commit to Next.js vs TanStack Start vs stay-on-stabilize until the Express backend has structured logs and the client runs on Vite.
+
 Choose **one** path and record the decision at the top of this section.
 
 **Chosen path:** `None yet` | `Next.js` | `TanStack Start` | `NestJS only` | `Stay on stabilize path`
@@ -427,6 +450,9 @@ Features not in scope for Phases 0–2 but worth tracking:
 
 | Date | Phase | What was done |
 |------|-------|---------------|
+| 2026-07-08 | 1.0 | Plan: add Pino structured logging as Phase 1.0 (before migration path decision) |
+| 2026-07-08 | 0.1 | Verified `npm run dev` — server :6000, client :3000, CRA proxy OK |
+| 2026-07-08 | 0.4 | forChart server tests, GitHub Actions CI, test/ESLint fixes |
 | 2026-07-07 | 0.3 | Tooling cleanup: root tsconfig, ESLint fix, remove chart.js, staleTime 5 min |
 | 2026-07-07 | 0.2 | Critical bug fixes: auth, data scoping, upsert removal, clients chart, tests |
 | 2026-07-06 | 0.1 | Env templates, local setup docs, proxy/port alignment |
