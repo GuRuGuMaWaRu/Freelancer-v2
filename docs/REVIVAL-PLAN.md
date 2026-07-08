@@ -48,7 +48,7 @@ This app tracks freelance earnings per month, per year, and per client. Revival 
 
 ## Revival Approaches
 
-Four viable paths. **Only one primary path should be active at a time** after Phase 1; the others stay as documented alternatives.
+Four viable paths. **Only one primary path should be active at a time** after the Phase 3 path decision gate (Phase 1.0 + 1.1); the others stay as documented alternatives.
 
 ### A. Stabilize in place *(recommended primary path)*
 
@@ -74,7 +74,7 @@ Single deploy; API routes or Server Actions replace Express.
 | Vercel deploy is straightforward | FSD `app/` layer naming conflict (rename to `application/`) |
 | Built-in routing, SSR available | MongoDB connection model changes for serverless |
 
-**When to choose:** After Phase 1 (including Pino logging and Vite), if you want SSR, Vercel hosting, or a single codebase boundary.
+**When to choose:** After **Phase 1.0 (Pino)** and **Phase 1.1 (Vite)** are complete (path decision gate), if you want SSR, Vercel hosting, or a single codebase boundary. Phase 3 migration work still starts after Phase 2.
 
 - [ ] Decision recorded (date / rationale)
 - [ ] Spike: map current routes → Next.js App Router
@@ -93,7 +93,7 @@ File-based routing + SSR; natural fit with existing TanStack Query usage.
 | Type-safe loaders close to current mental model | Near-full routing rewrite |
 | Modern stack without Next opinions | Express remains separate unless folded in |
 
-**When to choose:** After Phase 1 (including Pino logging and Vite), if you prefer the TanStack ecosystem over Next.js.
+**When to choose:** After **Phase 1.0 (Pino)** and **Phase 1.1 (Vite)** are complete (path decision gate), if you prefer the TanStack ecosystem over Next.js. Phase 3 migration work still starts after Phase 2.
 
 - [ ] Decision recorded (date / rationale)
 - [ ] Spike: TanStack Start + current FSD folder layout
@@ -112,7 +112,7 @@ TypeScript-native backend with modules, guards, validation pipes.
 | Scales if invoicing, webhooks, multi-tenant added | Full backend rewrite |
 | Does not solve CRA deprecation alone | Learning curve |
 
-**When to choose:** If backend complexity will grow significantly (payments, webhooks, multi-tenant SaaS).
+**When to choose:** After **Phase 1.0 (Pino)** and **Phase 1.1 (Vite)** are complete (path decision gate), if backend complexity will grow significantly (payments, webhooks, multi-tenant SaaS). Phase 3 migration work still starts after Phase 2.
 
 - [ ] Decision recorded (date / rationale)
 - [ ] Spike: NestJS module map from current `server/resources/*`
@@ -228,7 +228,7 @@ DashboardTotals snapshot stabilized with fake timers.
 
 **Exit criteria:** Pino replaces ad-hoc `console.log` / file logging on the server; `npm run dev` uses Vite; production build works; server compiles with TS (or hybrid); shared types in use; CI green.
 
-**Note:** Phase 1.0 (Pino) is backend-only and **must complete before choosing** a Phase 3 path (Next.js, TanStack Start, NestJS, or stay on stabilize). Observability on the current Express app makes migration spikes and production debugging easier regardless of which frontend route wins.
+**Note:** **Path decision gate:** do not record a Phase 3 choice (Next.js, TanStack Start, NestJS, or stay on stabilize) until **Phase 1.0 (Pino)** and **Phase 1.1 (Vite)** are complete. Phase 3 migration work still waits for Phase 2. Observability on the current Express app makes migration spikes and production debugging easier regardless of which frontend route wins.
 
 ### 1.0 Structured logging (Pino) *(do first in Phase 1)*
 
@@ -373,9 +373,9 @@ DashboardTotals snapshot stabilized with fake timers.
 
 ## Phase 3 — Optional full-stack migration
 
-**Only start after Phase 2** unless a hard requirement (e.g. Vercel-only deploy) forces earlier decision.
+**Prerequisite (migration work):** Phase 2 complete, unless a hard requirement (e.g. Vercel-only deploy) forces an earlier start.
 
-**Prerequisite for path decision:** Phase 1 complete, including **Pino logging (1.0)** and **Vite (1.1)**. Do not commit to Next.js vs TanStack Start vs stay-on-stabilize until the Express backend has structured logs and the client runs on Vite.
+**Path decision gate:** Do not record a Phase 3 choice until **Phase 1.0 (Pino)** and **Phase 1.1 (Vite)** are complete — Express has structured logs and the client runs on Vite. Same gate applies to Next.js vs TanStack Start vs stay-on-stabilize vs NestJS.
 
 Choose **one** path and record the decision at the top of this section.
 
