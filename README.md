@@ -143,7 +143,7 @@ CI runs lint, typecheck, server tests (with a MongoDB service container), and cl
 
 ## Project structure
 
-```
+```text
 ├── client/                 # React SPA (TypeScript)
 │   └── src/
 │       ├── app/            # App shell, providers, routing entry
