@@ -1,14 +1,27 @@
 import { render } from "@testing-library/react";
 import { MemoDashboardTotals } from "../DashboardTotals";
 
+const TEST_LOCALE = "en-US";
+
 describe("DashboardTotals", () => {
   beforeEach(() => {
     jest.useFakeTimers();
     jest.setSystemTime(new Date("2020-03-15T12:00:00.000Z"));
+
+    jest
+      .spyOn(Date.prototype, "toLocaleDateString")
+      .mockImplementation(function (
+        this: Date,
+        _locale?: unknown,
+        options?: Intl.DateTimeFormatOptions,
+      ) {
+        return new Intl.DateTimeFormat(TEST_LOCALE, options).format(this);
+      });
   });
 
   afterEach(() => {
     jest.useRealTimers();
+    jest.restoreAllMocks();
   });
 
   it("should render", () => {

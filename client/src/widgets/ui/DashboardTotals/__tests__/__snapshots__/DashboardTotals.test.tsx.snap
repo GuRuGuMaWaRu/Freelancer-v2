@@ -9,7 +9,7 @@ exports[`DashboardTotals should render 1`] = `
       <div
         class="date"
       >
-        БЕР. 2020 Р.
+        MAR 2020
       </div>
       <div
         class="sumContainer"
