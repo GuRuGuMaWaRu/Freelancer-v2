@@ -203,7 +203,7 @@ flowchart TD
 
 **Notes:**
 
-```
+```text
 Phase 0.1 (branch revival/phase-0-1-local-dev-setup): env templates, dotenv path fix,
 CRA proxy aligned to server PORT 6000, README local setup section.
 Full `npm run dev` verified 2026-07-08: MongoDB connected, server on :6000, CRA on :3000,
@@ -306,7 +306,7 @@ fixed (69/69 client tests, 15/15 server tests).
 
 **Notes:**
 
-```
+```text
 Phase 1.0 (branch revival/phase-1-0-pino-logging): added pino + pino-http +
 pino-pretty; server/utils/logger.js (pretty in dev, JSON in prod, level error in
 test); pino-http replaces morgan + middleware/logger file writes; errorHandler
@@ -384,7 +384,7 @@ LOG_LEVEL=info. Server tests: 15/15 passing.
 
 **Notes:**
 
-```
+```text
 (add progress notes, blockers, decisions here)
 ```
 
@@ -406,7 +406,7 @@ Choose **one** path and record the decision at the top of this section.
 
 **Decision date / rationale:**
 
-```
+```text
 (fill in when decided)
 ```
 
