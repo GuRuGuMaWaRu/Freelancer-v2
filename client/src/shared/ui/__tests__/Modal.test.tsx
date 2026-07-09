@@ -2,7 +2,7 @@ import {
   render,
   screen,
   within,
-  waitForElementToBeRemoved,
+  waitFor,
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
@@ -27,6 +27,12 @@ test("can be opened and closed", async () => {
   expect(inModal.getByRole("button", { name: /close/i })).toBeInTheDocument();
 
   await user.click(inModal.getByRole("button", { name: /close/i }));
-  await waitForElementToBeRemoved(screen.queryByRole("dialog"));
-  expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+
+  // react-spring leave animation keeps the dialog in the DOM briefly (200ms delay)
+  await waitFor(
+    () => {
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    },
+    { timeout: 3000 },
+  );
 });
