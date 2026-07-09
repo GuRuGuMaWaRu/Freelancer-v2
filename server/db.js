@@ -2,13 +2,16 @@ const mongoose = require("mongoose");
 const { logEvents } = require("./middleware/logger");
 
 if (process.env.NODE_ENV !== "test") {
-  const address =
-    process.env.NODE_ENV === "development"
-      ? process.env.DB_DEVELOPMENT
-      : process.env.DB_MAIN;
+  const useDevDb =
+    process.env.NODE_ENV === "development" &&
+    process.env.USE_PROD_DB !== "true";
+
+  const address = useDevDb ? process.env.DB_DEVELOPMENT : process.env.DB_MAIN;
 
   //** Disable autoIndex in production so as not to slow down the server */
-  const autoIndex = process.env.NODE_ENV === "development" ? true : false;
+  const autoIndex = useDevDb ? true : false;
+
+  console.log(`Database target: ${useDevDb ? "development" : "main"}`);
 
   mongoose.set("strictQuery", false);
 
