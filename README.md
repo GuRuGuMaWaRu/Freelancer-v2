@@ -48,6 +48,8 @@ npm install --prefix client
 npm install --prefix server
 ```
 
+Or use the convenience scripts: `npm run client:install` and `npm run server:install`.
+
 ### 2. Configure environment
 
 ```bash
@@ -97,11 +99,11 @@ Run from the repository root:
 | Command | Description |
 |---------|-------------|
 | `npm run dev` | Start CRA dev server and Express with watch mode (`NODE_ENV=development`) |
-| `npm run prod` | Dev convenience: CRA dev server + Express with watch (no `NODE_ENV` set — **not** production) |
-| `npm start` | Run Express (requires `NODE_ENV=production`; serves `client/build`; build the client first) |
+| `npm run prod` | Dev convenience: CRA dev server + Express with watch (`USE_PROD_DB=true` → `DB_MAIN`; dev app behavior) |
+| `npm start` | Run Express in production mode (sets `NODE_ENV=production`; serves `client/build`; build the client first) |
 | `npm run client` | Start frontend only (CRA dev server) |
 | `npm run server:dev` | Start backend only (development, with watch) |
-| `npm run server:prod` | Start backend only with watch (no `NODE_ENV` set) |
+| `npm run server:prod` | Start backend only with watch (`USE_PROD_DB=true` → `DB_MAIN`) |
 | `npm run server:test` | Server integration tests (requires MongoDB) |
 | `npm run client:test` | Client unit tests with coverage |
 | `npm run validate` | Typecheck, format check, and lint in parallel |
