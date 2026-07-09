@@ -1,6 +1,6 @@
 const rateLimit = require("express-rate-limit");
 
-const { logEvents } = require("./logger");
+const logger = require("../utils/logger");
 const AppError = require("../utils/appError");
 
 const loginLimiter = rateLimit({
@@ -11,10 +11,17 @@ const loginLimiter = rateLimit({
       "Too many login attempts from this IP, please try again after a 60 second pause",
   },
   handler: (req, res, next, options) => {
-    logEvents(
-      `Too Many Requests: ${options.message.message}\t${req.method}\t${req.url}\t${req.headers.origin}`,
-      "errLog.log",
+    const log = req.log || logger;
+
+    log.warn(
+      {
+        method: req.method,
+        url: req.url,
+        origin: req.headers.origin,
+      },
+      options.message.message,
     );
+
     return next(new AppError(options.statusCode, options.message.message));
   },
   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers

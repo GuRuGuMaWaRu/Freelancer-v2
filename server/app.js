@@ -1,29 +1,47 @@
+const path = require("path");
 const dotenv = require("dotenv");
 const express = require("express");
-const morgan = require("morgan");
-const path = require("path");
 const cors = require("cors");
 const helmet = require("helmet");
 const compression = require("compression");
 const mongoose = require("mongoose");
+const pinoHttp = require("pino-http");
 
 const AppError = require("./utils/appError");
-const { logger } = require("./middleware/logger");
 const errorHandler = require("./middleware/errorHandler");
 const corsOptions = require("./config/corsOptions");
 const { clientRouter, projectRouter, userRouter } = require("./resources");
 
+// Load env before logger so LOG_LEVEL from .env.server applies
 if (process.env.NODE_ENV !== "production") {
   dotenv.config({ path: path.join(__dirname, "../.env.server") });
 }
+
+const logger = require("./utils/logger");
 
 // Connect to mongo DB
 require("./db");
 
 const app = express();
 
-// Logger
-app.use(logger);
+// Structured request logging
+app.use(
+  pinoHttp({
+    logger,
+    autoLogging: process.env.NODE_ENV !== "test",
+    customLogLevel(req, res, err) {
+      if (res.statusCode >= 500 || err) {
+        return "error";
+      }
+
+      if (res.statusCode >= 400) {
+        return "warn";
+      }
+
+      return "info";
+    },
+  }),
+);
 
 // Secure HTTP headers
 app.use(
@@ -40,11 +58,6 @@ app.use(
     },
   }),
 );
-
-// Development logging
-if (process.env.NODE_ENV !== "production") {
-  app.use(morgan("dev"));
-}
 
 // Compress text data
 app.use(compression());
@@ -92,7 +105,7 @@ const PORT = process.env.PORT || 6000;
 if (process.env.NODE_ENV !== "test") {
   mongoose.connection.once("open", () => {
     app.listen(PORT, () =>
-      console.log(`Server is listening on port ${PORT}...`),
+      logger.info(`Server is listening on port ${PORT}...`),
     );
   });
 }

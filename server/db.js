@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
-const { logEvents } = require("./middleware/logger");
+
+const logger = require("./utils/logger");
 
 if (process.env.NODE_ENV !== "test") {
   const useDevDb =
@@ -11,26 +12,27 @@ if (process.env.NODE_ENV !== "test") {
   //** Disable autoIndex in production so as not to slow down the server */
   const autoIndex = useDevDb ? true : false;
 
-  console.log(`Database target: ${useDevDb ? "development" : "main"}`);
+  logger.info(`Database target: ${useDevDb ? "development" : "main"}`);
 
   mongoose.set("strictQuery", false);
 
   mongoose
     .connect(address, { autoIndex })
-    // eslint-disable-next-line
-    .then(() => console.log("Connection to database is established"))
-    // eslint-disable-next-line
+    .then(() => logger.info("Connection to database is established"))
     .catch((err) => {
-      console.error(err);
-      console.log(`Connection error: ${err.reason}`);
+      logger.error({ err }, `Connection error: ${err.reason}`);
     });
 
-  // eslint-disable-next-line
   mongoose.connection.on("error", (err) => {
-    console.log(err);
-    logEvents(
-      `${err.no}: ${err.code}\t${err.syscall}\t${err.hostname}`,
-      "mongoErrLog.log",
+    logger.error(
+      {
+        err,
+        no: err.no,
+        code: err.code,
+        syscall: err.syscall,
+        hostname: err.hostname,
+      },
+      "MongoDB connection error",
     );
   });
 }
