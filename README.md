@@ -103,7 +103,7 @@ Run from the repository root:
 | `npm start` | Run Express in production mode (requires `NODE_ENV=production` from deploy config; serves `client/build`; build the client first) |
 | `npm run client` | Start frontend only (CRA dev server) |
 | `npm run server:dev` | Start backend only (development, with watch) |
-| `npm run server:prod` | Start backend only with watch (`USE_PROD_DB=true` → `DB_MAIN`) |
+| `npm run server:prod` | Start backend only with watch (`NODE_ENV=development`, `USE_PROD_DB=true` → `DB_MAIN`) |
 | `npm run server:test` | Server integration tests (requires MongoDB) |
 | `npm run client:test` | Client unit tests with coverage |
 | `npm run validate` | Typecheck, format check, and lint in parallel |

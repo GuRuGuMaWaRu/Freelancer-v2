@@ -9,7 +9,7 @@
     "client:install": "npm install --prefix client",
     "server:install": "npm install --prefix server",
     "client:test": "npm test --prefix client -- --coverage",
-    "server:prod": "cross-env USE_PROD_DB=true node --watch server/app.js",
+    "server:prod": "cross-env NODE_ENV=development USE_PROD_DB=true node --watch server/app.js",
     "server:dev": "cross-env NODE_ENV=development node --watch server/app.js",
     "server:test": "cross-env NODE_ENV=test mocha --file server/test/test-helpers.js server/test/**/*.test.js",
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx .",
