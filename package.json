@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "prod": "concurrently \"npm run server:prod\" \"npm run client\"",
-    "start": "cross-env NODE_ENV=production node server/app.js",
+    "start": "node server/app.js",
     "dev": "concurrently \"npm run server:dev\" \"npm run client\"",
     "client": "npm start --prefix client",
     "client:install": "npm install --prefix client",
