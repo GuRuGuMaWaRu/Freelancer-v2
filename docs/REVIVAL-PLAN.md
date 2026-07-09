@@ -312,7 +312,9 @@ pino-pretty; server/utils/logger.js (pretty in dev, JSON in prod, level error in
 test); pino-http replaces morgan + middleware/logger file writes; errorHandler
 logs 5xx as error and skips operational 4xx; loginLimiter + db use logger;
 removed morgan, date-fns, uuid (were only used by old file logger).
-LOG_LEVEL documented in server/.env.example. Server tests: 15/15 passing.
+LOG_LEVEL documented in server/.env.example. Request logs compacted (method/url/
+status/responseTime); 2xx at info (compact); ignore OPTIONS/favicon/static; default
+LOG_LEVEL=info. Server tests: 15/15 passing.
 ```
 
 ---

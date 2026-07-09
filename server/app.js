@@ -24,11 +24,21 @@ require("./db");
 
 const app = express();
 
-// Structured request logging
+// Structured request logging — compact fields at INFO (no full req/res dumps)
 app.use(
   pinoHttp({
     logger,
-    autoLogging: process.env.NODE_ENV !== "test",
+    quietReqLogger: true,
+    quietResLogger: true,
+    autoLogging:
+      process.env.NODE_ENV === "test"
+        ? false
+        : {
+            ignore: (req) =>
+              req.method === "OPTIONS" ||
+              req.url === "/favicon.ico" ||
+              req.url.startsWith("/static/"),
+          },
     customLogLevel(req, res, err) {
       if (res.statusCode >= 500 || err) {
         return "error";
@@ -39,6 +49,29 @@ app.use(
       }
 
       return "info";
+    },
+    customSuccessObject(req, res, val) {
+      return {
+        method: req.method,
+        url: req.url,
+        statusCode: res.statusCode,
+        responseTime: val.responseTime,
+      };
+    },
+    customErrorObject(req, res, err, val) {
+      return {
+        method: req.method,
+        url: req.url,
+        statusCode: res.statusCode,
+        responseTime: val.responseTime,
+        err,
+      };
+    },
+    customSuccessMessage(req, res) {
+      return `${req.method} ${req.url} ${res.statusCode}`;
+    },
+    customErrorMessage(req, res) {
+      return `${req.method} ${req.url} ${res.statusCode}`;
     },
   }),
 );
