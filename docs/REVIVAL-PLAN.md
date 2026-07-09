@@ -147,8 +147,8 @@ flowchart TD
 
 | Phase | Goal | Status |
 |-------|------|--------|
-| **0** | Make it run, fix critical bugs, quick wins | Ready for merge |
-| **1** | Pino logging, CRA → Vite, server TS, shared types, CI | Not started |
+| **0** | Make it run, fix critical bugs, quick wins | Complete |
+| **1** | Pino logging, CRA → Vite, server TS, shared types, CI | In progress (1.0) |
 | **2** | Complete core product features from README | Not started |
 | **3** | Path decision; default: stay on stabilize — optional Next.js / TanStack Start / NestJS migration | Deferred |
 
@@ -197,9 +197,9 @@ flowchart TD
 
 - [x] Manual smoke test: login → dashboard (both charts) → add project → projects list → clients page
 - [x] README refactored to production quality; historical TODOs moved to `docs/BACKLOG.md`
-- [ ] Phase 0 PR merged / tagged
+- [x] Phase 0 PR merged / tagged
 
-**Phase 0 status:** `Ready for merge`
+**Phase 0 status:** `Complete`
 
 **Notes:**
 
@@ -244,14 +244,14 @@ fixed (69/69 client tests, 15/15 server tests).
 
 ### 1.0 Structured logging (Pino) *(do first in Phase 1)*
 
-- [ ] Add `pino`, `pino-http`, and `pino-pretty` (dev) to `server/package.json`
-- [ ] Create `server/utils/logger.js` (or `logger.ts` if TS conversion starts here): JSON in production, pretty-print in development
-- [ ] Replace `console.log(err.stack)` in `errorHandler` — log 5xx as `error`, 4xx as `warn` or skip; no stack dumps for expected validation errors in tests
-- [ ] Replace or supplement `morgan` with `pino-http` for request logging (method, url, status, response time)
-- [ ] Migrate or retire custom `logEvents` / `server/logs/*.log` file writes — route through Pino (file transport optional)
-- [ ] Quiet logging when `NODE_ENV=test` (keep Mocha output readable; still log unexpected 5xx)
-- [ ] Add `LOG_LEVEL` to `server/.env.example` (e.g. `info` in prod, `debug` locally)
-- [ ] Verify server tests still pass with no noisy expected-error stacks
+- [x] Add `pino`, `pino-http`, and `pino-pretty` (dev) to `server/package.json`
+- [x] Create `server/utils/logger.js` (or `logger.ts` if TS conversion starts here): JSON in production, pretty-print in development
+- [x] Replace `console.log(err.stack)` in `errorHandler` — log 5xx as `error`, 4xx as `warn` or skip; no stack dumps for expected validation errors in tests
+- [x] Replace or supplement `morgan` with `pino-http` for request logging (method, url, status, response time)
+- [x] Migrate or retire custom `logEvents` / `server/logs/*.log` file writes — route through Pino (file transport optional)
+- [x] Quiet logging when `NODE_ENV=test` (keep Mocha output readable; still log unexpected 5xx)
+- [x] Add `LOG_LEVEL` to `server/.env.example` (e.g. `info` in prod, `debug` locally)
+- [x] Verify server tests still pass with no noisy expected-error stacks
 
 ### 1.1 CRA → Vite migration
 
@@ -302,12 +302,17 @@ fixed (69/69 client tests, 15/15 server tests).
 - [ ] Heroku / hosting config updated for Vite output path if applicable
 - [ ] Phase 1 PR merged / tagged
 
-**Phase 1 status:** `Not started` | `In progress` | `Complete`
+**Phase 1 status:** `In progress`
 
 **Notes:**
 
 ```
-(add progress notes, blockers, decisions here)
+Phase 1.0 (branch revival/phase-1-0-pino-logging): added pino + pino-http +
+pino-pretty; server/utils/logger.js (pretty in dev, JSON in prod, level error in
+test); pino-http replaces morgan + middleware/logger file writes; errorHandler
+logs 5xx as error and skips operational 4xx; loginLimiter + db use logger;
+removed morgan, date-fns, uuid (were only used by old file logger).
+LOG_LEVEL documented in server/.env.example. Server tests: 15/15 passing.
 ```
 
 ---
@@ -466,6 +471,7 @@ Features not in scope for Phases 0–2 but worth tracking:
 
 | Date | Phase | What was done |
 |------|-------|---------------|
+| 2026-07-09 | 1.0 | Pino + pino-http; retire morgan/logEvents file logger; quiet tests |
 | 2026-07-08 | 1.0 | Plan: add Pino structured logging as Phase 1.0 (before migration path decision) |
 | 2026-07-08 | 0.5 | README refactor, BACKLOG.md, automated smoke (server tests + dev boot) |
 | 2026-07-08 | 0.1 | Verified `npm run dev` — server :6000, client :3000, CRA proxy OK |
