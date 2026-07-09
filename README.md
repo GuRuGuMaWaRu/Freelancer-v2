@@ -100,7 +100,7 @@ Run from the repository root:
 |---------|-------------|
 | `npm run dev` | Start CRA dev server and Express with watch mode (`NODE_ENV=development`) |
 | `npm run prod` | Dev convenience: CRA dev server + Express with watch (`USE_PROD_DB=true` → `DB_MAIN`; dev app behavior) |
-| `npm start` | Run Express in production mode (sets `NODE_ENV=production`; serves `client/build`; build the client first) |
+| `npm start` | Run Express in production mode (requires `NODE_ENV=production` from deploy config; serves `client/build`; build the client first) |
 | `npm run client` | Start frontend only (CRA dev server) |
 | `npm run server:dev` | Start backend only (development, with watch) |
 | `npm run server:prod` | Start backend only with watch (`USE_PROD_DB=true` → `DB_MAIN`) |
