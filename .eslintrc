@@ -17,7 +17,7 @@
   // plugins: ["prettier", "jest"],
   "rules": {
     "strict": ["error", "never"],
-    "no-unused-vars": ["error", { "argsIgnorePattern": "req|res|next|val" }],
+    "no-unused-vars": ["error", { "argsIgnorePattern": "^_|req|res|next|val" }],
     // "promise/catch-or-return": "error",
     // "prettier/prettier": [
     //   "error",
@@ -60,7 +60,14 @@
         "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended",
         "eslint-config-prettier/@typescript-eslint"
-      ]
+      ],
+      "rules": {
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": [
+          "error",
+          { "argsIgnorePattern": "^_" }
+        ]
+      }
     },
     {
       "files": "**/*.+(ts|tsx)",
