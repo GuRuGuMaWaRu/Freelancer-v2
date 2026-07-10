@@ -3,7 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
 import { FaSortUp, FaSortDown, FaPen, FaRegTrashAlt } from "react-icons/fa";
 
-import { FullPageSpinner, Modal, MemoPagination } from "shared/ui";
+import { FullPageSpinner } from "shared/ui/FullPageSpinner/FullPageSpinner";
+import { Modal } from "shared/ui/Modal";
+import { MemoPagination } from "shared/ui/Pagination/Pagination";
 import { config } from "shared/const";
 import { getAllClientsQuery } from "entities/clients";
 import {
@@ -11,7 +13,7 @@ import {
   AddEditProjectForm,
   ProjectListItem,
   ModalAddProject,
-  getProjectsPageQuery,
+  getProjectsPageQuery
 } from "entities/projects";
 import { SearchInput } from "widgets";
 
@@ -22,7 +24,7 @@ import styles from "./projects.module.css";
 const capitalizeItem = (item: string): string =>
   item
     .split(" ")
-    .map((item) => item.slice(0, 1).toUpperCase() + item.slice(1))
+    .map(item => item.slice(0, 1).toUpperCase() + item.slice(1))
     .join(" ");
 
 function Projects() {
@@ -32,15 +34,13 @@ function Projects() {
   const [searchQuery, setSearchQuery] = React.useState<string>("");
 
   const { data: clients = [] } = useQuery(getAllClientsQuery());
-  const {
-    isFetching,
-    isLoading,
-    data: projects,
-  } = useQuery(getProjectsPageQuery(page, sortColumn, searchQuery));
+  const { isFetching, isLoading, data: projects } = useQuery(
+    getProjectsPageQuery(page, sortColumn, searchQuery)
+  );
 
   const handleSort = (columnName: string) => {
     setSortColumn(`${sortDir}${columnName}`); //** TODO: don't really like how it is done with two states (sortColumn and sortDir) */
-    setSortDir((prevDir) => (prevDir === "" ? "-" : ""));
+    setSortDir(prevDir => (prevDir === "" ? "-" : ""));
   };
 
   const handleSearch = (input: string) => {
@@ -68,13 +68,13 @@ function Projects() {
               </div>
             ) : (
               <div className={styles.table}>
-                {columns.map((column) => (
+                {columns.map(column => (
                   <div
                     key={column.name}
                     className={clsx(styles.tableHeader, {
                       [styles.headerSortable]: column.sortName,
                       [styles.headerDate]: column.name === "date",
-                      [styles.headerComments]: column.name === "comments",
+                      [styles.headerComments]: column.name === "comments"
                     })}
                     onClick={
                       column.sortName
@@ -92,7 +92,7 @@ function Projects() {
                   </div>
                 ))}
 
-                {projects?.docs?.map((project) => (
+                {projects?.docs?.map(project => (
                   <ProjectListItem key={project._id} project={project}>
                     {/** TODO: check if the whole Modal + AddEditProjectForm can be extracted into a separate component */}
                     <Modal

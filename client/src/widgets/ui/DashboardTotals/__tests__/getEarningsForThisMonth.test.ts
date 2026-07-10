@@ -10,20 +10,20 @@ describe("getEarningsForThisMonth", () => {
         id: `${year}-${month}`,
         date: new Date(),
         payment: 100000,
-        projects: 10,
+        projects: 10
       },
       {
         id: "2020-02",
         date: new Date(),
         payment: 200000,
-        projects: 20,
+        projects: 20
       },
       {
         id: "2020-03",
         date: new Date(),
         payment: 300000,
-        projects: 30,
-      },
+        projects: 30
+      }
     ];
 
     expect(getEarningsForThisMonth(earnings)).toEqual("100");
@@ -39,20 +39,20 @@ describe("getEarningsForThisMonth", () => {
         id: "2023-05",
         date: new Date(),
         payment: 100000,
-        projects: 10,
+        projects: 10
       },
       {
         id: "2023-02",
         date: new Date(),
         payment: 200000,
-        projects: 20,
+        projects: 20
       },
       {
         id: "2023-03",
         date: new Date(),
         payment: 300000,
-        projects: 30,
-      },
+        projects: 30
+      }
     ];
 
     expect(getEarningsForThisMonth(earnings)).toEqual("0");
@@ -67,20 +67,20 @@ describe("getEarningsForThisMonth", () => {
         id: `${year}-${month}`,
         date: new Date(),
         payment: 200120,
-        projects: 10,
+        projects: 10
       },
       {
         id: `${year}-02`,
         date: new Date(),
         payment: 200230,
-        projects: 20,
+        projects: 20
       },
       {
         id: `${year}-03`,
         date: new Date(),
         payment: 200330,
-        projects: 30,
-      },
+        projects: 30
+      }
     ];
 
     expect(getEarningsForThisMonth(earnings)).toEqual("200.12");

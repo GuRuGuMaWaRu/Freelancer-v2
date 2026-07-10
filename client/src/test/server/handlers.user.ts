@@ -5,8 +5,10 @@ import { getUser, addUser, getUserByToken } from "./users";
 
 export const userHandlers = [
   rest.post(`${config.API_URL}/users/login`, async (req, res, ctx) => {
-    const { email, password }: { email: string; password: string } =
-      await req.json();
+    const {
+      email,
+      password
+    }: { email: string; password: string } = await req.json();
     const user = getUser(email, password);
 
     if (!user) {
@@ -26,7 +28,7 @@ export const userHandlers = [
     const {
       name,
       email,
-      password,
+      password
     }: {
       name: string;
       email: string;
@@ -61,7 +63,7 @@ export const userHandlers = [
       return res(
         ctx.status(403),
         ctx.json({
-          errorMessage: "Not authorized",
+          errorMessage: "Not authorized"
         })
       );
     }
@@ -72,8 +74,8 @@ export const userHandlers = [
       ctx.status(200),
       ctx.json({
         status: "success",
-        data: user,
+        data: user
       })
     );
-  }),
+  })
 ];

@@ -1,15 +1,17 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import ResizeObserverPolyfill from "resize-observer-polyfill";
+import { type Mock, vi } from "vitest";
 
 import { config } from "shared/const";
 import { ChartSection } from "../ChartSection";
 import { getMaxLabelLength } from "features/charts/lib";
 
-global.ResizeObserver = require("resize-observer-polyfill");
-jest.mock("features/charts/lib");
+global.ResizeObserver = ResizeObserverPolyfill;
+vi.mock("features/charts/lib");
 
 describe("ChartSection", () => {
-  const mockGetMaxLabelLength = getMaxLabelLength as jest.Mock;
+  const mockGetMaxLabelLength = getMaxLabelLength as Mock;
 
   const clientChartData = [
     {
@@ -43,7 +45,7 @@ describe("ChartSection", () => {
 
   const defaultChartProps = {
     chartRange: config.DEFAULT_CHART_RANGE,
-    onChartRangeChange: jest.fn(),
+    onChartRangeChange: vi.fn(),
   };
 
   it("should render", () => {

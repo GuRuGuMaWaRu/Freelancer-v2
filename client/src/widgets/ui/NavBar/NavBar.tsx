@@ -6,7 +6,7 @@ import styles from "./NavBar.module.css";
 const navLinks = [
   { to: "/", name: "Main" },
   { to: "/projects", name: "Projects" },
-  { to: "/clients", name: "Clients" },
+  { to: "/clients", name: "Clients" }
 ];
 
 function NavBar() {

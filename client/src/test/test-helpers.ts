@@ -2,20 +2,20 @@ import {
   render as rtlRender,
   screen,
   waitForElementToBeRemoved,
-  RenderOptions,
+  RenderOptions
 } from "@testing-library/react";
 import React from "react";
 import { AppProviders } from "app";
 
 async function render(
   ui: React.ReactElement,
-  renderOptions: RenderOptions = {},
+  renderOptions: RenderOptions = {}
 ) {
   const returnValue = {
     ...rtlRender(ui, {
       wrapper: AppProviders,
-      ...renderOptions,
-    }),
+      ...renderOptions
+    })
   };
 
   await waitForLoadingToFinish();
@@ -26,7 +26,7 @@ async function render(
 const waitForLoadingToFinish = async () => {
   const getLoading = () => [
     ...screen.queryAllByLabelText(/loading/i),
-    ...screen.queryAllByText(/loading/i),
+    ...screen.queryAllByText(/loading/i)
   ];
 
   const loadingElements = getLoading();

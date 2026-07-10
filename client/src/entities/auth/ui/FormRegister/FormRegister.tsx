@@ -27,16 +27,16 @@ const formSchema = yup.object().shape({
   confirmPassword: yup
     .string()
     .required("Please confirm your password")
-    .oneOf([yup.ref("password")], "Passwords do not match"),
+    .oneOf([yup.ref("password")], "Passwords do not match")
 });
 
 const RegisterForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors }
   } = useForm<IRegisterFormInputs>({
-    resolver: yupResolver(formSchema),
+    resolver: yupResolver(formSchema)
   });
   const { run, isLoading, isError, error } = useAsync<
     IResponseUserData,
@@ -44,8 +44,8 @@ const RegisterForm = () => {
   >();
   const notify = useNotification();
   const { signup } = useAuth();
-  const submit: SubmitHandler<IRegisterFormInputs> = (data) => {
-    run(signup(data)).catch((error) => console.error(error));
+  const submit: SubmitHandler<IRegisterFormInputs> = data => {
+    run(signup(data)).catch(error => console.error(error));
   };
 
   React.useEffect(() => {

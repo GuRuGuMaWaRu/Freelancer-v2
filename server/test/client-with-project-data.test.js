@@ -74,7 +74,10 @@ describe("Client withProjectData", () => {
 
     assert.strictEqual(otherUserResponse.body.results, 1);
     assert.strictEqual(otherUserResponse.body.data.length, 1);
-    assert.strictEqual(otherUserResponse.body.data[0].name, "Other User Client");
+    assert.strictEqual(
+      otherUserResponse.body.data[0].name,
+      "Other User Client",
+    );
     assert.strictEqual(otherUserResponse.body.data[0].totalEarnings, 500);
   });
 });

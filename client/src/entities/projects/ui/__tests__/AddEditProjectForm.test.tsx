@@ -8,7 +8,7 @@ import { AddEditProjectForm } from "../AddEditProjectForm/AddEditProjectForm";
 function setup(jsx: React.ReactElement) {
   return {
     user: userEvent.setup(),
-    ...render(jsx),
+    ...render(jsx)
   };
 }
 
@@ -17,7 +17,7 @@ describe("AddEditProjectForm", () => {
     const clients = [
       { _id: "1", name: "test client 1" },
       { _id: "2", name: "test client 2" },
-      { _id: "3", name: "test client 3" },
+      { _id: "3", name: "test client 3" }
     ];
 
     return <AddEditProjectForm clients={clients} />;
@@ -26,13 +26,13 @@ describe("AddEditProjectForm", () => {
   const routes = [
     {
       path: "/add-project-form",
-      element: <Wrapper />,
-    },
+      element: <Wrapper />
+    }
   ];
 
   const router = createMemoryRouter(routes, {
     initialEntries: ["/", "/add-project-form"],
-    initialIndex: 1,
+    initialIndex: 1
   });
 
   it("should render", () => {
@@ -40,19 +40,19 @@ describe("AddEditProjectForm", () => {
 
     expect(screen.getByLabelText("Date")).toBeInTheDocument();
     expect(
-      screen.getByRole("combobox", { name: /^client$/i }),
+      screen.getByRole("combobox", { name: /^client$/i })
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("textbox", { name: /^project nr$/i }),
+      screen.getByRole("textbox", { name: /^project nr$/i })
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("combobox", { name: /^currency$/i }),
+      screen.getByRole("combobox", { name: /^currency$/i })
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("spinbutton", { name: /^payment$/i }),
+      screen.getByRole("spinbutton", { name: /^payment$/i })
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("textbox", { name: /^comments$/i }),
+      screen.getByRole("textbox", { name: /^comments$/i })
     ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /^add$/i })).toBeInTheDocument();
   });
@@ -76,7 +76,7 @@ describe("AddEditProjectForm", () => {
 
     expect(await screen.findAllByRole("alert")).toHaveLength(1);
     expect(screen.getByRole("alert").textContent).toMatchInlineSnapshot(
-      `"You must specify a date"`,
+      `"You must specify a date"`
     );
   });
 
@@ -89,7 +89,7 @@ describe("AddEditProjectForm", () => {
 
     expect(await screen.findAllByRole("alert")).toHaveLength(1);
     expect(screen.getByRole("alert").textContent).toMatchInlineSnapshot(
-      `"You must specify a client"`,
+      `"You must specify a client"`
     );
   });
 
@@ -102,7 +102,7 @@ describe("AddEditProjectForm", () => {
 
     expect(await screen.findAllByRole("alert")).toHaveLength(1);
     expect(screen.getByRole("alert").textContent).toMatchInlineSnapshot(
-      `"You must specify a project number"`,
+      `"You must specify a project number"`
     );
   });
 
@@ -117,7 +117,7 @@ describe("AddEditProjectForm", () => {
 
     expect(await screen.findAllByRole("alert")).toHaveLength(1);
     expect(screen.getByRole("alert").textContent).toMatchInlineSnapshot(
-      `"You must specify a number"`,
+      `"You must specify a number"`
     );
   });
 
@@ -132,7 +132,7 @@ describe("AddEditProjectForm", () => {
 
     expect(await screen.findAllByRole("alert")).toHaveLength(1);
     expect(screen.getByRole("alert").textContent).toMatchInlineSnapshot(
-      `"Can't be longer than 200 characters"`,
+      `"Can't be longer than 200 characters"`
     );
   });
 });

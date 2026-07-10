@@ -17,12 +17,12 @@ This app tracks freelance earnings per month, per year, and per client. Revival 
 
 | Area | Status |
 |------|--------|
-| Frontend | React 18 + CRA (`react-scripts`), strict TypeScript, FSD-ish layout |
+| Frontend | React 18 + Vite, strict TypeScript, FSD-ish layout |
 | Backend | Express 4, Mongoose 6, JWT auth, ~15 API routes (plain JavaScript) |
 | Data | MongoDB — Users, Clients, Projects (soft delete) |
 | Tests | ~20 client tests, 15 server integration tests |
 | CI | GitHub Actions (lint, typecheck, tests) + CodeQL |
-| Deploy | Heroku-style monolith (Express serves CRA build in production) |
+| Deploy | Heroku-style monolith (Express serves Vite build in production) |
 
 ### What already works
 
@@ -148,7 +148,7 @@ flowchart TD
 | Phase | Goal | Status |
 |-------|------|--------|
 | **0** | Make it run, fix critical bugs, quick wins | Complete |
-| **1** | Pino logging, CRA → Vite, server TS, shared types, CI | In progress (1.0) |
+| **1** | Pino logging, CRA → Vite, server TS, shared types, CI | In progress (1.1) |
 | **2** | Complete core product features from README | Not started |
 | **3** | Path decision; default: stay on stabilize — optional Next.js / TanStack Start / NestJS migration | Deferred |
 
@@ -255,15 +255,15 @@ fixed (69/69 client tests, 15/15 server tests).
 
 ### 1.1 CRA → Vite migration
 
-- [ ] Scaffold Vite config (`vite.config.ts`) with path aliases matching `client/tsconfig` `baseUrl`
-- [ ] Move `public/` and `index.html` to Vite conventions
-- [ ] Replace `react-scripts` scripts with `vite`, `vite build`, `vitest`
-- [ ] Configure dev proxy to Express (`localhost:5000` / `6000`)
-- [ ] Port Jest tests to Vitest (or keep Jest temporarily behind adapter)
-- [ ] Port MSW setup for Vitest
-- [ ] Verify HMR, production build, and static asset paths
-- [ ] Update root `package.json` scripts (`client`, `dev`, `client:test`)
-- [ ] Remove `react-scripts` and CRA-specific deps
+- [x] Scaffold Vite config (`vite.config.ts`) with path aliases matching `client/tsconfig` `baseUrl`
+- [x] Move `public/` and `index.html` to Vite conventions
+- [x] Replace `react-scripts` scripts with `vite`, `vite build`, `vitest`
+- [x] Configure dev proxy to Express (`localhost:6040` default; legacy `5000` / `6000`)
+- [x] Port Jest tests to Vitest (or keep Jest temporarily behind adapter)
+- [x] Port MSW setup for Vitest
+- [x] Verify HMR, production build, and static asset paths
+- [x] Update root `package.json` scripts (`client`, `dev`, `client:test`)
+- [x] Remove `react-scripts` and CRA-specific deps
 
 ### 1.2 Server TypeScript (incremental)
 
@@ -305,6 +305,12 @@ fixed (69/69 client tests, 15/15 server tests).
 **Phase 1 status:** `In progress`
 
 **Notes:**
+
+```text
+Phase 1.1 (branch revival/phase-1-1-vite-migration): Vite + @vitejs/plugin-react +
+vite-tsconfig-paths; index.html at client root; Vitest + jsdom + MSW; proxy /api →
+:6040 (default; 6000 blocked on Windows); production output client/dist; removed react-scripts and CRA deps.
+```
 
 ```text
 Phase 1.0 (branch revival/phase-1-0-pino-logging): added pino + pino-http +
@@ -473,8 +479,8 @@ Features not in scope for Phases 0–2 but worth tracking:
 
 | Date | Phase | What was done |
 |------|-------|---------------|
+| 2026-07-10 | 1.1 | CRA → Vite: vite.config.ts, Vitest, proxy, dist output path |
 | 2026-07-09 | 1.0 | Pino + pino-http; retire morgan/logEvents file logger; quiet tests |
-| 2026-07-08 | 1.0 | Plan: add Pino structured logging as Phase 1.0 (before migration path decision) |
 | 2026-07-08 | 0.5 | README refactor, BACKLOG.md, automated smoke (server tests + dev boot) |
 | 2026-07-08 | 0.1 | Verified `npm run dev` — server :6000, client :3000, CRA proxy OK |
 | 2026-07-08 | 0.4 | forChart server tests, GitHub Actions CI, test/ESLint fixes |

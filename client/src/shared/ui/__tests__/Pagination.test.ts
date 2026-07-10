@@ -42,7 +42,7 @@ describe("getPaginationData", () => {
     for (let i = 0; i < totalPages.length; i++) {
       const pages = getPaginationData(currentPage, totalPages[i]);
       const expectedPages = Array.from({ length: pages.length }, (_, idx) => ({
-        page: idx + 1,
+        page: idx + 1
       }));
 
       expect(pages).toEqual(expectedPages);
@@ -60,7 +60,7 @@ describe("getPaginationData", () => {
         { page: 6 },
         { page: 7 },
         { page: 8, isSpread: true },
-        { page: 10 },
+        { page: 10 }
       ]);
 
       expect(getPaginationData(3, 13)).toEqual([
@@ -72,7 +72,7 @@ describe("getPaginationData", () => {
         { page: 6 },
         { page: 7 },
         { page: 8, isSpread: true },
-        { page: 13 },
+        { page: 13 }
       ]);
     });
 
@@ -86,7 +86,7 @@ describe("getPaginationData", () => {
         { page: 7 },
         { page: 8 },
         { page: 9, isSpread: true },
-        { page: 77 },
+        { page: 77 }
       ]);
 
       expect(getPaginationData(66, 177)).toEqual([
@@ -98,7 +98,7 @@ describe("getPaginationData", () => {
         { page: 67 },
         { page: 68 },
         { page: 69, isSpread: true },
-        { page: 177 },
+        { page: 177 }
       ]);
 
       expect(getPaginationData(372, 377)).toEqual([
@@ -110,7 +110,7 @@ describe("getPaginationData", () => {
         { page: 373 },
         { page: 374 },
         { page: 375, isSpread: true },
-        { page: 377 },
+        { page: 377 }
       ]);
     });
 
@@ -124,7 +124,7 @@ describe("getPaginationData", () => {
         { page: 74 },
         { page: 75 },
         { page: 76 },
-        { page: 77 },
+        { page: 77 }
       ]);
 
       expect(getPaginationData(177, 177)).toEqual([
@@ -136,7 +136,7 @@ describe("getPaginationData", () => {
         { page: 174 },
         { page: 175 },
         { page: 176 },
-        { page: 177 },
+        { page: 177 }
       ]);
 
       expect(getPaginationData(374, 377)).toEqual([
@@ -148,7 +148,7 @@ describe("getPaginationData", () => {
         { page: 374 },
         { page: 375 },
         { page: 376 },
-        { page: 377 },
+        { page: 377 }
       ]);
     });
   });

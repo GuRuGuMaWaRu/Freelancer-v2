@@ -3,25 +3,22 @@ import VisuallyHidden from "@reach/visually-hidden";
 import { animated, useTransition } from "react-spring";
 import {
   DialogContent as ReachDialogContent,
-  DialogOverlay,
+  DialogOverlay
 } from "@reach/dialog";
-
-import { useGetColorFromPath } from "widgets/lib/hooks"; // TODO: this feature is not implemented yet
 
 import { useModal, ModalProvider } from "./Modal.context";
 import { colors } from "../../const";
 import modalStyles from "./Modal.module.css";
 
-const callAll =
-  (...fns: Array<(...args: unknown[]) => void>) =>
-  (...args: unknown[]): void =>
-    fns.forEach((fn) => fn && fn(...args));
+const callAll = (...fns: Array<(...args: unknown[]) => void>) => (
+  ...args: unknown[]
+): void => fns.forEach(fn => fn && fn(...args));
 
 const ModalOpenButton = ({ children }: { children: React.ReactElement }) => {
   const { setIsOpen } = useModal();
 
   return React.cloneElement(children, {
-    onClick: callAll(() => setIsOpen(true), children.props.onClick),
+    onClick: callAll(() => setIsOpen(true), children.props.onClick)
   });
 };
 
@@ -45,7 +42,7 @@ const ModalContents = ({
     enter: { opacity: 1, y: 0 },
     leave: { opacity: 0, y: 10 },
     reverse: isOpen,
-    delay: 200,
+    delay: 200
   });
 
   return transitions(
@@ -59,9 +56,9 @@ const ModalContents = ({
             className={modalStyles.modalContent}
             style={{
               transform: styles.y.to(
-                (value) => `translate3d(0px, ${value}px, 0px)`
+                value => `translate3d(0px, ${value}px, 0px)`
               ),
-              backgroundColor: bgColor,
+              backgroundColor: bgColor
             }}
             {...props}
           >
@@ -89,7 +86,7 @@ interface ModalProps {
 }
 
 const Modal = ({ title, button, children }: ModalProps) => {
-  // const color = useGetColorFromPath();
+  // TODO: wire useGetColorFromPath when route-based modal BG is implemented (see BACKLOG.md)
   const color = colors.dashboardPageBg;
 
   return (

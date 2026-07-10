@@ -13,7 +13,8 @@ import {
   ILoginFormInputs,
   IRegisterFormInputs,
 } from "shared/types";
-import { FullPageSpinner, FullPageError } from "shared/ui";
+import { FullPageSpinner } from "shared/ui/FullPageSpinner/FullPageSpinner";
+import { FullPageError } from "shared/ui/FullPageError/FullPageError";
 import { config } from "shared/const";
 import { apiClient } from "shared/api";
 import { useAsync } from "shared/lib";

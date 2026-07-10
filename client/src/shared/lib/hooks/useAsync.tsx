@@ -4,7 +4,7 @@ enum Status {
   idle = "idle",
   resolved = "resolved",
   rejected = "rejected",
-  pending = "pending",
+  pending = "pending"
 }
 
 interface IState<D, E> {
@@ -35,13 +35,13 @@ const useSafeDispatch = <D, E>(
 const defaultInitialState = {
   status: Status.idle,
   data: null,
-  error: null,
+  error: null
 };
 
 const useAsync = <D, E>(initialState: IState<D, E> = {}) => {
   const initialStateRef = React.useRef({
     ...defaultInitialState,
-    ...initialState,
+    ...initialState
   });
 
   const [{ status, data, error }, setState] = React.useReducer(
@@ -61,10 +61,9 @@ const useAsync = <D, E>(initialState: IState<D, E> = {}) => {
     [safeSetState]
   );
 
-  const reset = React.useCallback(
-    () => safeSetState(initialStateRef.current),
-    [safeSetState]
-  );
+  const reset = React.useCallback(() => safeSetState(initialStateRef.current), [
+    safeSetState
+  ]);
 
   const run = React.useCallback(
     (promise: Promise<D | null>) => {
@@ -95,7 +94,7 @@ const useAsync = <D, E>(initialState: IState<D, E> = {}) => {
     setError,
     status,
     run,
-    reset,
+    reset
   };
 };
 

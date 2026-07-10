@@ -10,7 +10,7 @@ import {
   projectsDeleteAction,
   projectsEditAction,
   Clients,
-  clientsLoader,
+  clientsLoader
 } from "pages";
 import { queryClient } from "app";
 
@@ -26,35 +26,35 @@ const routes = [
           {
             index: true,
             element: <Dashboard />,
-            loader: dashboardLoader(queryClient),
+            loader: dashboardLoader(queryClient)
           },
           {
             path: "projects",
             element: <Projects />,
-            loader: projectsLoader(queryClient),
+            loader: projectsLoader(queryClient)
           },
           {
             path: "projects/add",
-            action: projectsAddAction(queryClient),
+            action: projectsAddAction(queryClient)
           },
           {
             path: "projects/:projectId/delete",
-            action: projectsDeleteAction(queryClient),
+            action: projectsDeleteAction(queryClient)
           },
           {
             path: "projects/:projectId/update",
-            action: projectsEditAction(queryClient),
+            action: projectsEditAction(queryClient)
           },
           {
             path: "clients",
             element: <Clients />,
-            loader: clientsLoader(queryClient),
+            loader: clientsLoader(queryClient)
           },
-          { path: "*", element: <NotFound /> },
-        ],
-      },
-    ],
-  },
+          { path: "*", element: <NotFound /> }
+        ]
+      }
+    ]
+  }
 ];
 
 export { routes };

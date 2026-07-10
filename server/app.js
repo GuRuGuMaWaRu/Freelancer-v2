@@ -107,7 +107,7 @@ app.use("/api/v1/projects", projectRouter);
 app.use("/api/v1/clients", clientRouter);
 app.use("/api/v1/users", userRouter);
 
-const clientBuildPath = path.join(__dirname, "..", "client", "build");
+const clientBuildPath = path.join(__dirname, "..", "client", "dist");
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(clientBuildPath));
@@ -133,13 +133,25 @@ app.all("*", (req, res, next) => {
 app.use(errorHandler);
 
 // Connect to server (skip in test so supertest can use the app without binding to a port)
-const PORT = process.env.PORT || 6000;
+// Default 6040 — port 6000 is in Windows Hyper-V excluded range 5940-6039 (EACCES).
+const PORT = process.env.PORT || 6040;
 
 if (process.env.NODE_ENV !== "test") {
   mongoose.connection.once("open", () => {
-    app.listen(PORT, () =>
+    const server = app.listen(PORT, () =>
       logger.info(`Server is listening on port ${PORT}...`),
     );
+
+    server.on("error", (err) => {
+      if (err.code === "EACCES" || err.code === "EADDRINUSE") {
+        logger.error(
+          { err, port: PORT },
+          `Cannot listen on port ${PORT}. Set PORT in .env.server (avoid 5940-6039 on Windows).`,
+        );
+      }
+
+      throw err;
+    });
   });
 }
 

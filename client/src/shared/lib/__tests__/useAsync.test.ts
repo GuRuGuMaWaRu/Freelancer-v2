@@ -26,28 +26,28 @@ const defaultState = {
   run: expect.any(Function),
   reset: expect.any(Function),
   setData: expect.any(Function),
-  setError: expect.any(Function),
+  setError: expect.any(Function)
 };
 
 const pendingState = {
   ...defaultState,
   status: "pending",
   isIdle: false,
-  isLoading: true,
+  isLoading: true
 };
 
 const resolvedState = {
   ...defaultState,
   status: "resolved",
   isIdle: false,
-  isSuccess: true,
+  isSuccess: true
 };
 
 const rejectedState = {
   ...defaultState,
   status: "rejected",
   isIdle: false,
-  isError: true,
+  isError: true
 };
 
 test("calling run with a promise which resolves", async () => {
@@ -68,7 +68,7 @@ test("calling run with a promise which resolves", async () => {
   });
   expect(result.current).toEqual({
     ...resolvedState,
-    data: resolvedValue,
+    data: resolvedValue
   });
 
   act(() => {
@@ -104,12 +104,12 @@ test("can specify an initial state", () => {
   const mockData = Symbol("resolved value");
   const customInitialState = { status: Status.resolved, data: mockData };
   const { result } = renderHook(() =>
-    useAsync<symbol, unknown>(customInitialState),
+    useAsync<symbol, unknown>(customInitialState)
   );
 
   expect(result.current).toEqual({
     ...resolvedState,
-    ...customInitialState,
+    ...customInitialState
   });
 });
 

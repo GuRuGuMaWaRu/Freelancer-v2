@@ -19,7 +19,7 @@ function getTestUserId() {
   return testUserId;
 }
 
-before(async function () {
+before(async function() {
   this.timeout(10000);
 
   const dbUri = process.env.DB_TEST || process.env.DB_MAIN;
@@ -41,21 +41,16 @@ before(async function () {
   }
 
   testUserId = user._id.toString();
-  authToken = jwt.sign(
-    { id: testUserId },
-    process.env.ACCESS_TOKEN_SECRET,
-    { expiresIn: process.env.JWT_EXPIRES_IN || "7d" },
-  );
+  authToken = jwt.sign({ id: testUserId }, process.env.ACCESS_TOKEN_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN || "7d",
+  });
 });
 
 beforeEach(async () => {
-  await Promise.all([
-    Project.deleteMany().exec(),
-    Client.deleteMany().exec(),
-  ]);
+  await Promise.all([Project.deleteMany().exec(), Client.deleteMany().exec()]);
 });
 
-after(async function () {
+after(async function() {
   this.timeout(10000);
   await mongoose.disconnect();
 });

@@ -1,15 +1,17 @@
 import { render } from "@testing-library/react";
 import { useLocation } from "react-router-dom";
+import { type Mock, vi } from "vitest";
+
 import { toBrowserRgb } from "test/test-helpers";
 import { useChangeBGColor } from "../hooks/useChangeBGColor";
 import { colors } from "../../const";
 
-jest.mock("react-router-dom", () => ({
-  useLocation: jest.fn(),
+vi.mock("react-router-dom", () => ({
+  useLocation: vi.fn(),
 }));
 
 describe("useChangeBGColor", () => {
-  const mockUseLocation = useLocation as jest.Mock;
+  const mockUseLocation = useLocation as Mock;
   const testPathname = "/projects";
 
   beforeEach(() => {
@@ -18,7 +20,7 @@ describe("useChangeBGColor", () => {
   });
 
   afterEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
   });
 
   it("should update the body background color when the pathname changes", () => {

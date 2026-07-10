@@ -109,6 +109,6 @@ jobs:
           npm ci --prefix client
 
       - name: Run client tests
-        run: npm run client:test -- --watchAll=false
+        run: npm run client:test
         env:
           CI: true

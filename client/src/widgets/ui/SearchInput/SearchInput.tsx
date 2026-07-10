@@ -37,7 +37,7 @@ const SearchInput: React.FC<IProps> = ({ onSearch }) => {
         id="search"
         type="search"
         value={searchInput}
-        onChange={(e) => setSearchInput(e.target.value)}
+        onChange={e => setSearchInput(e.target.value)}
       />
       {searchInput.length > 0 && (
         <Tooltip label="Cancel search">

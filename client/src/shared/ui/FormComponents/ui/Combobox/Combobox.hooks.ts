@@ -10,7 +10,7 @@ function useItemMatch<T>(items: T[], term: string) {
     if (throttledTerm.trim() === "") return null;
 
     return matchSorter(items, throttledTerm, {
-      keys: ["name"],
+      keys: ["name"]
     });
   }, [items, throttledTerm]);
 }

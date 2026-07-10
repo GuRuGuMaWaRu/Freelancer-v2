@@ -21,7 +21,7 @@ Track freelance earnings by month, year, and client. A full-stack monolith with 
 
 | Layer | Stack |
 |-------|-------|
-| **Frontend** | React 18, TypeScript (strict), Create React App, React Router 6, TanStack Query, Recharts, React Hook Form + Zod |
+| **Frontend** | React 18, TypeScript (strict), Vite, React Router 6, TanStack Query, Recharts, React Hook Form + Yup |
 | **Backend** | Express 4, Mongoose 6, JWT auth, express-validator |
 | **Data** | MongoDB — Users, Clients, Projects (soft delete) |
 | **Quality** | ESLint, Prettier, Husky, GitHub Actions CI, CodeQL |
@@ -56,9 +56,11 @@ Or use the convenience scripts: `npm run client:install` and `npm run server:ins
 cp server/.env.example .env.server
 ```
 
-Edit `.env.server` if your MongoDB host or credentials differ. Default API port is **6000**, which matches the CRA dev proxy in `client/package.json`.
+Edit `.env.server` if your MongoDB host or credentials differ. Default API port is **6040**, which matches `VITE_API_PORT` in `client/.env.development` and the Vite proxy.
 
-If you have an existing `.env.server` with `PORT=5000`, update it to `6000` (or change the client proxy to match).
+On Windows, port **6000** is often blocked (Hyper-V excluded range 5940–6039). Use **6040** or another free port outside that range.
+
+If you have an existing `.env.server` with `PORT=6000`, change it to `6040` and set `VITE_API_PORT=6040` in `client/.env.development`.
 
 ### 3. Start development servers
 
@@ -69,7 +71,7 @@ npm run dev
 | Service | URL |
 |---------|-----|
 | Frontend | [http://localhost:3000](http://localhost:3000) |
-| API | [http://localhost:6000/api/v1](http://localhost:6000/api/v1) |
+| API | [http://localhost:6040/api/v1](http://localhost:6040/api/v1) |
 
 ### Optional client env
 
@@ -88,7 +90,7 @@ Server configuration lives in `.env.server` at the repo root (see `server/.env.e
 | `DB_TEST` | Tests | Test database URI (used by Mocha) |
 | `ACCESS_TOKEN_SECRET` | Yes | JWT signing secret — use a long random string |
 | `JWT_EXPIRES_IN` | No | Token lifetime (default `7d`) |
-| `PORT` | No | Express listen port (default `6000`) |
+| `PORT` | No | Express listen port (default `6040`; avoid `5940–6039` on Windows) |
 
 ---
 
@@ -98,10 +100,10 @@ Run from the repository root:
 
 | Command | Description |
 |---------|-------------|
-| `npm run dev` | Start CRA dev server and Express with watch mode (`NODE_ENV=development`) |
-| `npm run prod` | Dev convenience: CRA dev server + Express with watch (`USE_PROD_DB=true` → `DB_MAIN`; dev app behavior) |
-| `npm start` | Run Express in production mode (requires `NODE_ENV=production` from deploy config; serves `client/build`; build the client first) |
-| `npm run client` | Start frontend only (CRA dev server) |
+| `npm run dev` | Start Vite dev server and Express with watch mode (`NODE_ENV=development`) |
+| `npm run prod` | Dev convenience: Vite dev server + Express with watch (`USE_PROD_DB=true` → `DB_MAIN`; dev app behavior) |
+| `npm start` | Run Express in production mode (requires `NODE_ENV=production` from deploy config; serves `client/dist`; build the client first) |
+| `npm run client` | Start frontend only (Vite dev server) |
 | `npm run server:dev` | Start backend only (development, with watch) |
 | `npm run server:prod` | Start backend only with watch (`NODE_ENV=development`, `USE_PROD_DB=true` → `DB_MAIN`) |
 | `npm run server:test` | Server integration tests (requires MongoDB) |
@@ -117,7 +119,7 @@ Build the client for production:
 npm run build --prefix client
 ```
 
-In production, Express serves the CRA build from `client/build`.
+In production, Express serves the Vite build from `client/dist`.
 
 ---
 
@@ -129,7 +131,7 @@ In production, Express serves the CRA build from `client/build`.
 npm run server:test
 ```
 
-**Client** — Jest + React Testing Library (+ MSW for API mocking):
+**Client** — Vitest + React Testing Library (+ MSW for API mocking):
 
 ```bash
 npm run client:test
@@ -192,13 +194,13 @@ The app is designed as a **Heroku-style monolith**: Express serves the built Rea
 3. Build the client: `npm run build --prefix client`
 4. Start the server: `npm start` (or `NODE_ENV=production node server/app.js`)
 
-The production static path is `client/build` (see `server/app.js`). Do **not** use `npm run prod` for deployment or production smoke tests — it starts the CRA dev server and does not set `NODE_ENV=production`.
+The production static path is `client/dist` (see `server/app.js`). Do **not** use `npm run prod` for deployment or production smoke tests — it starts the Vite dev server and does not set `NODE_ENV=production`.
 
 ---
 
 ## Roadmap
 
-Active revival work is tracked in [docs/REVIVAL-PLAN.md](docs/REVIVAL-PLAN.md). Phase 0 (quick wins) is complete; next up is **Phase 1** — Pino logging and CRA → Vite migration.
+Active revival work is tracked in [docs/REVIVAL-PLAN.md](docs/REVIVAL-PLAN.md). Phase 0 and Phase 1.0 (Pino) are complete; Phase 1.1 (Vite) is in progress.
 
 Deferred features and historical TODOs live in [docs/BACKLOG.md](docs/BACKLOG.md).
 

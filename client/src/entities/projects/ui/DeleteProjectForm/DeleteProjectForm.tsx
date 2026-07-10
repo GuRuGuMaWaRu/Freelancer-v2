@@ -2,7 +2,7 @@ import { useFetcher } from "react-router-dom";
 
 import { useFormNotifications, useModalForm } from "shared/lib";
 import type { IProject } from "shared/types";
-import { SubmitButton } from "shared/ui";
+import { SubmitButton } from "shared/ui/FormComponents";
 
 import styles from "./DeleteProjectForm.module.css";
 

@@ -1,12 +1,9 @@
 import userEvent from "@testing-library/user-event";
+import { vi } from "vitest";
 
 import { buildUser } from "test/generate";
 import { addUser } from "test/server/users";
-import {
-  render,
-  screen,
-  within,
-} from "test/test-helpers";
+import { render, screen, within } from "test/test-helpers";
 import AppUnauthenticated from "../app-unauthenticated/app-unauthenticated";
 
 async function renderAuthModal(modal = "login") {
@@ -20,7 +17,7 @@ async function renderAuthModal(modal = "login") {
   return { user, inModal };
 }
 
-let mockError = jest.spyOn(console, "error");
+const mockError = vi.spyOn(console, "error");
 
 beforeAll(() => {
   mockError.mockImplementation(() => {});
@@ -129,7 +126,7 @@ test("shows error notification when logging in as a nonexistent user", async () 
 
   expect(console.error).toHaveBeenCalledWith({
     status: "fail",
-    message: "Invalid credentials",
+    message: "Invalid credentials"
   });
   expect(console.error).toHaveBeenCalledTimes(1);
 });
@@ -164,7 +161,7 @@ test("shows error notification when registering an already registered user", asy
 
   expect(console.error).toHaveBeenCalledWith({
     status: "fail",
-    message: "User already exists",
+    message: "User already exists"
   });
   expect(console.error).toHaveBeenCalledTimes(1);
 });

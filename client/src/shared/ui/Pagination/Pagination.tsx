@@ -1,7 +1,7 @@
 import React from "react";
 import {
   MdOutlineArrowBackIos,
-  MdOutlineArrowForwardIos,
+  MdOutlineArrowForwardIos
 } from "react-icons/md";
 import clsx from "clsx";
 
@@ -17,7 +17,7 @@ interface IProps {
 const Pagination: React.FC<IProps> = ({
   currentPage,
   totalPages,
-  setCurrentPage,
+  setCurrentPage
 }) => {
   const paginationData = getPaginationData(currentPage, totalPages);
 
@@ -36,11 +36,11 @@ const Pagination: React.FC<IProps> = ({
       )}
       {/** Render other page buttons */}
       <div className={styles.buttons}>
-        {paginationData.map((item) => (
+        {paginationData.map(item => (
           <button
             key={item.page}
             className={clsx(styles.button, {
-              [styles.currentPage]: currentPage === item.page,
+              [styles.currentPage]: currentPage === item.page
             })}
             onClick={() => setCurrentPage(item.page)}
             aria-label={`Select page ${item.page}`}

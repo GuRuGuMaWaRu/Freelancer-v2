@@ -1,6 +1,7 @@
 node_modules
 server/logs
 client/node_modules
+client/dist
 process.env
 bash.exe.stackdump
 coverage
