@@ -2,7 +2,7 @@ import { config } from "../../shared/const";
 import { buildProject } from "../generate";
 import type { IProject } from "../../shared/types";
 
-let projects: IProject[] = [];
+const projects: IProject[] = [];
 
 // initialize
 // load();

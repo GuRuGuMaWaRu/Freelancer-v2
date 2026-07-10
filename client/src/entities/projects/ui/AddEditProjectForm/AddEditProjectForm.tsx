@@ -42,7 +42,7 @@ function AddEditProjectForm({ project, clients, onCancel }: IProps) {
   useFormNotifications(fetcher.data, isLoading);
 
   const formSubmit: SubmitHandler<IEditProjectForm> = (data) => {
-    let formData = new FormData();
+    const formData = new FormData();
 
     //** Check if there is a new client */
     const existingClient = clients.some(

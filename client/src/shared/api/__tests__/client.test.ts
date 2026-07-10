@@ -8,7 +8,7 @@ import { apiClient } from "shared/api";
 import { config } from "../../const";
 
 describe("RestClient", () => {
-  let previousToken = window.localStorage.getItem(config.LOCAL_STORAGE_KEY);
+  const previousToken = window.localStorage.getItem(config.LOCAL_STORAGE_KEY);
   const token = "test-token";
 
   beforeAll(() => window.localStorage.setItem(config.LOCAL_STORAGE_KEY, token));
