@@ -42,7 +42,7 @@ describe("Project controller", () => {
             .delete(`/api/v1/projects/${project1._id}`)
             .set("Authorization", `Bearer ${getAuthToken()}`)
             .expect(200)
-            .end((err, res) => {
+            .end((err, _res) => {
               if (err) return done(err);
               Project.findOne({ _id: project1._id })
                 .select("+deleted")

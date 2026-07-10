@@ -23,7 +23,7 @@ describe("Project controller", () => {
           .set("Authorization", `Bearer ${getAuthToken()}`)
           .send(data)
           .expect(201)
-          .end((err, res) => {
+          .end((err, _res) => {
             if (err) return done(err);
             Promise.all([Project.countDocuments(), Client.countDocuments()])
               .then((newCounts) => {
@@ -57,7 +57,7 @@ describe("Project controller", () => {
             .set("Authorization", `Bearer ${getAuthToken()}`)
             .send(data)
             .expect(201)
-            .end((err, res) => {
+            .end((err, _res) => {
               if (err) return done(err);
               Promise.all([Project.countDocuments(), Client.countDocuments()])
                 .then((newCounts) => {
