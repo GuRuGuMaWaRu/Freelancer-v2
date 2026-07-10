@@ -7,7 +7,7 @@
   },
   "scripts": {
     "prod": "concurrently \"npm run server:prod\" \"npm run client\"",
-    "start": "tsx server/app.ts",
+    "start": "npm start --prefix server",
     "dev": "concurrently \"npm run server:dev\" \"npm run client\"",
     "client": "npm start --prefix client",
     "client:install": "npm install --prefix client",
