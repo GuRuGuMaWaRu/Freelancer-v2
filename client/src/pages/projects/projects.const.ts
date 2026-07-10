@@ -4,7 +4,7 @@ const columns = [
   { name: "project nr" },
   { name: "payment", sortName: "payment" },
   { name: "comments", sortName: "comments" },
-  { name: "actions" },
+  { name: "actions" }
 ];
 
 export { columns };

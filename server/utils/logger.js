@@ -20,7 +20,8 @@ const logger = pino({
             colorize: true,
             colorizeObjects: false,
             translateTime: "SYS:standard",
-            customColors: "trace:white,debug:cyan,info:green,warn:yellow,error:red,fatal:bgRed",
+            customColors:
+              "trace:white,debug:cyan,info:green,warn:yellow,error:red,fatal:bgRed",
           },
         },
       }),

@@ -4,7 +4,7 @@ const getPaginationData = (
 ): { page: number; isSpread?: boolean }[] => {
   if (totalPages <= 9) {
     return Array.from({ length: totalPages }, (_, index) => ({
-      page: index + 1,
+      page: index + 1
     }));
   }
 
@@ -12,7 +12,7 @@ const getPaginationData = (
     return [
       ...Array.from({ length: 7 }, (_, index) => ({ page: index + 1 })),
       { page: 8, isSpread: true },
-      { page: totalPages },
+      { page: totalPages }
     ];
   }
 
@@ -21,8 +21,8 @@ const getPaginationData = (
       { page: 1 },
       { page: totalPages - 7, isSpread: true },
       ...Array.from({ length: 7 }, (_, index) => ({
-        page: totalPages - index,
-      })).reverse(),
+        page: totalPages - index
+      })).reverse()
     ];
   }
 
@@ -35,7 +35,7 @@ const getPaginationData = (
     { page: currentPage + 1 },
     { page: currentPage + 2 },
     { page: currentPage + 3, isSpread: true },
-    { page: totalPages },
+    { page: totalPages }
   ];
 };
 

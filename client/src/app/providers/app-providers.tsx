@@ -9,9 +9,9 @@ const FIVE_MINUTES_MS = 5 * 60 * 1000;
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: FIVE_MINUTES_MS,
-    },
-  },
+      staleTime: FIVE_MINUTES_MS
+    }
+  }
 });
 
 function AppProviders({ children }: { children: React.ReactNode }) {

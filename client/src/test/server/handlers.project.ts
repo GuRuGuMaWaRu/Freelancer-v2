@@ -6,7 +6,7 @@ import {
   getProjectsForChart,
   addProject,
   updateProject,
-  IProject,
+  IProject
 } from "./projects";
 
 export const projectHandlers = [
@@ -18,7 +18,7 @@ export const projectHandlers = [
       ctx.json({
         status: "success",
         results: projects.length,
-        data: projects,
+        data: projects
       })
     );
   }),
@@ -33,7 +33,7 @@ export const projectHandlers = [
       ctx.json({
         status: "success",
         results: projects.length,
-        data: projects,
+        data: projects
       })
     );
   }),
@@ -46,7 +46,7 @@ export const projectHandlers = [
       ctx.status(200),
       ctx.json({
         status: "success",
-        data: null,
+        data: null
       })
     );
   }),
@@ -59,8 +59,8 @@ export const projectHandlers = [
       ctx.status(201),
       ctx.json({
         status: "success",
-        data: null,
+        data: null
       })
     );
-  }),
+  })
 ];

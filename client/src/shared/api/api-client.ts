@@ -29,12 +29,12 @@ async function client<ResponseType>(
         ? `Bearer ${window.localStorage.getItem(config.LOCAL_STORAGE_KEY)}`
         : "",
       "Content-Type": data ? "application/json" : "",
-      ...customHeaders,
+      ...customHeaders
     },
-    ...customConfig,
+    ...customConfig
   };
 
-  return window.fetch(`/api/v1/${endpoint}`, options).then(async (response) => {
+  return window.fetch(`/api/v1/${endpoint}`, options).then(async response => {
     const data: IResponse<ResponseType> = await response.json();
 
     if (response.ok) {
@@ -53,7 +53,7 @@ const apiClient = {
   patch: <ResponseType>(endpoint: string, config?: IConfig) =>
     client<ResponseType>(endpoint, { ...config, method: "PATCH" }),
   delete: <ResponseType>(endpoint: string, config?: IConfig) =>
-    client<ResponseType>(endpoint, { ...config, method: "DELETE" }),
+    client<ResponseType>(endpoint, { ...config, method: "DELETE" })
 };
 
 export default apiClient;

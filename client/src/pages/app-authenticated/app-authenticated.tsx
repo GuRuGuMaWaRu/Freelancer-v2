@@ -1,6 +1,6 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
-import { FullPageSpinner } from "shared/ui";
+import { FullPageSpinner } from "shared/ui/FullPageSpinner/FullPageSpinner";
 
 import { routes } from "../routes";
 

@@ -11,7 +11,7 @@ import { action as projectsAddAction } from "pages/projects-add/projects-add";
 function setup(jsx: React.ReactElement) {
   return {
     user: userEvent.setup(),
-    ...render(jsx, { wrapper: NotificationProvider }),
+    ...render(jsx, { wrapper: NotificationProvider })
   };
 }
 
@@ -20,7 +20,7 @@ describe.skip("ModalAddProject", () => {
     const clients = [
       { _id: "1", name: "test client 1" },
       { _id: "2", name: "test client 2" },
-      { _id: "3", name: "test client 3" },
+      { _id: "3", name: "test client 3" }
     ];
 
     return <ModalAddProject clients={clients} />;
@@ -29,17 +29,17 @@ describe.skip("ModalAddProject", () => {
   const routes = [
     {
       path: "/add-project-modal",
-      element: <Wrapper />,
+      element: <Wrapper />
     },
     {
       path: "/projects/add",
-      action: projectsAddAction(queryClient),
-    },
+      action: projectsAddAction(queryClient)
+    }
   ];
 
   const router = createMemoryRouter(routes, {
     initialEntries: ["/add-project-modal"],
-    initialIndex: 0,
+    initialIndex: 0
   });
 
   it("should render Add Project Form when 'Add Project' button is clicked", async () => {

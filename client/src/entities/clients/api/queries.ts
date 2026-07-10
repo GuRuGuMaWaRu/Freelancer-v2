@@ -6,7 +6,7 @@ const getAllClientsQuery = () => ({
     const res = await getAllClients();
 
     return res.data;
-  },
+  }
 });
 
 const getClientsWithProjectDataQuery = () => ({
@@ -15,7 +15,7 @@ const getClientsWithProjectDataQuery = () => ({
     const res = await getAllClientsWithProjectData();
 
     return res.data;
-  },
+  }
 });
 
 export { getAllClientsQuery, getClientsWithProjectDataQuery };

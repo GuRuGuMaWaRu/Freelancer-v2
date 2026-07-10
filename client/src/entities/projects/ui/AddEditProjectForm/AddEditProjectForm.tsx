@@ -13,8 +13,8 @@ import {
   STextarea,
   SInput,
   SubmitButton,
-  Button,
-} from "shared/ui";
+} from "shared/ui/FormComponents";
+import { Button } from "shared/ui/Button/Button";
 import { Currency } from "shared/types";
 import type { IClient, IProject } from "shared/types";
 

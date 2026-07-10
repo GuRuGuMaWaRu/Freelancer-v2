@@ -8,16 +8,17 @@ import {
   TClientDataItem,
   getClientsWithProjectDataQuery,
   clientDataItems,
-  ClientCard,
+  ClientCard
 } from "entities/clients";
-import { Dropdown, FullPageSpinner } from "shared/ui";
+import { FullPageSpinner } from "shared/ui/FullPageSpinner/FullPageSpinner";
+import { Dropdown } from "shared/ui/FormComponents";
 import { ModalAddProject } from "entities/projects";
 
 import styles from "./clients.module.css";
 
 enum sortDirItem {
   desc = "desc",
-  asc = "asc",
+  asc = "asc"
 }
 
 const sortClients = (
@@ -57,7 +58,7 @@ function Clients() {
   };
 
   const toggleExpandAll = () => {
-    setIsExpandedAll((prevState) => !prevState);
+    setIsExpandedAll(prevState => !prevState);
   };
 
   return (
@@ -90,7 +91,7 @@ function Clients() {
             borderRadius: "5px",
             background: "#529596",
             boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
-            overflow: "hidden",
+            overflow: "hidden"
           }}
         />
         <button className={styles.controlsButton} onClick={changeSortDirection}>
@@ -110,7 +111,7 @@ function Clients() {
       </div>
       {/** CONTROLS --> end */}
       <div className={styles.clientList}>
-        {sortedClients.map((client) => (
+        {sortedClients.map(client => (
           <ClientCard
             key={client._id}
             client={client}

@@ -1,27 +1,27 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`DashboardTotals should render 1`] = `
+exports[`DashboardTotals > should render 1`] = `
 <div>
   <div
-    class="totals"
+    class="_totals_2ad399"
   >
     <div>
       <div
-        class="date"
+        class="_date_2ad399"
       >
         MAR 2020
       </div>
       <div
-        class="sumContainer"
+        class="_sumContainer_2ad399"
       >
         <span
-          class="currencySymbol"
+          class="_currencySymbol_2ad399"
         >
           $
         </span>
          
         <span
-          class="sum"
+          class="_sum_2ad399"
         >
           0
         </span>
@@ -29,21 +29,21 @@ exports[`DashboardTotals should render 1`] = `
     </div>
     <div>
       <div
-        class="date"
+        class="_date_2ad399"
       >
         1 year
       </div>
       <div
-        class="sumContainer"
+        class="_sumContainer_2ad399"
       >
         <span
-          class="currencySymbol"
+          class="_currencySymbol_2ad399"
         >
           $
         </span>
          
         <span
-          class="sum"
+          class="_sum_2ad399"
         >
           600
         </span>

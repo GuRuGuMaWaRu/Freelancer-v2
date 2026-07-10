@@ -4,7 +4,7 @@ import {
   ComboboxInput as ReachComboboxInput,
   ComboboxPopover as ReachComboboxPopover,
   ComboboxList as ReachComboboxList,
-  ComboboxOption as ReachComboboxOption,
+  ComboboxOption as ReachComboboxOption
 } from "@reach/combobox";
 
 import { IComboboxProps } from "./Combobox.types";
@@ -33,7 +33,7 @@ const Combobox = React.forwardRef<HTMLInputElement, IComboboxProps>(
         />
         <ReachComboboxPopover>
           <ReachComboboxList>
-            {results?.map((item) => (
+            {results?.map(item => (
               <ReachComboboxOption key={item._id} value={item.name} />
             ))}
           </ReachComboboxList>

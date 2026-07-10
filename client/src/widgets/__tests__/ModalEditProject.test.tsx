@@ -11,7 +11,7 @@ import { action as projectsEditAction } from "pages/projects-edit/projects-edit"
 function setup(jsx: React.ReactElement) {
   return {
     user: userEvent.setup(),
-    ...render(jsx, { wrapper: NotificationProvider }),
+    ...render(jsx, { wrapper: NotificationProvider })
   };
 }
 
@@ -20,7 +20,7 @@ describe.skip("ModalEditProject", () => {
     const clients = [
       { _id: "1", name: "test client 1" },
       { _id: "2", name: "test client 2" },
-      { _id: "3", name: "test client 3" },
+      { _id: "3", name: "test client 3" }
     ];
 
     const project = {
@@ -32,7 +32,7 @@ describe.skip("ModalEditProject", () => {
       currency: Currency.USD,
       date: new Date(),
       deleted: false,
-      paid: false,
+      paid: false
     };
 
     return <ModalEditProject project={project} clients={clients} />;
@@ -41,17 +41,17 @@ describe.skip("ModalEditProject", () => {
   const routes = [
     {
       path: "/edit-project-modal",
-      element: <Wrapper />,
+      element: <Wrapper />
     },
     {
       path: "projects/:projectId/update",
-      action: projectsEditAction(queryClient),
-    },
+      action: projectsEditAction(queryClient)
+    }
   ];
 
   const router = createMemoryRouter(routes, {
     initialEntries: ["/", "/edit-project-modal"],
-    initialIndex: 1,
+    initialIndex: 1
   });
 
   it("should render Edit Project Form when Edit icon is clicked", async () => {

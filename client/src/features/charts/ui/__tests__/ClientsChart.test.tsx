@@ -1,13 +1,16 @@
 import { render, screen } from "@testing-library/react";
+import ResizeObserverPolyfill from "resize-observer-polyfill";
+import { type Mock, vi } from "vitest";
+
 import { MemoClientsChart } from "features/charts";
 import { getMaxLabelLength } from "features/charts/lib";
 
-global.ResizeObserver = require("resize-observer-polyfill");
+global.ResizeObserver = ResizeObserverPolyfill;
 
-jest.mock("features/charts/lib");
+vi.mock("features/charts/lib");
 
 describe("Clients chart", () => {
-  const mockGetMaxLabelLength = getMaxLabelLength as jest.Mock;
+  const mockGetMaxLabelLength = getMaxLabelLength as Mock;
 
   const fakeData = [
     { client: "Client 1", payment: 10000, projects: 10 },

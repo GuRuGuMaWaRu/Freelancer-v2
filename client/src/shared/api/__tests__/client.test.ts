@@ -2,7 +2,7 @@ import {
   server,
   rest,
   RestRequest,
-  PathParams,
+  PathParams
 } from "../../../test/server/test-server";
 import { apiClient } from "shared/api";
 import { config } from "../../const";
@@ -67,7 +67,7 @@ describe("RestClient", () => {
 
     const customConfig = {
       mode: "cors",
-      headers: { Boom: "foo" },
+      headers: { Boom: "foo" }
     };
 
     await apiClient.get(endpoint, customConfig);
@@ -103,7 +103,7 @@ describe("RestClient", () => {
       })
     );
 
-    const error = await apiClient.get(endpoint).catch((e) => e);
+    const error = await apiClient.get(endpoint).catch(e => e);
 
     expect(error.message).toEqual(testError.message);
   });

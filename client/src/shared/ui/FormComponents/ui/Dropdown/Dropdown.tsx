@@ -18,12 +18,12 @@ function Dropdown({ trigger, menu, dropdownStyles = {} }: IProps) {
     from: { opacity: 0, y: 5 },
     enter: {
       opacity: 1,
-      y: 0,
+      y: 0
     },
     leave: {
       opacity: 0,
-      y: 5,
-    },
+      y: 5
+    }
   });
 
   const handleOpen = () => {
@@ -40,7 +40,7 @@ function Dropdown({ trigger, menu, dropdownStyles = {} }: IProps) {
     <div className={internalStyles.dropdownContainer}>
       {React.cloneElement(trigger, {
         ref,
-        onClick: handleOpen,
+        onClick: handleOpen
       })}
       <div>
         {transition(
@@ -59,7 +59,7 @@ function Dropdown({ trigger, menu, dropdownStyles = {} }: IProps) {
                         menuItem.props?.onClick();
                       }
                     },
-                    tabIndex: isOpen ? 0 : -1,
+                    tabIndex: isOpen ? 0 : -1
                   })
                 )}
               </animated.div>

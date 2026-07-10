@@ -1,5 +1,5 @@
 export const API_URL =
-  process.env.NODE_ENV === "test"
+  import.meta.env.MODE === "test"
     ? "http://localhost/api/v1"
     : "http://localhost:3000/api/v1";
 

@@ -16,7 +16,7 @@ describe("formatDate", () => {
     const options = {
       year: "numeric" as const,
       month: "long" as const,
-      day: "numeric" as const,
+      day: "numeric" as const
     };
     const result = formatDate(date, options);
 

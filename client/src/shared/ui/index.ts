@@ -14,5 +14,5 @@ export {
   Dropdown,
   SInput,
   SSelect,
-  STextarea,
+  STextarea
 } from "./FormComponents";

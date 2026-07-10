@@ -1,9 +1,4 @@
-import {
-  render,
-  screen,
-  within,
-  waitFor,
-} from "@testing-library/react";
+import { render, screen, within, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { Modal } from "..";
@@ -33,6 +28,6 @@ test("can be opened and closed", async () => {
     () => {
       expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     },
-    { timeout: 3000 },
+    { timeout: 3000 }
   );
 });

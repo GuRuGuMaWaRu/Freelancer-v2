@@ -1,32 +1,32 @@
 const clientDataItems = {
   name: {
     sortName: "clientName",
-    displayName: "Client name",
+    displayName: "Client name"
   },
   daysSinceLastProject: {
     sortName: "daysSinceLastProject",
-    displayName: "Days since last project",
+    displayName: "Days since last project"
   },
   totalProjects: {
     sortName: "totalProjects",
-    displayName: "Projects",
+    displayName: "Projects"
   },
   totalEarnings: {
     sortName: "totalEarnings",
-    displayName: "Earnings",
+    displayName: "Earnings"
   },
   projectsLast30Days: {
     sortName: "projectsLast30Days",
-    displayName: "Projects, 30 days",
+    displayName: "Projects, 30 days"
   },
   projectsLast90Days: {
     sortName: "projectsLast90Days",
-    displayName: "Projects, 90 days",
+    displayName: "Projects, 90 days"
   },
   projectsLast365Days: {
     sortName: "projectsLast365Days",
-    displayName: "Projects, 365 days",
-  },
+    displayName: "Projects, 365 days"
+  }
 };
 
 export { clientDataItems };
