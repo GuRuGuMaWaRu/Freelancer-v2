@@ -7,23 +7,26 @@
   },
   "scripts": {
     "prod": "concurrently \"npm run server:prod\" \"npm run client\"",
-    "start": "node server/app.js",
+    "start": "tsx server/app.ts",
     "dev": "concurrently \"npm run server:dev\" \"npm run client\"",
     "client": "npm start --prefix client",
     "client:install": "npm install --prefix client",
     "server:install": "npm install --prefix server",
     "client:test": "npm run test --prefix client -- --coverage --run",
-    "server:prod": "cross-env NODE_ENV=development USE_PROD_DB=true node --watch server/app.js",
-    "server:dev": "cross-env NODE_ENV=development node --watch server/app.js",
-    "server:test": "cross-env NODE_ENV=test mocha --file server/test/test-helpers.js server/test/**/*.test.js",
+    "server:prod": "cross-env NODE_ENV=development USE_PROD_DB=true tsx watch server/app.ts",
+    "server:dev": "cross-env NODE_ENV=development tsx watch server/app.ts",
+    "server:test": "cross-env NODE_ENV=test mocha --require tsx/cjs --file server/test/test-helpers.ts \"server/test/**/*.test.ts\"",
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx .",
-    "check-types": "tsc --noEmit",
+    "check-types": "npm-run-all --parallel check-types:client check-types:server",
+    "check-types:client": "tsc --noEmit",
+    "check-types:server": "tsc --noEmit -p server/tsconfig.json",
     "prettier": "prettier --ignore-path .gitignore --write \"**/*.+(js|json|ts|tsx)\"",
     "format": "npm run prettier -- --write",
     "check-format": "npm run prettier -- --list-different",
     "validate": "npm-run-all --parallel check-types check-format lint"
   },
   "devDependencies": {
+    "@types/supertest": "^7.2.0",
     "@typescript-eslint/eslint-plugin": "^5.39.0",
     "@typescript-eslint/parser": "^5.39.0",
     "concurrently": "^8.2.0",
@@ -42,6 +45,7 @@
     "mocha": "^10.2.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^1.19.1",
-    "supertest": "^4.0.2"
+    "supertest": "^4.0.2",
+    "tsx": "^4.22.5"
   }
 }

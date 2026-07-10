@@ -148,7 +148,7 @@ flowchart TD
 | Phase | Goal | Status |
 |-------|------|--------|
 | **0** | Make it run, fix critical bugs, quick wins | Complete |
-| **1** | Pino logging, CRA → Vite, server TS, shared types, CI | In progress (1.1) |
+| **1** | Pino logging, CRA → Vite, server TS, shared types, CI | In progress (1.3) |
 | **2** | Complete core product features from README | Not started |
 | **3** | Path decision; default: stay on stabilize — optional Next.js / TanStack Start / NestJS migration | Deferred |
 
@@ -267,13 +267,13 @@ fixed (69/69 client tests, 15/15 server tests).
 
 ### 1.2 Server TypeScript (incremental)
 
-- [ ] Add `server/tsconfig.json` (allowJs, gradual strictness)
-- [ ] Add build step or `tsx`/`ts-node` for dev (`node --watch` → `tsx watch`)
-- [ ] Convert `server/app.js` → `app.ts`
-- [ ] Convert `server/utils/*` and `server/middleware/*`
-- [ ] Convert `server/resources/*` (models, routers, controllers)
-- [ ] Convert `server/test/*` to TypeScript or keep JS with typed helpers
-- [ ] Typed `req.userId` via Express augmentation or middleware types
+- [x] Add `server/tsconfig.json` (allowJs, gradual strictness)
+- [x] Add build step or `tsx`/`ts-node` for dev (`node --watch` → `tsx watch`)
+- [x] Convert `server/app.js` → `app.ts`
+- [x] Convert `server/utils/*` and `server/middleware/*`
+- [x] Convert `server/resources/*` (models, routers, controllers)
+- [x] Convert `server/test/*` to TypeScript or keep JS with typed helpers
+- [x] Typed `req.userId` via Express augmentation or middleware types
 
 ### 1.3 Shared API contract
 
@@ -291,7 +291,7 @@ fixed (69/69 client tests, 15/15 server tests).
 ### 1.5 CI & quality gates
 
 - [ ] CI runs Vite build on PR
-- [ ] CI runs server TS compile
+- [x] CI runs server TS compile
 - [ ] Coverage reporting optional (thresholds TBD)
 - [ ] `npm run validate` passes on clean checkout
 
@@ -305,6 +305,13 @@ fixed (69/69 client tests, 15/15 server tests).
 **Phase 1 status:** `In progress`
 
 **Notes:**
+
+```text
+Phase 1.2 (branch revival/phase-1-2-server-typescript): server/tsconfig.json (strict,
+noEmit); tsx for dev/start and Mocha tests; all server source + integration tests
+converted to TypeScript; Express augmentation for req.userId and req.log; root
+check-types runs client + server in parallel. Server tests: 15/15 passing.
+```
 
 ```text
 Phase 1.1 (branch revival/phase-1-1-vite-migration): Vite + @vitejs/plugin-react +
@@ -479,6 +486,7 @@ Features not in scope for Phases 0–2 but worth tracking:
 
 | Date | Phase | What was done |
 |------|-------|---------------|
+| 2026-07-10 | 1.2 | Server TypeScript: tsconfig, tsx, full migration, typed req.userId |
 | 2026-07-10 | 1.1 | CRA → Vite: vite.config.ts, Vitest, proxy, dist output path |
 | 2026-07-09 | 1.0 | Pino + pino-http; retire morgan/logEvents file logger; quiet tests |
 | 2026-07-08 | 0.5 | README refactor, BACKLOG.md, automated smoke (server tests + dev boot) |
@@ -495,5 +503,5 @@ Features not in scope for Phases 0–2 but worth tracking:
 
 - Original analysis: Cursor chat (2026-07-06)
 - README TODOs: [`README.md`](../README.md)
-- Server entry: [`server/app.js`](../server/app.js)
+- Server entry: [`server/app.ts`](../server/app.ts)
 - Client entry: [`client/src/app/app.tsx`](../client/src/app/app.tsx)
