@@ -192,15 +192,15 @@ The app is designed as a **Heroku-style monolith**: Express serves the built Rea
 1. Set `NODE_ENV=production`
 2. Provide MongoDB URI, `ACCESS_TOKEN_SECRET`, and `PORT`
 3. Build the client: `npm run build --prefix client`
-4. Start the server: `npm start` (or `NODE_ENV=production node server/app.js`)
+4. Start the server: `npm start` (or `NODE_ENV=production tsx server/app.ts`)
 
-The production static path is `client/dist` (see `server/app.js`). Do **not** use `npm run prod` for deployment or production smoke tests — it starts the Vite dev server and does not set `NODE_ENV=production`.
+The production static path is `client/dist` (see `server/app.ts`). Do **not** use `npm run prod` for deployment or production smoke tests — it starts the Vite dev server and does not set `NODE_ENV=production`.
 
 ---
 
 ## Roadmap
 
-Active revival work is tracked in [docs/REVIVAL-PLAN.md](docs/REVIVAL-PLAN.md). Phase 0 and Phase 1.0 (Pino) are complete; Phase 1.1 (Vite) is in progress.
+Active revival work is tracked in [docs/REVIVAL-PLAN.md](docs/REVIVAL-PLAN.md). Phase 0, Phase 1.0 (Pino), Phase 1.1 (Vite), and Phase 1.2 (server TypeScript) are complete; Phase 1.3+ is in progress.
 
 Deferred features and historical TODOs live in [docs/BACKLOG.md](docs/BACKLOG.md).
 

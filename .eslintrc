@@ -46,13 +46,25 @@
   },
   "overrides": [
     {
-      "files": "server/test/**/*.js",
+      "files": "server/test/**/*.ts",
       "env": {
         "mocha": true
       }
     },
     {
+      "files": "server/**/*.ts",
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": { "project": "./server/tsconfig.json" },
+      "plugins": ["@typescript-eslint/eslint-plugin"],
+      "extends": [
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended",
+        "eslint-config-prettier/@typescript-eslint"
+      ]
+    },
+    {
       "files": "**/*.+(ts|tsx)",
+      "excludedFiles": "server/**/*.ts",
       "parser": "@typescript-eslint/parser",
       "parserOptions": { "project": "./client/tsconfig.json" },
       "plugins": ["@typescript-eslint/eslint-plugin"],
