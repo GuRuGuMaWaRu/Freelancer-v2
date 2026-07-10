@@ -1,10 +1,11 @@
-import express from "express";
+import express, { type Response } from "express";
 import mongoose from "mongoose";
 
 import catchAsync from "../../utils/catchAsync";
 import { protect } from "../../middleware/auth";
 import clientControllers from "./client.controllers";
 import Project from "../project/project.model";
+import type AuthenticatedRequest from "../../types/authenticated-request";
 
 const router = express.Router();
 
@@ -16,7 +17,7 @@ router
   .post(clientControllers.createOne);
 
 router.route("/withProjectData").get(
-  catchAsync(async (req, res) => {
+  catchAsync<AuthenticatedRequest>(async (req, res: Response) => {
     const currentDate = new Date();
     const last30Days = new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000);
     const last90Days = new Date(currentDate.getTime() - 90 * 24 * 60 * 60 * 1000);
