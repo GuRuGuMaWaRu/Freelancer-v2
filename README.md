@@ -32,7 +32,7 @@ Frontend layout follows a Feature-Sliced Design–inspired structure (`app`, `pa
 
 ## Prerequisites
 
-- **Node.js** 18+ (CI uses 22; see `engines` in `client/package.json` and `server/package.json`)
+- **Node.js** 18+ required for the client (Vite 6 / Vitest 3 / jsdom 26); CI uses 22. Server `engines` may pin a deploy target separately — see `client/package.json` and `server/package.json`.
 - **npm** 8.16+
 - **MongoDB** running locally (default: `mongodb://127.0.0.1:27017`)
 
