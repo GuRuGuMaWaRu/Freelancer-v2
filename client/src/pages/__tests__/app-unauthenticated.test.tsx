@@ -20,7 +20,7 @@ async function renderAuthModal(modal = "login") {
 const mockError = vi.spyOn(console, "error");
 
 beforeAll(() => {
-  mockError.mockImplementation(() => {});
+  mockError.mockImplementation(() => undefined);
 });
 
 beforeEach(() => {
