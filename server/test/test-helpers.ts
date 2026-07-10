@@ -36,6 +36,12 @@ before(async function setupTestDatabase() {
     throw new Error("DB_TEST or DB_MAIN must be set for tests");
   }
 
+  const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
+
+  if (!accessTokenSecret) {
+    throw new Error("ACCESS_TOKEN_SECRET must be set for tests");
+  }
+
   await mongoose.connect(dbUri);
 
   let user = await User.findOne({ email: "test@example.com" });
@@ -49,11 +55,7 @@ before(async function setupTestDatabase() {
   }
 
   testUserId = user._id.toString();
-  authToken = jwt.sign(
-    { id: testUserId },
-    process.env.ACCESS_TOKEN_SECRET as string,
-    jwtSignOptions,
-  );
+  authToken = jwt.sign({ id: testUserId }, accessTokenSecret, jwtSignOptions);
 });
 
 beforeEach(async () => {
