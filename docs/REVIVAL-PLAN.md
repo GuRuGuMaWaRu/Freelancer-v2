@@ -309,7 +309,7 @@ fixed (69/69 client tests, 15/15 server tests).
 ```text
 Phase 1.1 (branch revival/phase-1-1-vite-migration): Vite + @vitejs/plugin-react +
 vite-tsconfig-paths; index.html at client root; Vitest + jsdom + MSW; proxy /api →
-:6040 (default; 6000 blocked on Windows); production output client/dist; removed react-scripts and CRA deps.
+:6040 (default; 6000 blocked on Windows); production output client/dist; removed react-scripts and CRA deps; client/root engines Node >=18.
 ```
 
 ```text

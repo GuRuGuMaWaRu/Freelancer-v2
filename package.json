@@ -1,6 +1,10 @@
 {
   "name": "freelancer",
   "private": true,
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.16.0"
+  },
   "scripts": {
     "prod": "concurrently \"npm run server:prod\" \"npm run client\"",
     "start": "node server/app.js",
