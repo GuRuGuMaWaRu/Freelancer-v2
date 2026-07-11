@@ -56,11 +56,9 @@ Or use the convenience scripts: `npm run client:install` and `npm run server:ins
 cp server/.env.example .env.server
 ```
 
-Edit `.env.server` if your MongoDB host or credentials differ. Default API port is **6040**, which matches `VITE_API_PORT` in `client/.env.development` and the Vite proxy.
+Edit `.env.server` if your MongoDB host or credentials differ. `PORT` is the **preferred** API port (default **6040**); if it is blocked (common on Windows when Hyper-V excluded ranges shift), the server tries other ports automatically.
 
-On Windows, port **6000** is often blocked (Hyper-V excluded range 5940–6039). Use **6040** or another free port outside that range.
-
-If you have an existing `.env.server` with `PORT=6000`, change it to `6040` and set `VITE_API_PORT=6040` in `client/.env.development`.
+`npm run dev` and `npm run prod` start the API first, write the chosen port to `client/.api-port.local`, then start Vite with a matching proxy — no manual port hunting.
 
 ### 3. Start development servers
 
@@ -71,7 +69,7 @@ npm run dev
 | Service | URL |
 |---------|-----|
 | Frontend | [http://localhost:3000](http://localhost:3000) |
-| API | [http://localhost:6040/api/v1](http://localhost:6040/api/v1) |
+| API | `http://localhost:<port>/api/v1` (port printed in server logs; see `client/.api-port.local`) |
 
 ### Optional client env
 
@@ -90,7 +88,7 @@ Server configuration lives in `.env.server` at the repo root (see `server/.env.e
 | `DB_TEST` | Tests | Test database URI (used by Mocha) |
 | `ACCESS_TOKEN_SECRET` | Yes | JWT signing secret — use a long random string |
 | `JWT_EXPIRES_IN` | No | Token lifetime (default `7d`) |
-| `PORT` | No | Express listen port (default `6040`; avoid `5940–6039` on Windows) |
+| `PORT` | No | Preferred Express port (default `6040`); server auto-fallback if blocked |
 
 ---
 
@@ -100,8 +98,9 @@ Run from the repository root:
 
 | Command | Description |
 |---------|-------------|
-| `npm run dev` | Start Vite dev server and Express with watch mode (`NODE_ENV=development`) |
-| `npm run prod` | Dev convenience: Vite dev server + Express with watch (`USE_PROD_DB=true` → `DB_MAIN`; dev app behavior) |
+| `npm run dev` | Start API (with port fallback), then Vite; syncs proxy via `client/.api-port.local` |
+| `npm run dev:kill` | Stop stale Vite/API listeners on dev ports (also runs automatically before `dev`/`prod`) |
+| `npm run prod` | Same as dev but uses `DB_MAIN` (`USE_PROD_DB=true`) |
 | `npm start` | Run Express in production mode (requires `NODE_ENV=production` from deploy config; serves `client/dist`; build the client first) |
 | `npm run client` | Start frontend only (Vite dev server) |
 | `npm run server:dev` | Start backend only (development, with watch) |

@@ -8,4 +8,5 @@ coverage
 *.tsbuildinfo
 .env.server
 .env
+client/.api-port.local
 .DS_Store

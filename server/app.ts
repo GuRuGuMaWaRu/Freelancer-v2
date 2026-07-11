@@ -14,6 +14,8 @@ import corsOptions from "./config/corsOptions";
 import { clientRouter, projectRouter, userRouter } from "./resources";
 import rootRouter from "./resources/root";
 import logger from "./utils/logger";
+import { startServerWithPortFallback } from "./utils/listen";
+import { writeDevApiPort } from "./utils/writeDevApiPort";
 
 import "./db";
 
@@ -118,24 +120,17 @@ app.all("*", (req, res, next) => {
 
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 6040;
-
 if (process.env.NODE_ENV !== "test") {
   mongoose.connection.once("open", () => {
-    const server = app.listen(PORT, () => {
-      logger.info(`Server is listening on port ${PORT}...`);
-    });
-
-    server.on("error", (err: NodeJS.ErrnoException) => {
-      if (err.code === "EACCES" || err.code === "EADDRINUSE") {
-        logger.error(
-          { err, port: PORT },
-          `Cannot listen on port ${PORT}. Set PORT in .env.server (avoid 5940-6039 on Windows).`,
-        );
-      }
-
-      throw err;
-    });
+    startServerWithPortFallback(app, logger)
+      .then(({ port }) => {
+        logger.info(`Server is listening on port ${port}...`);
+        writeDevApiPort(port);
+      })
+      .catch((err) => {
+        logger.error({ err }, "Failed to start HTTP server");
+        process.exit(1);
+      });
   });
 }
 

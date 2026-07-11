@@ -6,9 +6,10 @@
     "npm": ">=8.16.0"
   },
   "scripts": {
-    "prod": "concurrently \"npm run server:prod\" \"npm run client\"",
+    "prod": "node scripts/run-dev.mjs --prod-db",
     "start": "npm start --prefix server",
-    "dev": "concurrently \"npm run server:dev\" \"npm run client\"",
+    "dev": "node scripts/run-dev.mjs",
+    "dev:kill": "node scripts/kill-dev-ports.mjs",
     "client": "npm start --prefix client",
     "client:install": "npm install --prefix client",
     "server:install": "npm install --prefix server",
