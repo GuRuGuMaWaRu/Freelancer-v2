@@ -2,6 +2,12 @@
 
 Guidance for AI agents and contributors working on this repo.
 
+## Git workflow (agents)
+
+Do **not** commit, create branches, push to the remote, or open pull requests unless the user **explicitly asks** for that action.
+
+When the user asks only for code changes, reviews, or explanations, leave work in the working tree (or staged locally only if they asked to stage). If it is unclear whether they want a commit, branch, push, or PR, ask first.
+
 ## PR and commit titles
 
 Format: `type(area): short imperative summary`
