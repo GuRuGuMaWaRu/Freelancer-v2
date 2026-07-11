@@ -118,7 +118,7 @@ app.all("*", (req, res, next) => {
 
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 6040;
+const PORT = process.env.PORT || 4000;
 
 if (process.env.NODE_ENV !== "test") {
   mongoose.connection.once("open", () => {
@@ -130,7 +130,7 @@ if (process.env.NODE_ENV !== "test") {
       if (err.code === "EACCES" || err.code === "EADDRINUSE") {
         logger.error(
           { err, port: PORT },
-          `Cannot listen on port ${PORT}. Set PORT in .env.server (avoid 5940-6039 on Windows).`,
+          `Cannot listen on port ${PORT}. Set PORT in .env.server.`,
         );
       }
 

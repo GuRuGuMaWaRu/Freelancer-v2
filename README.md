@@ -56,11 +56,9 @@ Or use the convenience scripts: `npm run client:install` and `npm run server:ins
 cp server/.env.example .env.server
 ```
 
-Edit `.env.server` if your MongoDB host or credentials differ. Default API port is **6040**, which matches `VITE_API_PORT` in `client/.env.development` and the Vite proxy.
+Edit `.env.server` if your MongoDB host or credentials differ. Default API port is **4000**, which matches `VITE_API_PORT` in `client/.env.development` and the Vite proxy.
 
-On Windows, port **6000** is often blocked (Hyper-V excluded range 5940–6039). Use **6040** or another free port outside that range.
-
-If you have an existing `.env.server` with `PORT=6000`, change it to `6040` and set `VITE_API_PORT=6040` in `client/.env.development`.
+For an alternative with automatic port fallback (Windows Hyper-V), see branch `example/dev-port-fallback`.
 
 ### 3. Start development servers
 
@@ -71,7 +69,7 @@ npm run dev
 | Service | URL |
 |---------|-----|
 | Frontend | [http://localhost:3000](http://localhost:3000) |
-| API | [http://localhost:6040/api/v1](http://localhost:6040/api/v1) |
+| API | [http://localhost:4000/api/v1](http://localhost:4000/api/v1) |
 
 ### Optional client env
 
@@ -90,7 +88,7 @@ Server configuration lives in `.env.server` at the repo root (see `server/.env.e
 | `DB_TEST` | Tests | Test database URI (used by Mocha) |
 | `ACCESS_TOKEN_SECRET` | Yes | JWT signing secret — use a long random string |
 | `JWT_EXPIRES_IN` | No | Token lifetime (default `7d`) |
-| `PORT` | No | Express listen port (default `6040`; avoid `5940–6039` on Windows) |
+| `PORT` | No | Express listen port (default `4000`) |
 
 ---
 
