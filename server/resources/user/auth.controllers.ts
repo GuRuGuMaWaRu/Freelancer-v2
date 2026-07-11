@@ -35,20 +35,13 @@ const login = catchAsync(async (req, res, next) => {
     id: foundUser._id.toString(),
   };
 
-  jwt.sign(
-    payload,
-    process.env.ACCESS_TOKEN_SECRET as string,
-    jwtSignOptions,
-    (err, token) => {
-      if (err) throw err;
+  const token = newToken(payload);
 
-      res.status(200).json({
-        status: "success",
-        message: `${foundUser.name} logged in successfully`,
-        data: { name: foundUser.name, email, token },
-      });
-    },
-  );
+  res.status(200).json({
+    status: "success",
+    message: `${foundUser.name} logged in successfully`,
+    data: { name: foundUser.name, email, token },
+  });
 });
 
 const getUser = catchAsync(async (req, res, next) => {
@@ -67,20 +60,13 @@ const getUser = catchAsync(async (req, res, next) => {
     id: req.userId as string,
   };
 
-  jwt.sign(
-    payload,
-    process.env.ACCESS_TOKEN_SECRET as string,
-    jwtSignOptions,
-    (err, token) => {
-      if (err) throw err;
+  const token = newToken(payload);
 
-      res.status(200).json({
-        status: "success",
-        message: `${user.name} logged in successfully`,
-        data: { ...user, token },
-      });
-    },
-  );
+  res.status(200).json({
+    status: "success",
+    message: `${user.name} logged in successfully`,
+    data: { ...user, token },
+  });
 });
 
 const signup = catchAsync(async (req, res, next) => {
