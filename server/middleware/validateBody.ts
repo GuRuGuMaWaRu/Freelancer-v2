@@ -4,7 +4,7 @@ import type { ZodTypeAny } from "zod";
 import AppError from "../utils/appError";
 
 const validateBody =
-  <T extends ZodTypeAny>(schema: T) =>
+  (schema: ZodTypeAny) =>
   (req: Request, _res: Response, next: NextFunction) => {
     const result = schema.safeParse(req.body);
 
