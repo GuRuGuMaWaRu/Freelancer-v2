@@ -1,7 +1,7 @@
 import React from "react";
 import { useQueries } from "@tanstack/react-query";
 
-import type { IProject } from "shared/types";
+import type { IProjectChartItem } from "shared/types";
 import { getEarningsByMonths, getEarningsByClients } from "./dashboard.helpers";
 import type { ChartRange, IEarningsByMonth } from "shared/types";
 import { getProjectsForChartQuery, chartRangeToMonths } from "entities/projects";
@@ -21,7 +21,7 @@ const useDashboardData = (chartRange: ChartRange) => {
 
   const lastStableRef = React.useRef<{
     range: ChartRange;
-    projects: IProject[];
+    projects: IProjectChartItem[];
   } | null>(null);
 
   if (!isProjectsFetching) {

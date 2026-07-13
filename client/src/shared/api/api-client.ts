@@ -1,16 +1,12 @@
+import type { ApiSuccessResponse, ApiErrorResponse } from "@pet-freelancer/shared";
+
 import { config } from "../const";
 
-//** TODO: actually I don't like this inconsistency with methods - some are defined specifically in customConfig, while the others are auto-guessed based on data, this is bad! */
 interface IConfig {
   data?: object;
   useToken?: boolean;
   headers?: Record<string, string>;
   method?: "PATCH" | "DELETE" | "POST" | "GET";
-}
-
-interface IResponse<ResponseType> {
-  status: string;
-  data: ResponseType;
 }
 
 async function client<ResponseType>(
@@ -35,13 +31,14 @@ async function client<ResponseType>(
   };
 
   return window.fetch(`/api/v1/${endpoint}`, options).then(async response => {
-    const data: IResponse<ResponseType> = await response.json();
+    const parsedBody: ApiSuccessResponse<ResponseType> | ApiErrorResponse =
+      await response.json();
 
     if (response.ok) {
-      return data;
-    } else {
-      return Promise.reject(data);
+      return parsedBody as ApiSuccessResponse<ResponseType>;
     }
+
+    return Promise.reject(parsedBody);
   });
 }
 

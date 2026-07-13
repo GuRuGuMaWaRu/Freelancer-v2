@@ -83,7 +83,50 @@ describe("Project controller", () => {
         currency: "USD",
         date: "2019-10-07T09:34:00.309Z",
       })
-      .expect(400)
-      .end(done);
+      .expect(422)
+      .end((err, res) => {
+        if (err) return done(err);
+        assert.deepStrictEqual(res.body.errors.formErrors, []);
+        assert.strictEqual(res.body.errors.fieldErrors.client.length, 1);
+        done();
+      });
+  });
+
+  it("should reject an unsupported currency on POST request to /api/v1/projects", (done) => {
+    request(app)
+      .post("/api/v1/projects")
+      .set("Authorization", `Bearer ${getAuthToken()}`)
+      .send({
+        client: "Client 1",
+        projectNr: "ABC123",
+        payment: 1000,
+        currency: "GBP",
+        date: "2019-10-07T09:34:00.309Z",
+      })
+      .expect(422)
+      .end((err, res) => {
+        if (err) return done(err);
+        assert.strictEqual(res.body.errors.fieldErrors.currency.length, 1);
+        done();
+      });
+  });
+
+  it("should accept a zero payment on POST request to /api/v1/projects", (done) => {
+    request(app)
+      .post("/api/v1/projects")
+      .set("Authorization", `Bearer ${getAuthToken()}`)
+      .send({
+        client: "Client 1",
+        projectNr: "ABC123",
+        payment: 0,
+        currency: "USD",
+        date: "2019-10-07T09:34:00.309Z",
+      })
+      .expect(201)
+      .end((err, res) => {
+        if (err) return done(err);
+        assert.strictEqual(res.body.data.payment, 0);
+        done();
+      });
   });
 });

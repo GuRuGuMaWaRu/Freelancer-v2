@@ -1,8 +1,10 @@
 import express, { type Response } from "express";
 import mongoose from "mongoose";
+import { createClientBodySchema, updateClientBodySchema } from "@pet-freelancer/shared";
 
 import catchAsync from "../../utils/catchAsync";
 import { protect } from "../../middleware/auth";
+import validateBody from "../../middleware/validateBody";
 import clientControllers from "./client.controllers";
 import Project from "../project/project.model";
 import type AuthenticatedRequest from "../../types/authenticated-request";
@@ -14,7 +16,7 @@ router.use(protect);
 router
   .route("/")
   .get(clientControllers.getAll)
-  .post(clientControllers.createOne);
+  .post(validateBody(createClientBodySchema), clientControllers.createOne);
 
 router.route("/withProjectData").get(
   catchAsync<AuthenticatedRequest>(async (req, res: Response) => {
@@ -107,7 +109,7 @@ router.route("/withProjectData").get(
 router
   .route("/:id")
   .get(clientControllers.getOne)
-  .patch(clientControllers.updateOne)
+  .patch(validateBody(updateClientBodySchema), clientControllers.updateOne)
   .delete(clientControllers.deleteOne);
 
 export default router;

@@ -1,10 +1,15 @@
 import express from "express";
 import mongoose, { type PipelineStage } from "mongoose";
+import {
+  createProjectBodySchema,
+  updateProjectBodySchema,
+} from "@pet-freelancer/shared";
 
 import AppError from "../../utils/appError";
 import catchAsync from "../../utils/catchAsync";
 import parseClientName from "../../utils/parseClientName";
 import { protect } from "../../middleware/auth";
+import validateBody from "../../middleware/validateBody";
 import projectControllers from "./project.controllers";
 import Project from "./project.model";
 import Client from "../client/client.model";
@@ -121,24 +126,16 @@ router
     }),
   )
   .post(
+    validateBody(createProjectBodySchema),
     catchAsync(async (req, res, next) => {
       if (!req.userId) {
         return next(new AppError(400, "User ID is required"));
       }
 
-      if (
-        !req.body.payment ||
-        !req.body.currency ||
-        !req.body.projectNr ||
-        !req.body.date
-      ) {
-        return next(new AppError(400, "All fields are required"));
-      }
-
       const clientName = parseClientName(req.body.client);
 
       if (!clientName) {
-        return next(new AppError(400, "Client must be a non-empty string"));
+        return next(new AppError(422, "Validation error"));
       }
 
       let client = await Client.findOne({
@@ -209,6 +206,7 @@ router
   .route("/:id")
   .get(projectControllers.getOne)
   .patch(
+    validateBody(updateProjectBodySchema),
     catchAsync(async (req, res, next) => {
       if (!req.userId) {
         return next(new AppError(400, "User ID is required"));
@@ -217,7 +215,7 @@ router
       const clientName = parseClientName(req.body.client);
 
       if (!clientName) {
-        return next(new AppError(400, "Client must be a non-empty string"));
+        return next(new AppError(422, "Validation error"));
       }
 
       const existingProject = await Project.findOne({

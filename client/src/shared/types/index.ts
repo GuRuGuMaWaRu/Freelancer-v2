@@ -1,37 +1,28 @@
+import type {
+  ApiSuccessResponse,
+  Client,
+  ClientWithProjectData,
+  CurrencyType,
+  ProjectChartItem,
+  ProjectListItem,
+  ProjectPaginatedData,
+  UserAuthData,
+} from "@pet-freelancer/shared";
+
+import { Currency } from "@pet-freelancer/shared";
+
 interface Error {
   message: string | undefined;
 }
 
 type ErrorVariant = "stacked" | "inline";
 
-enum Currency {
-  USD = "USD",
-  EUR = "EUR",
-  GBP = "GBP",
-}
-
-interface IProject {
-  _id: string;
-  user: string;
-  client: IClient;
-  projectNr: string;
-  payment: number;
-  currency: Currency;
-  date: Date;
-  deleted: boolean;
-  paid: boolean;
-  comments?: string;
-}
-
-interface IProjectPaginatedData {
-  docs: IProject[];
-  allDocs: number;
-}
-
-interface IClient {
-  _id: string;
-  name: string;
-}
+type IProject = ProjectListItem;
+type IProjectChartItem = ProjectChartItem;
+type IProjectPaginatedData = ProjectPaginatedData;
+type IClient = Client;
+type IClientWithProjectData = ClientWithProjectData;
+type IResponseUserData = UserAuthData;
 
 interface IEarningsByClient {
   client: string;
@@ -54,12 +45,6 @@ interface IEarnings {
 
 /** Dashboard chart time range: 3m, 6m, 1y, 2y, or all time */
 type ChartRange = "3m" | "6m" | "1y" | "2y" | "all";
-
-interface IResponseUserData {
-  name: string;
-  email: string;
-  token: string;
-}
 
 interface ILoginFormInputs {
   email: string;
@@ -90,12 +75,16 @@ interface INotificationProps {
 }
 
 export type {
+  ApiSuccessResponse,
   ChartRange,
+  CurrencyType,
   Error,
   ErrorVariant,
   IProject,
+  IProjectChartItem,
   IProjectPaginatedData,
   IClient,
+  IClientWithProjectData,
   IEarningsByClient,
   IEarningsByMonth,
   IEarnings,

@@ -1,6 +1,6 @@
 import { QueryClient } from "@tanstack/react-query";
 
-import type { IProject, IClient } from "shared/types";
+import type { IProjectChartItem, IClient } from "shared/types";
 import { config } from "shared/const";
 import { getProjectsForChartQuery } from "entities/projects";
 import { getAllClientsQuery } from "entities/clients";
@@ -8,7 +8,7 @@ import { getAllClientsQuery } from "entities/clients";
 const loader =
   (queryClient: QueryClient) =>
   async (): Promise<{
-    projectsQuery: IProject[];
+    projectsQuery: IProjectChartItem[];
     clientsQuery: IClient[];
   }> => {
     const projectsQuery = getProjectsForChartQuery(config.DEFAULT_CHART_RANGE);

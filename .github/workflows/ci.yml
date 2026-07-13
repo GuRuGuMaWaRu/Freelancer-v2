@@ -27,12 +27,14 @@ jobs:
           cache: npm
           cache-dependency-path: |
             package-lock.json
+            packages/shared/package-lock.json
             client/package-lock.json
             server/package-lock.json
 
       - name: Install dependencies
         run: |
           npm ci
+          npm ci --prefix packages/shared
           npm ci --prefix client
           npm ci --prefix server
 
@@ -72,12 +74,14 @@ jobs:
           cache: npm
           cache-dependency-path: |
             package-lock.json
+            packages/shared/package-lock.json
             client/package-lock.json
             server/package-lock.json
 
       - name: Install dependencies
         run: |
           npm ci
+          npm ci --prefix packages/shared
           npm ci --prefix server
 
       - name: Run server tests
@@ -100,12 +104,14 @@ jobs:
           cache: npm
           cache-dependency-path: |
             package-lock.json
+            packages/shared/package-lock.json
             client/package-lock.json
             server/package-lock.json
 
       - name: Install dependencies
         run: |
           npm ci
+          npm ci --prefix packages/shared
           npm ci --prefix client
 
       - name: Run client tests
