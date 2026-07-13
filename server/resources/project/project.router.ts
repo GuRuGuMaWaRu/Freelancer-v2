@@ -16,6 +16,18 @@ import Client from "../client/client.model";
 
 const router = express.Router();
 
+function invalidClientNameError(client: unknown): AppError {
+  const message =
+    typeof client !== "string"
+      ? `Expected string, received ${client === null ? "null" : typeof client}`
+      : "String must contain at least 1 character(s)";
+
+  return new AppError(422, "Validation error", true, "", {
+    formErrors: [],
+    fieldErrors: { client: [message] },
+  });
+}
+
 router.use(protect);
 
 const projectsDefaultAggregationStages = [
@@ -135,7 +147,7 @@ router
       const clientName = parseClientName(req.body.client);
 
       if (!clientName) {
-        return next(new AppError(422, "Validation error"));
+        return next(invalidClientNameError(req.body.client));
       }
 
       let client = await Client.findOne({
@@ -215,7 +227,7 @@ router
       const clientName = parseClientName(req.body.client);
 
       if (!clientName) {
-        return next(new AppError(422, "Validation error"));
+        return next(invalidClientNameError(req.body.client));
       }
 
       const existingProject = await Project.findOne({
