@@ -107,6 +107,18 @@ describe("shared API contracts", () => {
     expect(parsed.paid).toBe(false);
   });
 
+  test("rejects null project date instead of coercing to epoch", () => {
+    const result = createProjectBodySchema.safeParse({
+      client: "Acme",
+      projectNr: "PF-001",
+      payment: 100,
+      currency: "USD",
+      date: null,
+    });
+
+    expect(result.success).toBe(false);
+  });
+
   test("keeps client statistics dates as ISO strings", () => {
     const parsed = clientWithProjectDataSchema.parse({
       _id: "client-1",

@@ -46,6 +46,16 @@ const optionalBooleanLikeSchema = z.preprocess(
   z.boolean().optional(),
 );
 
+function rejectNullDate(value: unknown): unknown {
+  if (value === null) {
+    return undefined;
+  }
+
+  return value;
+}
+
+const coercedDateSchema = z.preprocess(rejectNullDate, z.coerce.date());
+
 const projectBodySchema = z.object({
   client: z
     .string()
@@ -60,7 +70,7 @@ const projectBodySchema = z.object({
     .finite()
     .nonnegative(),
   currency: currencySchema,
-  date: z.coerce.date(),
+  date: coercedDateSchema,
   paid: optionalBooleanLikeSchema,
   comments: z.string().optional(),
 });
