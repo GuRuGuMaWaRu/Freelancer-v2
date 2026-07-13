@@ -13,6 +13,9 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react(), tsconfigPaths()],
+    optimizeDeps: {
+      include: ["@pet-freelancer/shared", "zod"],
+    },
     server: {
       port: devPort,
       strictPort: false,

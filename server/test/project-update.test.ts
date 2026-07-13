@@ -65,7 +65,7 @@ describe("Project Controller", () => {
             payment: 111,
             client: { $gt: "" },
           })
-          .expect(400)
+          .expect(422)
           .end(done);
       });
     });

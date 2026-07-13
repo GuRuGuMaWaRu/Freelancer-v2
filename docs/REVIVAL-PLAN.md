@@ -148,7 +148,7 @@ flowchart TD
 | Phase | Goal | Status |
 |-------|------|--------|
 | **0** | Make it run, fix critical bugs, quick wins | Complete |
-| **1** | Pino logging, CRA → Vite, server TS, shared types, CI | In progress (1.3) |
+| **1** | Pino logging, CRA → Vite, server TS, shared types, CI | In progress (1.4) |
 | **2** | Complete core product features from README | Not started |
 | **3** | Path decision; default: stay on stabilize — optional Next.js / TanStack Start / NestJS migration | Deferred |
 
@@ -277,10 +277,10 @@ fixed (69/69 client tests, 15/15 server tests).
 
 ### 1.3 Shared API contract
 
-- [ ] Create `packages/shared/` (or `shared/`) with Zod schemas: `Project`, `Client`, `User`, API responses
-- [ ] Frontend imports types from shared package
-- [ ] Server validates request bodies with same Zod schemas at route boundaries
-- [ ] Document API response shape (`{ status, data, message? }`)
+- [x] Create `packages/shared/` (or `shared/`) with Zod schemas: `Project`, `Client`, `User`, API responses
+- [x] Frontend imports types from shared package
+- [x] Server validates request bodies with same Zod schemas at route boundaries
+- [x] Document API response shape (`{ status, data, message? }`)
 
 ### 1.4 Dependency upgrades (Phase 1 scope)
 
@@ -305,6 +305,15 @@ fixed (69/69 client tests, 15/15 server tests).
 **Phase 1 status:** `In progress`
 
 **Notes:**
+
+```text
+Phase 1.3 (branch revival/phase-1-3-shared-api-contract): packages/shared with Zod
+schemas for User, Client, Project, and API envelopes; @pet-freelancer/shared linked
+via file: from client and server; validateBody middleware on auth, project, and client
+routes (replaces express-validator on login/signup); client shared/types re-exports
+shared inferred types; api-client typed with ApiSuccessResponse/ApiErrorResponse.
+Server tests: 15/15 passing. Client tests: 69/69 passing.
+```
 
 ```text
 Phase 1.2 (branch revival/phase-1-2-server-typescript): server/tsconfig.json (strict,
@@ -486,6 +495,7 @@ Features not in scope for Phases 0–2 but worth tracking:
 
 | Date | Phase | What was done |
 |------|-------|---------------|
+| 2026-07-13 | 1.3 | Shared API contract: packages/shared Zod schemas, server validateBody, client types |
 | 2026-07-10 | 1.2 | Server TypeScript: tsconfig, tsx, full migration, typed req.userId |
 | 2026-07-10 | 1.1 | CRA → Vite: vite.config.ts, Vitest, proxy, dist output path |
 | 2026-07-09 | 1.0 | Pino + pino-http; retire morgan/logEvents file logger; quiet tests |

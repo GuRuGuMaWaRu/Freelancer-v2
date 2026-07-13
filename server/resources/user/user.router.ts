@@ -1,9 +1,9 @@
 import express from "express";
-import { check } from "express-validator";
+import { loginBodySchema, signupBodySchema } from "@pet-freelancer/shared";
 
 import loginLimiter from "../../middleware/loginLimiter";
 import { protect } from "../../middleware/auth";
-import validateForm from "../../middleware/validation";
+import validateBody from "../../middleware/validateBody";
 import * as authControllers from "./auth.controllers";
 import userControllers from "./user.controllers";
 
@@ -14,25 +14,13 @@ router.get("/getUser", protect, authControllers.getUser);
 router.post(
   "/login",
   loginLimiter,
-  [
-    check("email", "Please provide valid email").isEmail(),
-    check("password", "Please provide password").exists(),
-  ],
-  validateForm,
+  validateBody(loginBodySchema),
   authControllers.login,
 );
 
 router.post(
   "/signup",
-  [
-    check("name", "Please add name").not().isEmpty(),
-    check("email", "Please provide valid email").isEmail(),
-    check(
-      "password",
-      "Please enter a password with 6 or more characters",
-    ).isLength({ min: 6 }),
-  ],
-  validateForm,
+  validateBody(signupBodySchema),
   authControllers.signup,
 );
 

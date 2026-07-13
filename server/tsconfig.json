@@ -3,14 +3,16 @@
     "target": "ES2022",
     "module": "commonjs",
     "lib": ["ES2022"],
-    "rootDir": ".",
     "noEmit": true,
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "types": ["node", "mocha"]
+    "types": ["node", "mocha"],
+    "paths": {
+      "@pet-freelancer/shared": ["../packages/shared/src/index.ts"]
+    }
   },
   "include": ["**/*.ts", "types/**/*.d.ts"],
   "exclude": ["node_modules", "dist", "dev"]

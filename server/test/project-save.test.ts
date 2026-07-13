@@ -83,7 +83,7 @@ describe("Project controller", () => {
         currency: "USD",
         date: "2019-10-07T09:34:00.309Z",
       })
-      .expect(400)
+      .expect(422)
       .end(done);
   });
 });
