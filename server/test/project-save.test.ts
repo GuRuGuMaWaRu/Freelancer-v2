@@ -149,4 +149,23 @@ describe("Project controller", () => {
         done();
       });
   });
+
+  it("should reject null date on POST request to /api/v1/projects", (done) => {
+    request(app)
+      .post("/api/v1/projects")
+      .set("Authorization", `Bearer ${getAuthToken()}`)
+      .send({
+        client: "Client 1",
+        projectNr: "NULL-DATE",
+        payment: 100,
+        currency: "USD",
+        date: null,
+      })
+      .expect(422)
+      .end((err, res) => {
+        if (err) return done(err);
+        assert.ok(res.body.errors?.fieldErrors?.date);
+        done();
+      });
+  });
 });
