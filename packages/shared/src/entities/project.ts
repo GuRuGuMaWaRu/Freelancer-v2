@@ -3,6 +3,49 @@ import { z } from "zod";
 import { clientSchema } from "./client";
 import { currencySchema } from "./currency";
 
+function normalizeOptionalBoolean(value: unknown): unknown {
+  if (value === undefined || value === null || value === "") {
+    return undefined;
+  }
+
+  if (typeof value === "boolean") {
+    return value;
+  }
+
+  if (typeof value === "number") {
+    if (value === 0) {
+      return false;
+    }
+
+    if (value === 1) {
+      return true;
+    }
+
+    return value;
+  }
+
+  if (typeof value === "string") {
+    const normalized = value.trim().toLowerCase();
+
+    if (normalized === "true" || normalized === "1") {
+      return true;
+    }
+
+    if (normalized === "false" || normalized === "0") {
+      return false;
+    }
+
+    return value;
+  }
+
+  return value;
+}
+
+const optionalBooleanLikeSchema = z.preprocess(
+  normalizeOptionalBoolean,
+  z.boolean().optional(),
+);
+
 const projectBodySchema = z.object({
   client: z
     .string()
@@ -18,7 +61,7 @@ const projectBodySchema = z.object({
     .nonnegative(),
   currency: currencySchema,
   date: z.coerce.date(),
-  paid: z.coerce.boolean().optional(),
+  paid: optionalBooleanLikeSchema,
   comments: z.string().optional(),
 });
 
