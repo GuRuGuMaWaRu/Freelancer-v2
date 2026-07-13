@@ -2,6 +2,7 @@ import {
   apiErrorResponseSchema,
   clientSchema,
   clientWithProjectDataSchema,
+  createProjectBodySchema,
   projectChartItemSchema,
   projectListItemSchema,
   successResponseSchema,
@@ -78,6 +79,32 @@ describe("shared API contracts", () => {
     });
 
     expect(parsed.client).toBeNull();
+  });
+
+  test("parses string false for optional project paid field", () => {
+    const parsed = createProjectBodySchema.parse({
+      client: "Acme",
+      projectNr: "PF-001",
+      payment: 100,
+      currency: "USD",
+      date: "2026-07-13T10:30:00.000Z",
+      paid: "false",
+    });
+
+    expect(parsed.paid).toBe(false);
+  });
+
+  test("parses string zero for optional project paid field", () => {
+    const parsed = createProjectBodySchema.parse({
+      client: "Acme",
+      projectNr: "PF-001",
+      payment: 100,
+      currency: "USD",
+      date: "2026-07-13T10:30:00.000Z",
+      paid: "0",
+    });
+
+    expect(parsed.paid).toBe(false);
   });
 
   test("keeps client statistics dates as ISO strings", () => {

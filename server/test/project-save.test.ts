@@ -129,4 +129,24 @@ describe("Project controller", () => {
         done();
       });
   });
+
+  it('should treat paid "false" as false on POST request to /api/v1/projects', (done) => {
+    request(app)
+      .post("/api/v1/projects")
+      .set("Authorization", `Bearer ${getAuthToken()}`)
+      .send({
+        client: "Client 1",
+        projectNr: "PAID-FALSE",
+        payment: 100,
+        currency: "USD",
+        date: "2019-10-07T09:34:00.309Z",
+        paid: "false",
+      })
+      .expect(201)
+      .end((err, res) => {
+        if (err) return done(err);
+        assert.strictEqual(res.body.data.paid, false);
+        done();
+      });
+  });
 });
