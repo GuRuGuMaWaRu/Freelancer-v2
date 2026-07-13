@@ -38,7 +38,7 @@ async function client<ResponseType>(
       return parsedBody as ApiSuccessResponse<ResponseType>;
     }
 
-    return Promise.reject(parsedBody);
+    return Promise.reject(parsedBody as ApiErrorResponse);
   });
 }
 
