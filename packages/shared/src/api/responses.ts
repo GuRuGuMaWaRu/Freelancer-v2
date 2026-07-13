@@ -23,12 +23,9 @@ export const successResponseSchema = <TData extends ZodTypeAny>(
  * { status: "success", data: { name: "Jane", email: "j@example.com", token: "..." }, message: "Jane logged in successfully" }
  * { status: "success", results: 12, data: [{ _id: "...", name: "Acme" }] }
  */
-export type ApiSuccessResponse<T> = {
-  status: "success";
-  data: T;
-  message?: string;
-  results?: number;
-};
+export type ApiSuccessResponse<T> = z.infer<
+  ReturnType<typeof successResponseSchema<z.ZodType<T>>>
+>;
 
 /**
  * Standard API error envelope (from `errorHandler` middleware).
