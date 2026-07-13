@@ -47,7 +47,8 @@ Response schemas describe JSON on the wire. JSON dates are ISO strings, not
 JavaScript `Date` instances. Project endpoints have distinct response types:
 
 - `ProjectListItem` has a populated client with `_id` and `name`.
-- `ProjectChartItem` has the chart endpoint's name-only client.
+- `ProjectChartItem` has the chart endpoint's name-only client, or `null`
+  when the project's client was soft-deleted.
 - `ProjectPaginatedData` contains list items and the unpaginated count.
 
 ## Adding a contract

@@ -37,7 +37,7 @@ export const projectListItemSchema = projectResponseBaseSchema.extend({
 });
 
 export const projectChartItemSchema = projectResponseBaseSchema.extend({
-  client: z.object({ name: z.string() }),
+  client: z.object({ name: z.string() }).nullable(),
 });
 
 export const projectPaginatedDataSchema = z.object({

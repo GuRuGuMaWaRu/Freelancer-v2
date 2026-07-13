@@ -109,7 +109,7 @@ const getEarningsByClients = (
   const earnings: Record<string, IEarningsByClient> = {};
 
   for (const project of projects) {
-    const clientName = project.client.name;
+    const clientName = project.client?.name;
 
     if (!clientName) {
       continue;
