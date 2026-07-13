@@ -148,4 +148,38 @@ describe("Project forChart", () => {
     assert.ok(projectNumbers.includes("ALL-REC"));
     assert.ok(!projectNumbers.includes("ALL-DEL"));
   });
+
+  it("should return projects with a null client when the client was soft-deleted", async () => {
+    const userId = getTestUserId();
+
+    const client = new Client({
+      name: "Deleted Chart Client",
+      user: userId,
+    });
+    await client.save();
+
+    const project = new Project({
+      client: client._id,
+      user: userId,
+      projectNr: "ORPH-001",
+      currency: "USD",
+      payment: 100,
+      date: new Date(),
+    });
+    await project.save();
+
+    await Client.updateOne({ _id: client._id }, { deleted: true });
+
+    const response = await request(app)
+      .get("/api/v1/projects/forChart")
+      .set("Authorization", `Bearer ${getAuthToken()}`)
+      .expect(200);
+
+    const orphanProject = response.body.data.find(
+      (item: { projectNr: string }) => item.projectNr === "ORPH-001",
+    );
+
+    assert.ok(orphanProject);
+    assert.strictEqual(orphanProject.client, null);
+  });
 });

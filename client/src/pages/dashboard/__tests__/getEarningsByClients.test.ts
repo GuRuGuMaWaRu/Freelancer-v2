@@ -46,6 +46,10 @@ describe("getEarningsByClients", () => {
         ...makeProject("", 75, "p3"),
         client: {} as IProjectChartItem["client"],
       },
+      {
+        ...makeProject("", 80, "p4"),
+        client: null,
+      },
     ];
 
     expect(getEarningsByClients(projects)).toEqual([

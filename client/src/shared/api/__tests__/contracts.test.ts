@@ -71,6 +71,15 @@ describe("shared API contracts", () => {
     expect(parsed.client).toEqual({ name: "Acme" });
   });
 
+  test("accepts a null chart client when the client was soft-deleted", () => {
+    const parsed = projectChartItemSchema.parse({
+      ...project,
+      client: null,
+    });
+
+    expect(parsed.client).toBeNull();
+  });
+
   test("keeps client statistics dates as ISO strings", () => {
     const parsed = clientWithProjectDataSchema.parse({
       _id: "client-1",
