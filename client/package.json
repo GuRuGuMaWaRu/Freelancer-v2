@@ -15,7 +15,8 @@
     "start": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "vitest"
+    "test": "vitest",
+    "postinstall": "npm ci --prefix ../packages/shared --omit=dev --ignore-scripts"
   },
   "dependencies": {
     "@pet-freelancer/shared": "file:../packages/shared",

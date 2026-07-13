@@ -189,8 +189,8 @@ The app is designed as a **Heroku-style monolith**: Express serves the built Rea
 
 1. Set `NODE_ENV=production`
 2. Provide MongoDB URI, `ACCESS_TOKEN_SECRET`, and `PORT`
-3. Build the client: `npm run build --prefix client`
-4. Install server production dependencies and start: `npm ci --prefix server --omit=dev && npm start --prefix server` (or `npm start` from the repo root after the same server install)
+3. Build the client: `npm ci --prefix client && npm run build --prefix client` (the client `postinstall` script installs `@pet-freelancer/shared` runtime dependencies)
+4. Install server production dependencies and start: `npm ci --prefix server --omit=dev && npm start --prefix server` (or `npm start` from the repo root after the same server install). The server `postinstall` script also installs shared runtime dependencies (`packages/shared/node_modules`), which npm does not populate when only a package prefix is installed.
 
 Root `npm start` delegates to the server package, which runs TypeScript via `tsx` listed in **server** `dependencies` so production installs that omit devDependencies still boot.
 

@@ -20,7 +20,8 @@
   "scripts": {
     "start": "tsx app.ts",
     "dev": "tsx watch app.ts",
-    "check-types": "tsc --noEmit"
+    "check-types": "tsc --noEmit",
+    "postinstall": "npm ci --prefix ../packages/shared --omit=dev --ignore-scripts"
   },
   "dependencies": {
     "@pet-freelancer/shared": "file:../packages/shared",
