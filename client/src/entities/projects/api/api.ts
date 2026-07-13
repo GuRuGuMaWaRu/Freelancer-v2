@@ -1,10 +1,11 @@
 import { apiClient } from "shared/api";
 import type { IProject, IProjectPaginatedData } from "shared/types";
+import type { ProjectChartItem } from "@pet-freelancer/shared";
 import { config } from "shared/const";
 
 const getProjectsForChart = async (months: number) => {
   const query = months > 0 ? `?months=${months}` : "";
-  return await apiClient.get<IProject[]>(`projects/forChart${query}`);
+  return await apiClient.get<ProjectChartItem[]>(`projects/forChart${query}`);
 };
 
 const getPageOfProjects = async (

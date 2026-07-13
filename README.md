@@ -200,7 +200,7 @@ The production static path is `client/dist` (see `server/app.ts`). Do **not** us
 
 ## Roadmap
 
-Active revival work is tracked in [docs/REVIVAL-PLAN.md](docs/REVIVAL-PLAN.md). Phase 0, Phase 1.0 (Pino), Phase 1.1 (Vite), and Phase 1.2 (server TypeScript) are complete; Phase 1.3+ is in progress.
+Active revival work is tracked in [docs/REVIVAL-PLAN.md](docs/REVIVAL-PLAN.md). Phase 0 and Phase 1.0–1.2 are complete; Phase 1.3 (shared API contract) is complete; Phase 1.4+ is next.
 
 Deferred features and historical TODOs live in [docs/BACKLOG.md](docs/BACKLOG.md).
 

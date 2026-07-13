@@ -1,5 +1,5 @@
 import { Currency } from "shared/types";
-import type { IProject } from "shared/types";
+import type { IProjectChartItem } from "shared/types";
 
 import { getEarningsByClients } from "../dashboard.helpers";
 
@@ -7,15 +7,13 @@ const makeProject = (
   clientName: string,
   payment: number,
   id = "project-id"
-): IProject => ({
+): IProjectChartItem => ({
   _id: id,
-  user: "user-id",
-  client: { _id: "client-id", name: clientName },
+  client: { name: clientName },
   projectNr: "P-001",
   payment,
   currency: Currency.USD,
-  date: new Date("2024-06-01"),
-  deleted: false,
+  date: "2024-06-01T00:00:00.000Z",
   paid: true,
 });
 
@@ -42,11 +40,11 @@ describe("getEarningsByClients", () => {
       makeProject("Acme", 100, "p1"),
       {
         ...makeProject("", 50, "p2"),
-        client: { _id: "client-id", name: "" },
+        client: { name: "" },
       },
       {
         ...makeProject("", 75, "p3"),
-        client: {} as IProject["client"],
+        client: {} as IProjectChartItem["client"],
       },
     ];
 

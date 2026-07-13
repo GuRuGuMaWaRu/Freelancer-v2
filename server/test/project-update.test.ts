@@ -65,8 +65,50 @@ describe("Project Controller", () => {
             payment: 111,
             client: { $gt: "" },
           })
-          .expect(400)
-          .end(done);
+          .expect(422)
+          .end((err, res) => {
+            if (err) return done(err);
+            assert.strictEqual(
+              res.body.errors.fieldErrors.client.length,
+              1,
+            );
+            done();
+          });
+      });
+    });
+  });
+
+  it("should reject an unsupported currency on PATCH request to /api/v1/projects/:id", (done) => {
+    const userId = getTestUserId();
+    const client1 = new Client({ name: "Client 1", user: userId });
+
+    client1.save().then(() => {
+      const project1 = new Project({
+        client: client1._id,
+        user: userId,
+        projectNr: "ABC123",
+        currency: "EUR",
+        payment: 100,
+        date: new Date(),
+      });
+
+      project1.save().then(() => {
+        request(app)
+          .patch(`/api/v1/projects/${project1._id}`)
+          .set("Authorization", `Bearer ${getAuthToken()}`)
+          .send({
+            currency: "GBP",
+            client: "Client 1",
+          })
+          .expect(422)
+          .end((err, res) => {
+            if (err) return done(err);
+            assert.strictEqual(
+              res.body.errors.fieldErrors.currency.length,
+              1,
+            );
+            done();
+          });
       });
     });
   });

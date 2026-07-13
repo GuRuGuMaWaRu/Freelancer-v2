@@ -1,4 +1,8 @@
-import type { IProject, IEarningsByClient, IEarnings } from "shared/types";
+import type {
+  IProjectChartItem,
+  IEarningsByClient,
+  IEarnings,
+} from "shared/types";
 
 /** Build exactly N month buckets ending with the current month. Start = current - (months - 1) so the last bucket is current month. Server uses the same range. months must be > 0. */
 const setDateRangeFromMonths = (months: number): Record<string, IEarnings> => {
@@ -26,7 +30,9 @@ const setDateRangeFromMonths = (months: number): Record<string, IEarnings> => {
 };
 
 /** Build month buckets from earliest to latest project date (or current month if no projects). monthsBack 0 = all time. */
-const setDateRangeFromProjects = (projects: IProject[]): Record<string, IEarnings> => {
+const setDateRangeFromProjects = (
+  projects: IProjectChartItem[],
+): Record<string, IEarnings> => {
   const dates: Record<string, IEarnings> = {};
 
   if (projects.length === 0) {
@@ -76,7 +82,7 @@ const setDateRangeFromProjects = (projects: IProject[]): Record<string, IEarning
  * @param monthsBack - Number of months from now (3, 6, 12, 24). Use 0 for all time.
  */
 const getEarningsByMonths = (
-  projects: IProject[],
+  projects: IProjectChartItem[],
   monthsBack: number
 ): IEarnings[] => {
   const dates =
@@ -97,14 +103,13 @@ const getEarningsByMonths = (
   return Object.values(dates);
 };
 
-const getEarningsByClients = (projects: IProject[]): IEarningsByClient[] => {
+const getEarningsByClients = (
+  projects: IProjectChartItem[],
+): IEarningsByClient[] => {
   const earnings: Record<string, IEarningsByClient> = {};
 
   for (const project of projects) {
-    const clientName =
-      typeof project.client === "string"
-        ? project.client
-        : project.client?.name;
+    const clientName = project.client.name;
 
     if (!clientName) {
       continue;

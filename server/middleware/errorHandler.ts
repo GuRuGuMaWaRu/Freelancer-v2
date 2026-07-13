@@ -37,6 +37,7 @@ const errorHandler = (
       code: err.statusCode,
       status: err.status,
       message: err.message,
+      ...(err.errors ? { errors: err.errors } : {}),
     });
   } else {
     res.type("txt").send("404 Not Found");
