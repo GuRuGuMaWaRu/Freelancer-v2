@@ -12,7 +12,7 @@
     "client": "npm start --prefix client",
     "client:install": "npm install --prefix client",
     "server:install": "npm install --prefix server",
-    "install-all": "npm-run-all --parallel server:install client:install shared:install",
+    "install-all": "npm-run-all shared:install client:install server:install",
     "shared:install": "npm install --prefix packages/shared",
     "client:test": "npm run test --prefix client -- --coverage --run",
     "server:prod": "cross-env NODE_ENV=development USE_PROD_DB=true tsx watch server/app.ts",
