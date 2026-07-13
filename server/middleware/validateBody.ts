@@ -10,13 +10,9 @@ const validateBody =
 
     if (!result.success) {
       return next(
-        new AppError(
-          422,
-          "Validation error",
-          true,
-          "",
-          result.error.flatten(),
-        ),
+        new AppError(422, "Validation error", {
+          errors: result.error.flatten(),
+        }),
       );
     }
 

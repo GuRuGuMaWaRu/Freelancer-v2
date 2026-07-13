@@ -22,9 +22,11 @@ function invalidClientNameError(client: unknown): AppError {
       ? `Expected string, received ${client === null ? "null" : typeof client}`
       : "String must contain at least 1 character(s)";
 
-  return new AppError(422, "Validation error", true, "", {
-    formErrors: [],
-    fieldErrors: { client: [message] },
+  return new AppError(422, "Validation error", {
+    errors: {
+      formErrors: [],
+      fieldErrors: { client: [message] },
+    },
   });
 }
 

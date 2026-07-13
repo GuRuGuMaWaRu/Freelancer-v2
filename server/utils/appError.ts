@@ -3,6 +3,12 @@ export type AppErrorDetails = {
   fieldErrors: Record<string, string[] | undefined>;
 };
 
+export type AppErrorOptions = {
+  isOperational?: boolean;
+  stack?: string;
+  errors?: AppErrorDetails;
+};
+
 class AppError extends Error {
   statusCode: number;
   isOperational: boolean;
@@ -12,9 +18,7 @@ class AppError extends Error {
   constructor(
     statusCode: number,
     message: string,
-    isOperational = true,
-    stack = "",
-    errors?: AppErrorDetails,
+    { isOperational = true, stack = "", errors }: AppErrorOptions = {},
   ) {
     super(message);
     this.statusCode = statusCode;
