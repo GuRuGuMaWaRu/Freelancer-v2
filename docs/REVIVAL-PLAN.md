@@ -282,7 +282,18 @@ fixed (69/69 client tests, 15/15 server tests).
 - [x] Server validates request bodies with same Zod schemas at route boundaries
 - [x] Document API response shape (`{ status, data, message? }`)
 
-### 1.4 Dependency upgrades (Phase 1 scope)
+### 1.4 Dependency & package layout (Phase 1 scope)
+
+**Package layout** — root should orchestrate; runtime and server-only tooling belong in `server/` (mirror client owning Vitest):
+
+- [ ] Move `mocha`, `supertest`, and `@types/supertest` from root to `server/devDependencies` (server already has `@types/mocha`; consolidate test deps there)
+- [ ] Add `test` script to `server/package.json`; delegate root `server:test` to `npm run test --prefix server`
+- [ ] Move `cross-env` to `server/devDependencies` once server owns dev/test/prod scripts
+- [ ] Remove duplicate `tsx` from root; delegate `server:dev` / `server:prod` to server scripts (`npm run dev --prefix server`, etc.)
+- [ ] Remove unused ESLint plugins from root `package.json` (`eslint-config-airbnb`, `eslint-plugin-import`, `eslint-plugin-jest`, `eslint-plugin-jsx-a11y`, `eslint-plugin-node`, `eslint-plugin-react`, `eslint-plugin-prettier`) — not referenced in `.eslintrc`
+- [ ] Add explicit `typescript` devDependency at root if `check-types` should not rely on transitive ESLint peer installs
+
+**Upgrades:**
 
 - [ ] Mongoose 6 → 8 (with migration notes for breaking changes)
 - [ ] Plan `@reach/*` → Radix UI migration (can be Phase 2 UI pass)

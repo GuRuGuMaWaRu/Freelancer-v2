@@ -91,7 +91,7 @@ See [REVIVAL-PLAN.md](./REVIVAL-PLAN.md) for phased work:
 - Phase 1.1 — CRA → Vite migration
 - Phase 1.2 — Server TypeScript (incremental)
 - Phase 1.3 — Shared API contract (Zod schemas)
-- Phase 1.4 — Dependency upgrades (Mongoose 8, Radix UI migration plan)
+- Phase 1.4 — Dependency & package layout (root vs server deps/scripts, Mongoose 8, Radix UI migration plan)
 - Phase 3 — Optional full-stack migration (Next.js, TanStack Start, NestJS)
 
 ## Product ideas (post-revival)
