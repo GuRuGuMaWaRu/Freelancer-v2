@@ -11,13 +11,8 @@ function Dashboard() {
   const [chartRange, setChartRange] = React.useState<ChartRange>(
     config.DEFAULT_CHART_RANGE
   );
-  const {
-    earningsByMonth,
-    dataByClient,
-    dataByMonth,
-    clients,
-    displayRange,
-  } = useDashboardData(chartRange);
+  const { earningsByMonth, dataByClient, dataByMonth, clients } =
+    useDashboardData(chartRange);
 
   return (
     <>
@@ -25,7 +20,7 @@ function Dashboard() {
         <ModalAddProject clients={clients} />
       </div>
 
-      <MemoDashboardTotals data={earningsByMonth} chartRange={displayRange} />
+      <MemoDashboardTotals data={earningsByMonth} chartRange={chartRange} />
 
       <ChartSection
         clientChartData={dataByClient}

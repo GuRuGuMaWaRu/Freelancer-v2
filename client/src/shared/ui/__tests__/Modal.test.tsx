@@ -9,7 +9,7 @@ test("can be opened and closed", async () => {
   const user = userEvent.setup();
 
   render(
-    <Modal title={title} button={<Button>Open</Button>}>
+    <Modal title={title} trigger={<Button>Open</Button>}>
       <div>Modal Content</div>
     </Modal>
   );

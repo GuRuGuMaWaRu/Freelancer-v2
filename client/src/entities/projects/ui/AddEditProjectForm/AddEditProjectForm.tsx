@@ -45,6 +45,7 @@ function AddEditProjectForm({ project, clients, onCancel }: IProps) {
     const formData = new FormData();
 
     //** Check if there is a new client */
+    //** TODO: feels like a better place to handle this (if we are to do this at all) is on the backend inside a controller */
     const existingClient = clients.some(
       (client) => client.name === data.client
     );

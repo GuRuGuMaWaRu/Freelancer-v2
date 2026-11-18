@@ -8,7 +8,7 @@ export * from "./dashboard/dashboard";
 export { loader as dashboardLoader } from "./dashboard/dashboard.loaders";
 export * from "./projects/projects";
 export { loader as projectsLoader } from "./projects/projects.loaders";
-export { action as projectsAddAction } from "./projects-add/projects-add";
+export { addNewProjectAction } from "./projects-add/projects-add";
 export { action as projectsDeleteAction } from "./projects-delete/projects-delete";
 export { action as projectsEditAction } from "./projects-edit/projects-edit";
 export * from "./clients/clients";

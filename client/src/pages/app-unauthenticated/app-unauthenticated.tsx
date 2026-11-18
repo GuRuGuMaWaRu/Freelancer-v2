@@ -8,12 +8,12 @@ function AppUnauthenticated() {
     <div className={styles.container}>
       <h1 className={styles.appTitle}>Freelancer</h1>
       <div className={styles.buttons}>
-        <Modal title="Login" button={<Button>Login</Button>}>
+        <Modal title="Login" trigger={<Button>Login</Button>}>
           <LoginForm />
         </Modal>
         <Modal
           title="Register"
-          button={<Button variant="secondary">Register</Button>}
+          trigger={<Button variant="secondary">Register</Button>}
         >
           <RegisterForm />
         </Modal>

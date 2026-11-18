@@ -3,22 +3,23 @@ import VisuallyHidden from "@reach/visually-hidden";
 import { animated, useTransition } from "react-spring";
 import {
   DialogContent as ReachDialogContent,
-  DialogOverlay
+  DialogOverlay,
 } from "@reach/dialog";
 
 import { useModal, ModalProvider } from "./Modal.context";
 import { colors } from "../../const";
 import modalStyles from "./Modal.module.css";
 
-const callAll = (...fns: Array<(...args: unknown[]) => void>) => (
-  ...args: unknown[]
-): void => fns.forEach(fn => fn && fn(...args));
+const callAll =
+  (...fns: Array<(...args: unknown[]) => void>) =>
+  (...args: unknown[]): void =>
+    fns.forEach((fn) => fn && fn(...args));
 
-const ModalOpenButton = ({ children }: { children: React.ReactElement }) => {
+const TriggerButton = ({ children }: { children: React.ReactElement }) => {
   const { setIsOpen } = useModal();
 
   return React.cloneElement(children, {
-    onClick: callAll(() => setIsOpen(true), children.props.onClick)
+    onClick: callAll(() => setIsOpen(true), children.props.onClick),
   });
 };
 
@@ -42,7 +43,7 @@ const ModalContents = ({
     enter: { opacity: 1, y: 0 },
     leave: { opacity: 0, y: 10 },
     reverse: isOpen,
-    delay: 200
+    delay: 200,
   });
 
   return transitions(
@@ -56,9 +57,9 @@ const ModalContents = ({
             className={modalStyles.modalContent}
             style={{
               transform: styles.y.to(
-                value => `translate3d(0px, ${value}px, 0px)`
+                (value) => `translate3d(0px, ${value}px, 0px)`
               ),
-              backgroundColor: bgColor
+              backgroundColor: bgColor,
             }}
             {...props}
           >
@@ -81,17 +82,17 @@ const ModalContents = ({
 
 interface ModalProps {
   title: string;
-  button: React.ReactElement;
+  trigger: React.ReactElement;
   children: React.ReactElement;
 }
 
-const Modal = ({ title, button, children }: ModalProps) => {
+const Modal = ({ title, trigger, children }: ModalProps) => {
   // TODO: wire useGetColorFromPath when route-based modal BG is implemented (see BACKLOG.md)
   const color = colors.dashboardPageBg;
 
   return (
     <ModalProvider>
-      <ModalOpenButton>{button}</ModalOpenButton>
+      <TriggerButton>{trigger}</TriggerButton>
       <ModalContents aria-label={`${title} Form`} title={title} bgColor={color}>
         {children}
       </ModalContents>

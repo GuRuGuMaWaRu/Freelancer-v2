@@ -3,46 +3,42 @@ import type { IProject, IProjectPaginatedData } from "shared/types";
 import type { ProjectChartItem } from "@pet-freelancer/shared";
 import { config } from "shared/const";
 
-const getProjectsForChart = async (months: number) => {
+export async function getProjectsForChart(months: number) {
   const query = months > 0 ? `?months=${months}` : "";
   return await apiClient.get<ProjectChartItem[]>(`projects/forChart${query}`);
-};
+}
 
-const getPageOfProjects = async (
+export async function getPageOfProjects(
   pageParam: number,
   sortParam?: string,
   searchQuery?: string
-) => {
-  const sort = sortParam ? `&sort=${sortParam}` : "";
-  const page = `page=${pageParam}&limit=${config.PAGE_LIMIT}`;
-  const search = searchQuery ? `&q=${searchQuery}` : "";
+) {
+  const searchParams = new URLSearchParams();
+
+  if (sortParam) searchParams.set("sort", sortParam);
+  if (searchQuery) searchParams.set("q", searchQuery);
+
+  searchParams.set("page", String(pageParam));
+  searchParams.set("limit", String(config.PAGE_LIMIT));
 
   return await apiClient.get<IProjectPaginatedData>(
-    `projects/?${page}${sort}${search}`
+    `projects/?${searchParams.toString()}`
   );
-};
+}
 
-const addProject = async (project: Partial<IProject>) => {
+export async function addProject(project: Partial<IProject>) {
   return await apiClient.post<IProject>("projects", { data: project });
-};
+}
 
-const deleteProject = async (projectId: string) => {
-  return await apiClient.delete<null>(`projects/${projectId}`, {
-    method: "DELETE",
-  });
-};
+export async function deleteProject(projectId: string) {
+  return await apiClient.delete<null>(`projects/${projectId}`, {});
+}
 
-const editProject = async (projectId: string, project: Partial<IProject>) => {
+export async function editProject(
+  projectId: string,
+  project: Partial<IProject>
+) {
   return await apiClient.patch<IProject>(`projects/${projectId}`, {
     data: project,
-    method: "PATCH",
   });
-};
-
-export {
-  getProjectsForChart,
-  getPageOfProjects,
-  addProject,
-  deleteProject,
-  editProject,
-};
+}

@@ -17,12 +17,14 @@ const setDateRangeFromMonths = (months: number): Record<string, IEarnings> => {
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
     const key = `${year}-${month}`;
+
     dates[key] = {
       id: key,
       date: new Date(year, date.getMonth(), 1),
       payment: 0,
       projects: 0,
     };
+
     date.setMonth(date.getMonth() + 1);
   }
 
@@ -31,7 +33,7 @@ const setDateRangeFromMonths = (months: number): Record<string, IEarnings> => {
 
 /** Build month buckets from earliest to latest project date (or current month if no projects). monthsBack 0 = all time. */
 const setDateRangeFromProjects = (
-  projects: IProjectChartItem[],
+  projects: IProjectChartItem[]
 ): Record<string, IEarnings> => {
   const dates: Record<string, IEarnings> = {};
 
@@ -40,12 +42,14 @@ const setDateRangeFromProjects = (
     const year = now.getFullYear();
     const month = now.getMonth() + 1;
     const key = `${year}-${month}`;
+
     dates[key] = {
       id: key,
       date: new Date(year, now.getMonth(), 1),
       payment: 0,
       projects: 0,
     };
+
     return dates;
   }
 
@@ -62,16 +66,19 @@ const setDateRangeFromProjects = (
   maxDate.setHours(0, 0, 0, 0);
 
   const cursor = new Date(minDate);
+
   while (cursor <= maxDate) {
     const year = cursor.getFullYear();
     const month = cursor.getMonth() + 1;
     const key = `${year}-${month}`;
+
     dates[key] = {
       id: key,
       date: new Date(year, cursor.getMonth(), 1),
       payment: 0,
       projects: 0,
     };
+
     cursor.setMonth(cursor.getMonth() + 1);
   }
 
@@ -81,7 +88,7 @@ const setDateRangeFromProjects = (
 /**
  * @param monthsBack - Number of months from now (3, 6, 12, 24). Use 0 for all time.
  */
-const getEarningsByMonths = (
+export const groupEarningsByMonths = (
   projects: IProjectChartItem[],
   monthsBack: number
 ): IEarnings[] => {
@@ -94,6 +101,7 @@ const getEarningsByMonths = (
     const year = new Date(project.date).getFullYear();
     const month = new Date(project.date).getMonth() + 1;
     const key = `${year}-${month}`;
+
     if (dates[key]) {
       dates[key].payment += project.payment * 1000;
       dates[key].projects += 1;
@@ -103,8 +111,8 @@ const getEarningsByMonths = (
   return Object.values(dates);
 };
 
-const getEarningsByClients = (
-  projects: IProjectChartItem[],
+export const groupEarningsByClients = (
+  projects: IProjectChartItem[]
 ): IEarningsByClient[] => {
   const earnings: Record<string, IEarningsByClient> = {};
 
@@ -134,5 +142,3 @@ const getEarningsByClients = (
     }))
     .sort((a, b) => a.payment - b.payment);
 };
-
-export { getEarningsByMonths, getEarningsByClients };

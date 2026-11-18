@@ -1,29 +1,19 @@
 import type { QueryClient } from "@tanstack/react-query";
+import { LoaderFunctionArgs } from "react-router";
 
-import type { IClient } from "shared/types";
 import { getAllClientsQuery } from "entities/clients";
-import {
-  getProjectsPageQuery,
-  type IProjectPaginatedData,
-} from "entities/projects/";
+import { getProjectsPageQuery } from "entities/projects/";
 
 const loader =
   (queryClient: QueryClient) =>
-  async (): Promise<{
-    projectsQuery: IProjectPaginatedData;
-    clientsQuery: IClient[];
-  }> => {
+  async ({ request }: LoaderFunctionArgs) => {
     const projectsQuery = getProjectsPageQuery(1);
     const clientsQuery = getAllClientsQuery();
 
-    return {
-      projectsQuery:
-        queryClient.getQueryData(projectsQuery.queryKey) ??
-        (await queryClient.fetchQuery(projectsQuery)),
-      clientsQuery:
-        queryClient.getQueryData(clientsQuery.queryKey) ??
-        (await queryClient.fetchQuery(clientsQuery)),
-    };
+    await queryClient.ensureQueryData(projectsQuery);
+    await queryClient.ensureQueryData(clientsQuery);
+
+    return null;
   };
 
 export { loader };

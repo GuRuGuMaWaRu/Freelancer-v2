@@ -15,15 +15,13 @@ function AddProjectModalContent({ clients }: { clients: IClient[] }) {
   );
 }
 
-function ModalAddProject({ clients, customStyles = {} }: IProps) {
+export function ModalAddProject({ clients, customStyles = {} }: IProps) {
   return (
     <Modal
       title="Add Project"
-      button={<Button customStyles={customStyles}>Add Project</Button>}
+      trigger={<Button customStyles={customStyles}>Add Project</Button>}
     >
       <AddProjectModalContent clients={clients} />
     </Modal>
   );
 }
-
-export { ModalAddProject };

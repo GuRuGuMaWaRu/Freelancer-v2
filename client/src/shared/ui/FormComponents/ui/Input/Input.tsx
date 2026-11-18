@@ -2,6 +2,8 @@ import React from "react";
 
 import styles from "./Input.module.css";
 
+//** Shared input component */
+//** TODO: why not just use the native input components? After all we're not adding any extra functionality to these */
 const SInput = React.forwardRef<
   HTMLInputElement,
   React.InputHTMLAttributes<HTMLInputElement>

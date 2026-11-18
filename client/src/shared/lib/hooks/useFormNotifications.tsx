@@ -1,10 +1,11 @@
 import React from "react";
 import { useNotification } from "app";
 
-const useFormNotifications = (fetcherData: any, isLoading: boolean) => {
+//** Shows notifications based on the fetcher data */
+//** TODO: feels hacky, I'd rather the logic was more transparent maybe like a Notification context that can just be used to show notifications anywhere */
+export function useFormNotifications(fetcherData: any, isLoading: boolean) {
   const notify = useNotification();
 
-  //** Show SUCCESS or WARNING message */
   React.useEffect(() => {
     if (fetcherData && !isLoading) {
       if (fetcherData.status === "success") {
@@ -14,6 +15,4 @@ const useFormNotifications = (fetcherData: any, isLoading: boolean) => {
       }
     }
   }, [fetcherData, isLoading, notify]);
-};
-
-export { useFormNotifications };
+}
