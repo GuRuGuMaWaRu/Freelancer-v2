@@ -11,7 +11,7 @@ import pinoHttp from "pino-http";
 import AppError from "./utils/appError";
 import errorHandler from "./middleware/errorHandler";
 import corsOptions from "./config/corsOptions";
-import { clientRouter, projectRouter, userRouter } from "./resources";
+import resourceRouter from "./resources";
 import rootRouter from "./resources/root";
 import logger from "./utils/logger";
 
@@ -33,7 +33,7 @@ app.use(
               req.url === "/favicon.ico" ||
               req.url.startsWith("/static/"),
           },
-    customLogLevel(req, res, err) {
+    customLogLevel(_req, res, err) {
       if (res.statusCode >= 500 || err) {
         return "error";
       }
@@ -75,7 +75,7 @@ app.use(
     contentSecurityPolicy: {
       useDefaults: true,
       directives: {
-        scriptSrc: ["'self'", "'unsafe-inline'"],
+        scriptSrc: ["'self'"],
       },
     },
     hsts: {
@@ -90,16 +90,18 @@ app.use(express.json({ limit: "10kb" }));
 app.use(cors(corsOptions));
 
 app.use("/", express.static(path.join(__dirname, "public")));
-app.use("/api/v1/projects", projectRouter);
-app.use("/api/v1/clients", clientRouter);
-app.use("/api/v1/users", userRouter);
+app.use("/api/v1", resourceRouter);
 
 const clientBuildPath = path.join(__dirname, "..", "client", "dist");
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(clientBuildPath));
 
-  app.get("*", (req, res) => {
+  app.get("*", (req, res, next) => {
+    if (req.path.startsWith("/api/")) {
+      return next(); // fall through to 404 handler
+    }
+
     res.sendFile(path.join(clientBuildPath, "index.html"));
   });
 } else {

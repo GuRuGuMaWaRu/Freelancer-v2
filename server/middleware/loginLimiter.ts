@@ -10,7 +10,7 @@ const loginLimiter = rateLimit({
     message:
       "Too many login attempts from this IP, please try again after a 60 second pause",
   },
-  handler: (req, res, next, options) => {
+  handler: (req, _res, next, options) => {
     const log = req.log || logger;
 
     log.warn(

@@ -1,12 +1,13 @@
 import type { NextFunction, Request, Response } from "express";
 
 import logger from "../utils/logger";
-import AppError from "../utils/appError";
+import { AppErrorDetails } from "../utils/appError";
 
-type HandlerError = AppError & {
+type HandlerError = Error & {
   statusCode?: number;
   status?: string;
   isOperational?: boolean;
+  errors?: AppErrorDetails
 };
 
 const errorHandler = (

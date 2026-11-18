@@ -7,7 +7,7 @@ interface JwtPayload {
   id: string;
 }
 
-const protect = (req: Request, res: Response, next: NextFunction) => {
+const protect = (req: Request, _res: Response, next: NextFunction) => {
   const bearer = req.headers.authorization;
 
   if (!bearer || !bearer.startsWith("Bearer ")) {
