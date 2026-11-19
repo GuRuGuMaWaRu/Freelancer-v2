@@ -3,15 +3,9 @@ import ReactDOM from "react-dom/client";
 import { ErrorBoundary } from "react-error-boundary";
 
 import "./bootstrap";
-import reportWebVitals from "./reportWebVitals";
+// import reportWebVitals from "./reportWebVitals";
 import { App, AppProviders } from "app";
 import { FullPageError } from "shared/ui";
-
-// if (process.env.NODE_ENV === "development") {
-//   const { server } = require("./test/server/dev-server");
-//   console.log("development");
-//   server.start();
-// }
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

@@ -19,8 +19,8 @@
     "postinstall": "npm ci --prefix ../packages/shared --omit=dev --ignore-scripts"
   },
   "dependencies": {
+    "@hookform/resolvers": "^2.9.11",
     "@pet-freelancer/shared": "file:../packages/shared",
-    "@hookform/resolvers": "^2.9.10",
     "@reach/combobox": "^0.18.0",
     "@reach/dialog": "^0.17.0",
     "@reach/tooltip": "^0.17.0",

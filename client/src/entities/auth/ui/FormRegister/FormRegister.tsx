@@ -1,11 +1,9 @@
-import * as React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { Field, SInput, SubmitButton } from "shared/ui";
-import { IResponseUserData, IRegisterFormInputs } from "shared/types";
-import { useAsync } from "shared/lib";
+import { IRegisterFormInputs } from "shared/types";
 import { useAuth, useNotification } from "app";
 
 import styles from "./FormRegister.module.css";
@@ -27,34 +25,41 @@ const formSchema = yup.object().shape({
   confirmPassword: yup
     .string()
     .required("Please confirm your password")
-    .oneOf([yup.ref("password")], "Passwords do not match")
+    .oneOf([yup.ref("password")], "Passwords do not match"),
 });
 
 const RegisterForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors, isSubmitting },
   } = useForm<IRegisterFormInputs>({
-    resolver: yupResolver(formSchema)
+    resolver: yupResolver(formSchema),
   });
-  const { run, isLoading, isError, error } = useAsync<
-    IResponseUserData,
-    Error
-  >();
+
   const notify = useNotification();
   const { signup } = useAuth();
-  const submit: SubmitHandler<IRegisterFormInputs> = data => {
-    run(signup(data)).catch(error => console.error(error));
-  };
 
-  React.useEffect(() => {
-    if (isError) {
-      const message = error?.message ?? "There was an error";
+  const submit: SubmitHandler<IRegisterFormInputs> = async (data) => {
+    try {
+      await signup(data);
+    } catch (error) {
+      console.error(error);
+
+      let message = "Could not register";
+
+      if (
+        typeof error === "object" &&
+        error !== null &&
+        "message" in error &&
+        typeof error.message === "string"
+      ) {
+        message = error.message;
+      }
 
       notify.showWarning(message);
     }
-  }, [error, isError, notify]);
+  };
 
   return (
     <form onSubmit={handleSubmit(submit)}>
@@ -81,7 +86,7 @@ const RegisterForm = () => {
         <SInput
           type="password"
           id="password"
-          autoComplete="current-password"
+          autoComplete="new-password"
           aria-describedby="password-requirements"
           aria-invalid={errors.password ? "true" : "false"}
           {...register("password")}
@@ -91,13 +96,13 @@ const RegisterForm = () => {
         <SInput
           type="password"
           id="confirmPassword"
-          autoComplete="current-password"
+          autoComplete="new-password"
           aria-invalid={errors.confirmPassword ? "true" : "false"}
           {...register("confirmPassword")}
         ></SInput>
       </Field>
       <div className={styles.submitRow}>
-        <SubmitButton isLoading={isLoading}>Register</SubmitButton>
+        <SubmitButton isLoading={isSubmitting}>Register</SubmitButton>
       </div>
     </form>
   );

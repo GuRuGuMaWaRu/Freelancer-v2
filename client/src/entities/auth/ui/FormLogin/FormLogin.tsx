@@ -1,11 +1,9 @@
-import * as React from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { Field, SInput, SubmitButton } from "shared/ui";
-import { useAsync } from "shared/lib";
-import { IResponseUserData, ILoginFormInputs } from "shared/types";
+import { ILoginFormInputs } from "shared/types";
 import { useNotification, useAuth } from "app";
 
 import styles from "./FormLogin.module.css";
@@ -19,27 +17,33 @@ const LoginForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<ILoginFormInputs>({
     resolver: yupResolver(formSchema),
   });
-  const { run, isLoading, isError, error } = useAsync<
-    IResponseUserData,
-    Error
-  >();
+
   const notify = useNotification();
   const { login } = useAuth();
 
-  React.useEffect(() => {
-    if (isError) {
-      const message = error?.message ?? "There was an error";
+  const submit: SubmitHandler<ILoginFormInputs> = async (data) => {
+    try {
+      await login(data);
+    } catch (error) {
+      console.error(error);
+
+      let message = "Could not log in";
+
+      if (
+        typeof error === "object" &&
+        error !== null &&
+        "message" in error &&
+        typeof error.message === "string"
+      ) {
+        message = error.message;
+      }
 
       notify.showWarning(message);
     }
-  }, [error, isError, notify]);
-
-  const submit: SubmitHandler<ILoginFormInputs> = (data) => {
-    run(login(data)).catch((error) => console.error(error));
   };
 
   return (
@@ -64,7 +68,7 @@ const LoginForm = () => {
         ></SInput>
       </Field>
       <div className={styles.submitRow}>
-        <SubmitButton isLoading={isLoading}>Login</SubmitButton>
+        <SubmitButton isLoading={isSubmitting}>Login</SubmitButton>
       </div>
     </form>
   );
