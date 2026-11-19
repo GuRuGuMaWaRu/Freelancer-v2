@@ -1,7 +1,7 @@
 import { Currency } from "shared/types";
 import type { IProjectChartItem } from "shared/types";
 
-import { getEarningsByClients } from "../dashboard.helpers";
+import { groupEarningsByClients } from "../dashboard.helpers";
 
 const makeProject = (
   clientName: string,
@@ -17,7 +17,7 @@ const makeProject = (
   paid: true,
 });
 
-describe("getEarningsByClients", () => {
+describe("groupEarningsByClients", () => {
   it("should aggregate earnings and project counts per client", () => {
     const projects = [
       makeProject("Acme", 100, "p1"),
@@ -25,14 +25,14 @@ describe("getEarningsByClients", () => {
       makeProject("Globex", 200, "p3"),
     ];
 
-    expect(getEarningsByClients(projects)).toEqual([
+    expect(groupEarningsByClients(projects)).toEqual([
       { client: "Acme", payment: 150, projects: 2 },
       { client: "Globex", payment: 200, projects: 1 },
     ]);
   });
 
   it("should return an empty array when there are no projects", () => {
-    expect(getEarningsByClients([])).toEqual([]);
+    expect(groupEarningsByClients([])).toEqual([]);
   });
 
   it("should skip projects without a client name", () => {
@@ -52,7 +52,7 @@ describe("getEarningsByClients", () => {
       },
     ];
 
-    expect(getEarningsByClients(projects)).toEqual([
+    expect(groupEarningsByClients(projects)).toEqual([
       { client: "Acme", payment: 100, projects: 1 },
     ]);
   });
